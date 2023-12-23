@@ -31,7 +31,8 @@ Before you begin, ensure you have the following installed on your machine:
 1. Clone the repository:
 
      ```
-     git clone https://github.com/your-username/Leetcode-Storage-App.git
+     git clone https://github.com/Rakoski/leetcode-problem-storer.git
+     
 2. Navigate to the project directory:
 
 3. Install dependencies for both the server and client:
@@ -47,7 +48,8 @@ Before you begin, ensure you have the following installed on your machine:
 
 The project is organized with turborepo:
 
-<code>my-monorepo/
+<code>
+my-monorepo/
   |- packages/
     |- package1/
       |- src/
