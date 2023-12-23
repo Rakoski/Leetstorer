@@ -22,7 +22,7 @@ This project is a leetcode problem storage web app built using Turborepo, Relay,
 
 Before you begin, ensure you have the following installed on your machine:
 
-- Node.js (version 18.X.X)
+- Node.js (version 18.7.X or above)
 - npm (version 5.X.X)
 - MongoDB (running locally or a connection to a MongoDB instance)
 - Turbo and turborepo
