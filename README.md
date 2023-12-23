@@ -1,6 +1,6 @@
 # Leetcode Storage App
 
-This project is a leetcode problem storage web app built using TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their leetcode problems they have solved. This is meant as a training project for MongoDB, GraphQL and Typescript.
+This project is a leetcode problem storage web app built using Turborepo, Relay, TypeScript, Node.js, React.js, Next.js, GraphQL, and MongoDB. It allows users to store and organize their leetcode problems they have solved. This is meant as a training project for those technologies and woovi's training playground. This is README IS INCOMPLETE for now.
 
 ## Table of Contents
 
@@ -25,6 +25,7 @@ Before you begin, ensure you have the following installed on your machine:
 - Node.js (version 18.X.X)
 - npm (version 5.X.X)
 - MongoDB (running locally or a connection to a MongoDB instance)
+- Turbo and turborepo
 
 ### Installation
 
@@ -33,16 +34,18 @@ Before you begin, ensure you have the following installed on your machine:
      ```
      git clone https://github.com/Rakoski/leetcode-problem-storer.git
      
-2. Navigate to the project directory:
 
-3. Install dependencies for both the server and client:
+2. Install dependencies for both the server and client:
 
     ```
-   cd server
-   npm install
+    npm install
+    
+    npx create-turbo@latest
 
-   cd ../client
-   npm install
+3. Navigate to the project directory:
+
+     ```
+     cd my-turborepo
     
 ## Project Structure
 
@@ -129,6 +132,8 @@ To create a new problem, you can use the following example mutation:
 - React.js,
 - GraphQL,
 - MongoDB
+- Turborepo
+- Relay
 
 ### Contributing
 Feel free to contribute by opening issues or pull requests.
