@@ -1,24 +1,20 @@
 {
-  "name": "my-turborepo",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
     "prettier": "^3.1.0",
-    "turbo": "^1.11.2"
+    "turbo": "latest"
   },
+  "packageManager": "pnpm@8.9.0",
   "engines": {
     "node": ">=18"
-  },
-  "packageManager": "npm@9.5.1",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  }
 }
