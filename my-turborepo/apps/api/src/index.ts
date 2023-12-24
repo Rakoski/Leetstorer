@@ -1,9 +1,21 @@
 import { log } from "@repo/logger";
 import { createServer } from "./server";
+import mongoose from 'mongoose';
 
-const port = process.env.PORT || 5001;
+import graphqlRouter from './graphql';
+
+const port = 4000;
 const server = createServer();
 
-server.listen(port, () => {
-  log(`api running on ${port}`);
-});
+mongoose.connect("my-url")
+    .then(() => {
+        console.log('MongoDB connected successfully');
+        server.use(graphqlRouter);
+
+        server.listen(port, () => {
+            log(`api running on ${port}`);
+        });
+    })
+    .catch(err => {
+        console.log("Error in MongoDB connection: ", err);
+    });
