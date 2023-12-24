@@ -23,50 +23,69 @@ This project is a leetcode problem storage web app built using Turborepo, Relay,
 Before you begin, ensure you have the following installed on your machine:
 
 - Node.js (version 18.7.X or above)
-- npm (version 5.X.X)
+- pnpm (version 8.X.X)
 - MongoDB (running locally or a connection to a MongoDB instance)
-- Turbo and turborepo
+- Turbo and turborepo installed
 
-### Installation
+### Configuratio
 
 1. Clone the repository:
 
      ```
      git clone https://github.com/Rakoski/leetcode-problem-storer.git
-     
 
-2. Install dependencies for both the server and client:
-
-    ```
-    npm install
-    
-    npx create-turbo@latest
-
-3. Navigate to the project directory:
+2. Navigate to the project directory:
 
      ```
      cd my-turborepo
-    
+
+3. Install dependencies for both the server and client:
+
+    ```
+    pnpm install
+    pnpm build
+    pnpm dev
+
+4. Testing and linting
+
+    ```
+    pnpm lint
+    pnpm test
+
 ## Project Structure
 
 The project is organized with turborepo:
 
 <code>
 my-monorepo/
+  |- apps/
+    |- admin/
+      |- dist/
+      |- public/
+      |- src/
+      |- .eslintrc.js
+      |- index.html
+      |- package.json
+      |- tsconfig.json
+      |- turbo.json
+      |- vite.config.ts
+    |- api/
+      |- src/
+      |- index.ts
+      |- server.ts
+        |- tests/
+          |- server.test.ts
+      |- eslintrc.js
+      |- tsup.config.ts
+      |- turbo.json
+      |- package.json
+      |- tsconfig.json
   |- packages/
-    |- package1/
-      |- src/
-      |- tests/
-      |- package.json
-      |- tsconfig.json
-    |- package2/
-      |- src/
-      |- tests/
-      |- package.json
-      |- tsconfig.json
-  |- scripts/
   |- .turbo/
     |- config.json
+  |- .npmrc
+  |- .gitignore
+  |- pnpm-lock.yaml
   |- package.json
   |- tsconfig.json
   |- README.md
