@@ -5,13 +5,13 @@ This project is a leetcode problem storage web app built using Turborepo, Relay,
 ## Table of Contents
 
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
 - [Project Structure](#project-structure)
 - [Configuration](#configuration)
 - [Running the Application](#running-the-application)
-  - [Server](#server)
-  - [Client](#client)
+    - [Server](#server)
+    - [Client](#client)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
@@ -93,7 +93,7 @@ my-monorepo/
 
 ## Configuration
 
-My configuration will be here once everything is completed. 
+My configuration will be here once everything is completed.
 
 ## API Documentation
 
