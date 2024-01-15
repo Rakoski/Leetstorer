@@ -2,6 +2,7 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema, GraphQLSchema } from 'graphql';
 import bcrypt from "bcryptjs";
+import {log} from "@repo/logger";
 
 const Problem = require('./models/problem');
 const User = require('./models/user');
@@ -90,7 +91,7 @@ const rootValue = {
                     throw new Error("User doesn't exist")
                 }
 
-                console.log("Problem saved successfully", { doc: result, _id: result._id.toString() });
+                log("Problem saved successfully", { doc: result, _id: result._id.toString() });
 
                 return {
                     _id: result._id.toString(),
@@ -104,7 +105,7 @@ const rootValue = {
                     creator: user
                 };
             } catch (err) {
-                console.log("Error in saving a problem: ", err);
+                log("Error in saving a problem: ", err);
                 throw err;
             }
         },
@@ -130,7 +131,7 @@ const rootValue = {
 
                 return {...result, _id: result.id, password: null };
             } catch (err) {
-                console.log("Error in createUser resolver: ", err);
+                log("Error in createUser resolver: ", err);
                 return {
                     error: {
                         message: "Error in creating user",
