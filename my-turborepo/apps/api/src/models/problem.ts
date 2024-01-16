@@ -28,13 +28,9 @@ const problemSchema = new Schema({
         require: true
     },
     date: {
-        type: Date,
+        type: String,
         required: true
     },
-    creator: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }
 });
 
 module.exports = mongoose.model('Problem', problemSchema);
