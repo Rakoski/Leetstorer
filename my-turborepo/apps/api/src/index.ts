@@ -7,7 +7,7 @@ import graphqlRouter from './graphql';
 const port = 4000;
 const server = createServer();
 
-mongoose.connect("mongodb+srv://mastrakoski:CodigoLimpo03@first-cluster.zcakumz.mongodb.net/")
+mongoose.connect("my-mongo-url")
     .then(() => {
         console.log('MongoDB connected successfully');
         server.use(graphqlRouter);
