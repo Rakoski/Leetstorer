@@ -91,7 +91,7 @@ const rootValue = {
                 throw new Error("User doesn't exist")
             }
 
-            log("Problem saved successfully", { doc: result, _id: result._id.toString() });
+            log("Problem saved successfully");
 
             return {
                 _id: result._id.toString(),
