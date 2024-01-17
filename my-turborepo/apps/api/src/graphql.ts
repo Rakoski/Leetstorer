@@ -42,6 +42,7 @@ const schema: GraphQLSchema = buildSchema(`
 
   type RootQuery {
     problems: [Problem!]!
+    users: [User!]!
   }
 
   type RootMutation {
@@ -109,17 +110,24 @@ const rootValue = {
             throw err;
         }
     },
+    users: () => {
+        log("Users: ")
+        return User.find()
+            .then((users: object[]) => {
+                return users.map((user: { _doc: { _id: string }, _id: string }) =>
+                    ({ ...user, _id: user._id.toString() }))
+            })
+            .catch((err: any) => {
+                log("Error in saving a problem: ", err);
+                throw err;
+            });
+    },
     createUser: async (args: {userInput: {email: string; password: string}}) => {
         try {
             const existingUser = await User.findOne({email: args.userInput.email});
 
             if (existingUser) {
-                return {
-                    error: {
-                        message: "User already exists!",
-                        code: 'USER_ALREADY_EXISTS',
-                    },
-                };
+                throw new Error("User already exists!");
             }
 
             const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
@@ -129,15 +137,11 @@ const rootValue = {
             });
             const result = await user.save();
 
-            return {...result, _id: result.id, password: null };
+            log("User created successfully");
+            return { ...result, password: null, _id: result._id, email: result.email };
         } catch (err) {
             log("Error in createUser resolver: ", err);
-            return {
-                error: {
-                    message: "Error in creating user",
-                    code: 'CREATE_USER_ERROR',
-                },
-            };
+            throw new Error("Error in creating user");
         }
     },
 }
