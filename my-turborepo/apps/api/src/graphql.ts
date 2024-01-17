@@ -17,12 +17,14 @@ const schema: GraphQLSchema = buildSchema(`
     link: String!
     data_structure: String!
     date: String!
+    creator: User!
   }
   
   type User {
     _id: ID!
     email: String!
     password: String
+    createdProblems: [Problem!]
   }
   
   input ProblemInput {
@@ -59,14 +61,15 @@ const schema: GraphQLSchema = buildSchema(`
 
 const rootValue = {
     problems: () => {
-        log("Problems: ")
+        log("Problems: ");
         return Problem.find()
+            .populate('creator', '_id')  // Populate the 'creator' field with only '_id'
             .then((problems: object[]) => {
-                return problems.map((problem: { _doc: { _id: string }, _id: string }) =>
-                    ({ ...problem, _id: problem._id.toString() }))
+                return problems.map((problem: { _doc: { _id: string }, _id: string, creator: { _id: string } }) =>
+                    ({ ...problem._doc, _id: problem._id.toString(), creator: { _id: problem.creator._id.toString() } }));
             })
             .catch((err: any) => {
-                log("Error in saving a problem: ", err);
+                log("Error in fetching problems: ", err);
                 throw err;
             });
     },
