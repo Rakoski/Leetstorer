@@ -57,40 +57,48 @@ Before you begin, ensure you have the following installed on your machine:
 The project is organized with turborepo:
 
 <code>
-my-monorepo/
-  |- apps/
-    |- admin/
-      |- dist/
-      |- public/
-      |- src/
-      |- .eslintrc.js
-      |- index.html
+.idea/
+my-turborepo/
+|- apps/
+  |- admin/
+    |- dist/
+    |- public/
+    |- src/
+    |- .eslintrc.js
+    |- index.html
+    |- package.json
+    |- tsconfig.json
+    |- turbo.json
+    |- vite.config.ts
+|- packages/
+  |- config-eslint/
+      |- README.md
+      |- index.js
+      |- next.js
       |- package.json
-      |- tsconfig.json
-      |- turbo.json
-      |- vite.config.ts
-    |- api/
-      |- src/
-      |- index.ts
-      |- server.ts
-        |- tests/
-          |- server.test.ts
-      |- eslintrc.js
-      |- tsup.config.ts
-      |- turbo.json
-      |- package.json
-      |- tsconfig.json
-  |- packages/
-  |- .turbo/
-    |- config.json
-  |- .npmrc
-  |- .gitignore
-  |- pnpm-lock.yaml
-  |- pnpm-workspace.yaml
-  |- package.json
-  |- turbo.json
-  |- tsconfig.json
-  |- README.md
+      |- react.js
+      |- remix.js
+      |- server.js
+  |- config-eslint/
+  |- config-eslint/
+  |- config-eslint/
+  |- config-eslint/
+|- eslintrc.js
+|- turbo.json
+|- package.json
+|- tsconfig.json
+|- packages/
+|- .turbo/
+  |- config.json
+|- .npmrc
+|- pnpm-lock.yaml
+|- pnpm-workspace.yaml
+|- package.json
+|- turbo.json
+|- tsconfig.json
+.gitignore
+package.json
+README.md
 </code>
 
 ## Configuration
