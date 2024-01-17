@@ -31,25 +31,21 @@ Before you begin, ensure you have the following installed on your machine:
 
 1. Clone the repository:
 
-     ```
-     git clone https://github.com/Rakoski/leetcode-problem-storer.git
+     ```git clone https://github.com/Rakoski/leetcode-problem-storer.git
 
 2. Navigate to the project directory:
 
-     ```
-     cd my-turborepo
+     ```cd my-turborepo
 
 3. Install dependencies for both the server and client:
 
-    ```
-    pnpm install
+    ```pnpm install
     pnpm build
     pnpm dev
 
 4. Testing and linting
 
-    ```
-    pnpm lint
+    ```pnpm lint
     pnpm test
 
 ## Project Structure
@@ -79,10 +75,39 @@ my-turborepo/
           |- react.js
           |- remix.js
           |- server.js
-      |- config-eslint/
-      |- config-eslint/
-      |- config-eslint/
-      |- config-eslint/
+      |- config-typescript/
+          |- base.json
+          |- nextjs.json
+          |- react-app.json
+          |- package.json
+          |- react-library.json
+          |- remix.json
+          |- vite.json
+      |- jest-presets/
+          | - jest/
+          | - package.json
+      |- logger/
+              | - src/
+                  | - __tests__/
+                      | - log.tests.ts
+                  |- index.ts
+          |- base.json
+          |- nextjs.json
+          |- react-app.json
+          |- package.json
+          |- react-library.json
+      |- ui/
+          |- src/
+              |- index.tsx
+              |- CounterButton/
+                  |- index.test.tsx
+                  |- index.tsx
+              |- Link/
+          |- .eslintrc.js
+          |- package.json
+          |- tsconfig.json
+          |- tsup.config.ts
+          |- turbo.json
     |- eslintrc.js
     |- turbo.json
     |- package.json
