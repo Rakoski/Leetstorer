@@ -114,11 +114,11 @@ const rootValue = {
         log("Users: ")
         return User.find()
             .then((users: object[]) => {
-                return users.map((user: { _doc: { _id: string }, _id: string }) =>
-                    ({ ...user, _id: user._id.toString() }))
+                return users.map((user: { _doc: { _id: string }, _id: string, email: string }) =>
+                    ({ ...user, _id: user._id.toString(), email: user.email }))
             })
             .catch((err: any) => {
-                log("Error in saving a problem: ", err);
+                log("Error in querying a user: ", err);
                 throw err;
             });
     },
