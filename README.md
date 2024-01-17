@@ -86,7 +86,40 @@ my-turborepo/
                 |- vite.config.ts
                 |- tsconfig.json
           |- blog/
+                |- app/
+                      |- routes/
+                          |- styles.css
+                      |- entry.client.tsx
+                      |- entry.server.tsx
+                      |- root.tsx
+                      |- styles.css
+                |- public/
+                      |- favicon.ico
+                |- .eslintrc.js
+                |- README.md
+                |- package.json
+                |- remix.config.js
+                |- remix.env.d.ts
+                |- server.js
+                |- tsconfig.json
+                |- turbo.json
           |- storefront/
+                |- src/
+                      |- app/
+                          |- layout.tsx
+                          |- page.tsx
+                          |- styles.css
+                      |- styles.css
+                |- public/
+                      |- favicon.ico
+                |- .eslintrc.js
+                |- README.md
+                |- package.json
+                |- remix.config.js
+                |- remix.env.d.ts
+                |- server.js
+                |- tsconfig.json
+                |- turbo.json
     |- packages/
           |- config-eslint/
               |- README.md
