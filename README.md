@@ -59,43 +59,43 @@ The project is organized with turborepo:
 <code>
 .idea/
 my-turborepo/
-|- apps/
-  |- admin/
-    |- dist/
-    |- public/
-    |- src/
-    |- .eslintrc.js
-    |- index.html
+    |- apps/
+      |- admin/
+        |- dist/
+        |- public/
+        |- src/
+        |- .eslintrc.js
+        |- index.html
+        |- package.json
+        |- tsconfig.json
+        |- turbo.json
+        |- vite.config.ts
+    |- packages/
+      |- config-eslint/
+          |- README.md
+          |- index.js
+          |- next.js
+          |- package.json
+          |- react.js
+          |- remix.js
+          |- server.js
+      |- config-eslint/
+      |- config-eslint/
+      |- config-eslint/
+      |- config-eslint/
+    |- eslintrc.js
+    |- turbo.json
     |- package.json
     |- tsconfig.json
+    |- packages/
+    |- .turbo/
+      |- config.json
+    |- .npmrc
+    |- pnpm-lock.yaml
+    |- pnpm-workspace.yaml
+    |- package.json
     |- turbo.json
-    |- vite.config.ts
-|- packages/
-  |- config-eslint/
-      |- README.md
-      |- index.js
-      |- next.js
-      |- package.json
-      |- react.js
-      |- remix.js
-      |- server.js
-  |- config-eslint/
-  |- config-eslint/
-  |- config-eslint/
-  |- config-eslint/
-|- eslintrc.js
-|- turbo.json
-|- package.json
-|- tsconfig.json
-|- packages/
-|- .turbo/
-  |- config.json
-|- .npmrc
-|- pnpm-lock.yaml
-|- pnpm-workspace.yaml
-|- package.json
-|- turbo.json
-|- tsconfig.json
+    |- tsconfig.json
 .gitignore
 package.json
 README.md
