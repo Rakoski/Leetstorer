@@ -27,31 +27,27 @@ Before you begin, ensure you have the following installed on your machine:
 - MongoDB (running locally or a connection to a MongoDB instance)
 - Turbo and turborepo installed
 
-### Configuratio
+### Configuration
 
 1. Clone the repository:
 
      ```
      git clone https://github.com/Rakoski/leetcode-problem-storer.git
-
 2. Navigate to the project directory:
 
      ```
      cd my-turborepo
-
 3. Install dependencies for both the server and client:
 
     ```
     pnpm install
     pnpm build
     pnpm dev
-
 4. Testing and linting
 
     ```
     pnpm lint
     pnpm test
-
 ## Project Structure
 
 The project is organized with turborepo:
@@ -65,8 +61,8 @@ my-turborepo/
                       |- favicon.ico
                 |- src/
                       |- app/
-                         |- index.tsx
-                         |- styles.css
+                           |- index.tsx
+                           |- styles.css
                       |- index.css
                       |- main.tsx
                 |- .eslintrc.js
@@ -75,6 +71,20 @@ my-turborepo/
                 |- vite.config.ts
                 |- tsconfig.json
           |- api/
+                |- src/
+                      |- __tests__/
+                          |- server.test.ts
+                      |- models/
+                          |- problem.ts
+                          |- user.ts
+                      |- graphql.ts
+                      |- server.ts
+                      |- index.ts
+                |- .eslintrc.js
+                |- package.json
+                |- turbo.json
+                |- vite.config.ts
+                |- tsconfig.json
           |- blog/
           |- storefront/
     |- packages/
