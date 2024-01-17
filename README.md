@@ -27,70 +27,157 @@ Before you begin, ensure you have the following installed on your machine:
 - MongoDB (running locally or a connection to a MongoDB instance)
 - Turbo and turborepo installed
 
-### Configuratio
+### Configuration
 
 1. Clone the repository:
 
      ```
      git clone https://github.com/Rakoski/leetcode-problem-storer.git
-
 2. Navigate to the project directory:
 
      ```
      cd my-turborepo
-
 3. Install dependencies for both the server and client:
 
     ```
     pnpm install
     pnpm build
     pnpm dev
-
 4. Testing and linting
 
     ```
     pnpm lint
     pnpm test
-
 ## Project Structure
 
 The project is organized with turborepo:
 
 <code>
-my-monorepo/
-  |- apps/
-    |- admin/
-      |- dist/
-      |- public/
-      |- src/
-      |- .eslintrc.js
-      |- index.html
-      |- package.json
-      |- tsconfig.json
-      |- turbo.json
-      |- vite.config.ts
-    |- api/
-      |- src/
-      |- index.ts
-      |- server.ts
-        |- tests/
-          |- server.test.ts
-      |- eslintrc.js
-      |- tsup.config.ts
-      |- turbo.json
-      |- package.json
-      |- tsconfig.json
-  |- packages/
-  |- .turbo/
-    |- config.json
-  |- .npmrc
-  |- .gitignore
-  |- pnpm-lock.yaml
-  |- pnpm-workspace.yaml
-  |- package.json
-  |- turbo.json
-  |- tsconfig.json
-  |- README.md
+.idea/
+my-turborepo/
+    |- apps/
+          |- admin/
+                |- public/
+                      |- favicon.ico
+                |- src/
+                      |- app/
+                           |- index.tsx
+                           |- styles.css
+                      |- index.css
+                      |- main.tsx
+                |- .eslintrc.js
+                |- package.json
+                |- turbo.json
+                |- vite.config.ts
+                |- tsconfig.json
+          |- api/
+                |- src/
+                      |- __tests__/
+                          |- server.test.ts
+                      |- models/
+                          |- problem.ts
+                          |- user.ts
+                      |- graphql.ts
+                      |- server.ts
+                      |- index.ts
+                |- .eslintrc.js
+                |- package.json
+                |- turbo.json
+                |- vite.config.ts
+                |- tsconfig.json
+          |- blog/
+                |- app/
+                      |- routes/
+                          |- styles.css
+                      |- entry.client.tsx
+                      |- entry.server.tsx
+                      |- root.tsx
+                      |- styles.css
+                |- public/
+                      |- favicon.ico
+                |- .eslintrc.js
+                |- README.md
+                |- package.json
+                |- remix.config.js
+                |- remix.env.d.ts
+                |- server.js
+                |- tsconfig.json
+                |- turbo.json
+          |- storefront/
+                |- src/
+                      |- app/
+                          |- layout.tsx
+                          |- page.tsx
+                          |- styles.css
+                      |- styles.css
+                |- public/
+                      |- favicon.ico
+                |- .eslintrc.js
+                |- README.md
+                |- package.json
+                |- remix.config.js
+                |- remix.env.d.ts
+                |- server.js
+                |- tsconfig.json
+                |- turbo.json
+    |- packages/
+          |- config-eslint/
+              |- README.md
+              |- index.js
+              |- next.js
+              |- package.json
+              |- react.js
+              |- remix.js
+              |- server.js
+          |- config-typescript/
+              |- base.json
+              |- nextjs.json
+              |- react-app.json
+              |- package.json
+              |- react-library.json
+              |- remix.json
+              |- vite.json
+          |- jest-presets/
+              | - jest/
+              | - package.json
+          |- logger/
+                  | - src/
+                      | - __tests__/
+                          | - log.tests.ts
+                      |- index.ts
+              |- base.json
+              |- nextjs.json
+              |- react-app.json
+              |- package.json
+              |- react-library.json
+          |- ui/
+              |- src/
+                  |- index.tsx
+                  |- CounterButton/
+                      |- index.test.tsx
+                      |- index.tsx
+                  |- Link/
+              |- .eslintrc.js
+              |- package.json
+              |- tsconfig.json
+              |- tsup.config.ts
+              |- turbo.json
+    |- eslintrc.js
+    |- turbo.json
+    |- package.json
+    |- tsconfig.json
+    |- packages/
+    |- .turbo/
+      |- config.json
+    |- .npmrc
+    |- pnpm-lock.yaml
+    |- pnpm-workspace.yaml
+    |- package.json
+    |- turbo.json
+    |- tsconfig.json
+.gitignore
+package.json
+README.md
 </code>
 
 ## Configuration
