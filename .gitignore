@@ -3,6 +3,7 @@ my-turborepo/node_modules
 .turbo
 *.log
 .next
+.idea
 **/.next
 dist
 dist-ssr
