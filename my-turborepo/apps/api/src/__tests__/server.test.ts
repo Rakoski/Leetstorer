@@ -1,22 +1,102 @@
 import supertest from "supertest";
 import { createServer } from "../server";
 
-describe("Server", () => {
-  it("health check returns 200", async () => {
-    await supertest(createServer())
-      .get("/status")
-      .expect(200)
-      .then((res) => {
-        expect(res.ok).toBe(true);
-      });
-  });
+const Problem = require('./models/problem');
+const User = require('./models/user');
 
-  it("message endpoint says hello", async () => {
-    await supertest(createServer())
-      .get("/message/jared")
-      .expect(200)
-      .then((res) => {
-        expect(res.body).toEqual({ message: "hello jared" });
-      });
-  });
+describe("GraphQL Endpoints", () => {
+    it("should create a user", async () => {
+        const response = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+          mutation {
+            createUser(userInput: { email: "test@example.com", password: "password123" }) {
+              _id
+              email
+            }
+          }
+        `,
+            })
+            .expect(200);
+
+        const createdUser = await User.findOne({ email: "test@example.com" });
+
+        expect(response.body.data.createUser).toEqual({
+            _id: createdUser._id.toString(),
+            email: createdUser.email,
+        });
+    });
+
+    it("should query users", async () => {
+        const response = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+          {
+            users {
+              _id
+              email
+            }
+          }
+        `,
+            })
+            .expect(200);
+
+        // Add your assertions based on the expected data in the response
+        // You can check if the queried user is present in the response
+    });
+
+    it("should create a problem", async () => {
+        const response = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+          mutation {
+            createProblem(problemInput: {
+              title: "Test Problem",
+              description: "Test Description",
+              level: "Easy",
+              frequency: 1.5,
+              link: "http://example.com",
+              data_structure: "Array",
+              date: "2024-01-18"
+            }) {
+              _id
+              title
+              level
+            }
+          }
+        `,
+            })
+            .expect(200);
+
+        const createdProblem = await Problem.findOne({ title: "Test Problem" });
+
+        expect(response.body.data.createProblem).toEqual({
+            _id: createdProblem._id.toString(),
+            title: createdProblem.title,
+            level: createdProblem.level,
+        });
+    });
+
+    it("should query problems", async () => {
+        const response = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+          {
+            problems {
+              _id
+              title
+              level
+            }
+          }
+        `,
+            })
+            .expect(200);
+
+        // Add your assertions based on the expected data in the response
+        // You can check if the queried problem is present in the response
+    });
 });
