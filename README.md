@@ -11,6 +11,7 @@ This project is a leetcode problem storage web app built using Turborepo, Relay,
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
+- [Contact](#Contact)
 
 ## Getting Started
 
@@ -244,3 +245,14 @@ Feel free to contribute by opening issues or pull requests.
 
 ### License
 This project is licensed under the MIT License.
+
+### Contact
+
+<div style"display: inline_block">
+    <a href="mailto:mastrakoski@gmail.com"><img
+            src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white"
+            target="_blank"></a>
+    <a href="https://www.linkedin.com/in/mateus-rakoski/" target="_blank"><img
+            src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white"
+            target="_blank"></a>
+</div>
