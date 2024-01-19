@@ -63,7 +63,7 @@ const rootValue = {
     problems: () => {
         log("Problems: ");
         return Problem.find()
-            .populate('creator', '_id')  // Populate the 'creator' field with only '_id'
+            .populate('creator', '_id')
             .then((problems: object[]) => {
                 return problems.map((problem: { _doc: { _id: string }, _id: string, creator: { _id: string } }) =>
                     ({ ...problem._doc, _id: problem._id.toString(), creator: { _id: problem.creator._id.toString() } }));
