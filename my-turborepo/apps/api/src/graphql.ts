@@ -3,9 +3,33 @@ import { graphqlHTTP } from 'express-graphql';
 import { buildSchema, GraphQLSchema } from 'graphql';
 import bcrypt from "bcryptjs";
 import {log} from "@repo/logger";
+import {ObjectId} from "mongodb";
 
 const Problem = require('./models/problem');
 const User = require('./models/user');
+
+interface User {
+    _id: ObjectId;
+    email: string;
+}
+
+const userCreator = async (userId: string): Promise<{ _id: string; email: string }> => {
+    try {
+        const user: User | null = await User.findById(userId);
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        return {
+            _id: user._id.toString(),
+            email: user.email,
+        };
+    } catch (err) {
+        throw err;
+    }
+};
+
 
 const schema: GraphQLSchema = buildSchema(`
     type Problem {
@@ -61,12 +85,18 @@ const schema: GraphQLSchema = buildSchema(`
 
 const rootValue = {
     problems: () => {
-        log("Problems: ");
         return Problem.find()
-            .populate('creator', '_id')
-            .then((problems: object[]) => {
-                return problems.map((problem: { _doc: { _id: string }, _id: string, creator: { _id: string } }) =>
-                    ({ ...problem._doc, _id: problem._id.toString(), creator: { _id: problem.creator._id.toString() } }));
+            .then(async (problems: any[]) => {
+                const populatedProblems = [];
+                for (const problem of problems) {
+                    const populateduserCreator = await userCreator(problem._doc.creator);
+                    populatedProblems.push({
+                        ...problem._doc,
+                        _id: problem._id,
+                        creator: populateduserCreator
+                    });
+                }
+                return populatedProblems;
             })
             .catch((err: any) => {
                 log("Error in fetching problems: ", err);
