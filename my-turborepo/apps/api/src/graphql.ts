@@ -4,27 +4,59 @@ import { buildSchema, GraphQLSchema } from 'graphql';
 import bcrypt from "bcryptjs";
 import {log} from "@repo/logger";
 import {ObjectId} from "mongodb";
+import mongoose from "mongoose";
 
 const Problem = require('./models/problem');
 const User = require('./models/user');
 
-interface User {
+interface UserInterface {
+    _doc: any;
     _id: ObjectId;
     email: string;
+    createdProblems: mongoose.Types.ObjectId[];
 }
 
-const userCreator = async (userId: string): Promise<{ _id: string; email: string }> => {
+interface ProblemInterface {
+    _doc: any;
+    _id: ObjectId;
+    level: string;
+    description: string;
+    frequency: number;
+    link: string;
+    data_structure: string;
+    date: string;
+}
+
+const problemCreator = async (problemIds: Array<unknown>): Promise<{ _id: ObjectId, level: string,
+    description: string, frequency: number, link: string, data_structure: string, date: string, creator: string }> => {
+    const problem: ProblemInterface | null = await Problem.find({_id: {$in: problemIds}})
+        .then(problems => {
+            return problems.map(problem => {
+                return { ...problem._doc,
+                    _id: problem.id,
+                    creator: userCreator.bind(this, problem.creator)}
+            })
+        })
+        .catch(err => {
+            throw err
+        })
+}
+
+const userCreator = async (userId: unknown): Promise<unknown> => {
     try {
-        const user: User | null = await User.findById(userId);
+        const user: UserInterface | null = await User.findById(userId);
 
         if (!user) {
             throw new Error("User not found");
         }
 
-        return {
-            _id: user._id.toString(),
+        const populatedUser = {
+            _id: user._doc._id.toString(),
             email: user.email,
+            createdProblems: await problemCreator(user._doc.createdProblems)
         };
+
+        return populatedUser;
     } catch (err) {
         throw err;
     }
@@ -59,6 +91,7 @@ const schema: GraphQLSchema = buildSchema(`
     link: String!
     data_structure: String!
     date: String!
+    userId: String!
   }
   
   input UserInput {
@@ -89,17 +122,17 @@ const rootValue = {
             .then(async (problems: any[]) => {
                 const populatedProblems = [];
                 for (const problem of problems) {
-                    const populateduserCreator = await userCreator(problem._doc.creator);
+                    const populatedUserCreator = await userCreator(problem._doc.creator);
                     populatedProblems.push({
                         ...problem._doc,
                         _id: problem._id,
-                        creator: populateduserCreator
+                        creator: populatedUserCreator
                     });
                 }
                 return populatedProblems;
             })
             .catch((err: any) => {
-                log("Error in fetching problems: ", err);
+                log("Error in fetching problems:", err);
                 throw err;
             });
     },
@@ -115,14 +148,17 @@ const rootValue = {
                 link,
                 data_structure,
                 date: new Date(date),
-                creator: '658551a1b92599c7aedb9bd4',
+                creator: '65ac1d594bd2d10bf82d9388',
             });
 
             const result = await problem.save();
-            const user = await User.findById('658551a1b92599c7aedb9bd4');
 
-            if (!user) {
-                throw new Error("User doesn't exist")
+            const user = await User.findById('65ac1d594bd2d10bf82d9388');
+            if (user) {
+                user.createdProblems.push(result._id);
+                await user.save();
+            } else {
+                throw new Error("User doesn't exist");
             }
 
             log("Problem saved successfully");
