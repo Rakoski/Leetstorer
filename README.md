@@ -8,6 +8,7 @@ This project is a leetcode problem storage web app built using Turborepo, Relay,
     - [Prerequisites](#prerequisites)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
