@@ -230,7 +230,7 @@ To create a new problem, you can use the following example mutation:
         }
     }
 
-## API Endpoins:
+## API Endpoints
 
 ### Adding a user to an already established problem
 
