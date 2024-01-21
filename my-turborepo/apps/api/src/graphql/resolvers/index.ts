@@ -15,8 +15,9 @@ interface UserInterface {
 
 interface ProblemInterface {
     creator: unknown;
-    _doc: any;
+    _doc: unknown;
     _id: ObjectId;
+    title: string;
     level: string;
     description: string;
     frequency: number;
@@ -42,25 +43,23 @@ const problemCreator = async (problemIds: Array<unknown>): Promise<Array<unknown
 
 const userCreator = async (userId: unknown): Promise<unknown> => {
     try {
-        const user: UserInterface | null = await User.findById(userId);
+        const creator: UserInterface | null = await User.findById(userId);
 
-        if (!user) {
+        if (!creator) {
             throw new Error("User not found");
         }
 
-        const createdProblems = await problemCreator(user._doc.createdProblems);
+        const createdProblems = await problemCreator(creator._doc.createdProblems);
 
         return {
-            _id: user._doc._id.toString(),
-            email: user.email,
+            _id: creator._doc._id.toString(),
+            email: creator.email,
             createdProblems,
         };
     } catch (err) {
         throw err;
     }
 };
-
-
 
 module.exports = {
     problems: () => {
@@ -128,10 +127,24 @@ module.exports = {
     },
     users: () => {
         log("Users: ")
-        return User.find()
+        return User.find().populate('createdProblems')  
             .then((users: object[]) => {
-                return users.map((user: { _doc: { _id: string }, _id: string, email: string }) =>
-                    ({ ...user, _id: user._id.toString(), email: user.email }))
+                return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) =>
+                    ({
+                        ...user,
+                        _id: user._id.toString(),
+                        email: user.email,
+                        createdProblems: user.createdProblems.map((problem) => ({
+                            title: problem.title,
+                            level: problem.level,
+                            description: problem.description,
+                            frequency: problem.frequency,
+                            link: problem.link,
+                            data_structure: problem.data_structure,
+                            date: problem.date,
+                        }))
+                    })
+                );
             })
             .catch((err: any) => {
                 log("Error in querying a user: ", err);
@@ -147,6 +160,7 @@ module.exports = {
             }
 
             const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+
             const user = new User({
                 email: args.userInput.email,
                 password: hashedPassword
