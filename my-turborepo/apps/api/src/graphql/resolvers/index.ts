@@ -1,4 +1,3 @@
-import { buildSchema, GraphQLSchema } from 'graphql';
 import bcrypt from "bcryptjs";
 import {log} from "@repo/logger";
 import {ObjectId} from "mongodb";
@@ -15,6 +14,7 @@ interface UserInterface {
 }
 
 interface ProblemInterface {
+    creator: unknown;
     _doc: any;
     _id: ObjectId;
     level: string;
@@ -25,20 +25,20 @@ interface ProblemInterface {
     date: string;
 }
 
-const problemCreator = async (problemIds: Array<unknown>): Promise<{ _id: ObjectId, level: string,
-    description: string, frequency: number, link: string, data_structure: string, date: string, creator: string }> => {
-    const problem: ProblemInterface | null = await Problem.find({_id: {$in: problemIds}})
-        .then(problems => {
-            return problems.map(problem => {
-                return { ...problem._doc,
-                    _id: problem.id,
-                    creator: userCreator.bind(this, problem.creator)}
-            })
-        })
-        .catch(err => {
-            throw err
-        })
-}
+const problemCreator = async (problemIds: Array<unknown>): Promise<Array<unknown>> => {
+    try {
+        const problems: Array<ProblemInterface> = await Problem.find({ _id: { $in: problemIds } });
+
+        return problems.map((problem) => ({
+            ...problem._doc,
+            _id: problem._id,
+            creator: userCreator.bind(this, problem.creator),
+        }));
+    } catch (err) {
+        throw err;
+    }
+};
+
 
 const userCreator = async (userId: unknown): Promise<unknown> => {
     try {
@@ -48,17 +48,19 @@ const userCreator = async (userId: unknown): Promise<unknown> => {
             throw new Error("User not found");
         }
 
-        const populatedUser = {
+        const createdProblems = await problemCreator(user._doc.createdProblems);
+
+        return {
             _id: user._doc._id.toString(),
             email: user.email,
-            createdProblems: await problemCreator(user._doc.createdProblems)
+            createdProblems,
         };
-
-        return populatedUser;
     } catch (err) {
         throw err;
     }
 };
+
+
 
 module.exports = {
     problems: () => {
@@ -70,6 +72,7 @@ module.exports = {
                     populatedProblems.push({
                         ...problem._doc,
                         _id: problem._id,
+                        date: problem.date.toString(),
                         creator: populatedUserCreator
                     });
                 }
@@ -91,7 +94,7 @@ module.exports = {
                 frequency,
                 link,
                 data_structure,
-                date: new Date(date),
+                date: new Date(date).toISOString(),
                 creator: '65ac1d594bd2d10bf82d9388',
             });
 
