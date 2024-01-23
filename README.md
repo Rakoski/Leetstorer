@@ -244,7 +244,7 @@ To create a new problem, you can use the following example mutation:
     link: "https://leetcode.com/problems/two-sum/",
     data_structure: "Array",
     date: "2023-12-31T00:00:00.000+00:00",
-    userId: "658551a1b92599c7aedb9bd4"
+    userId: "your-user-id"
   }) {
     _id
     title
