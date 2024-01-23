@@ -43,18 +43,25 @@ const problemCreator = async (problemIds: Array<unknown>): Promise<Array<unknown
 
 const userCreator = async (userId: unknown): Promise<unknown> => {
     try {
-        const creator: UserInterface | null = await User.findById(userId);
+        const creator: UserInterface | null = await User.findById(userId).populate('createdProblems');
 
         if (!creator) {
             throw new Error("User not found");
         }
 
-        const createdProblems = await problemCreator(creator._doc.createdProblems);
-
         return {
             _id: creator._doc._id.toString(),
             email: creator.email,
-            createdProblems,
+            createdProblems: creator.createdProblems.map((problem: ProblemInterface) => ({
+                _id: problem._id.toString(),
+                title: problem.title,
+                level: problem.level,
+                description: problem.description,
+                frequency: problem.frequency,
+                link: problem.link,
+                data_structure: problem.data_structure,
+                date: problem.date,
+            })),
         };
     } catch (err) {
         throw err;
@@ -82,9 +89,16 @@ module.exports = {
                 throw err;
             });
     },
-    createProblem: async (args: { problemInput: { title: string; description: string; level: string; frequency: number; link: string; data_structure: string; date: string } }) => {
+    // Inside createProblem resolver
+    createProblem: async (args: { problemInput: { title: string; description: string; level: string; frequency: number; link: string; data_structure: string; date: string; userId: string } }) => {
         try {
-            const { title, description, level, frequency, link, data_structure, date } = args.problemInput;
+            const { title, description, level, frequency, link, data_structure, date, userId } = args.problemInput;
+
+            const user = await User.findById(userId);
+
+            if (!user) {
+                throw new Error("User not found");
+            }
 
             const problem = new Problem({
                 title,
@@ -94,18 +108,13 @@ module.exports = {
                 link,
                 data_structure,
                 date: new Date(date).toISOString(),
-                creator: '65ac1d594bd2d10bf82d9388',
+                creator: userId,
             });
 
             const result = await problem.save();
 
-            const user = await User.findById('65ac1d594bd2d10bf82d9388');
-            if (user) {
-                user.createdProblems.push(result._id);
-                await user.save();
-            } else {
-                throw new Error("User doesn't exist");
-            }
+            user.createdProblems.push(result._id);
+            await user.save();
 
             log("Problem saved successfully");
 
@@ -118,7 +127,7 @@ module.exports = {
                 link: result.link,
                 data_structure: result.data_structure,
                 date: result.date.toString(),
-                creator: user
+                creator: { _id: user._id.toString(), email: user.email, createdProblems: user.createdProblems },
             };
         } catch (err) {
             log("Error in saving a problem: ", err);
@@ -151,9 +160,9 @@ module.exports = {
                 throw err;
             });
     },
-    createUser: async (args: {userInput: {email: string; password: string}}) => {
+    createUser: async (args: { userInput: { email: string; password: string } }) => {
         try {
-            const existingUser = await User.findOne({email: args.userInput.email});
+            const existingUser = await User.findOne({ email: args.userInput.email });
 
             if (existingUser) {
                 throw new Error("User already exists!");
@@ -163,8 +172,9 @@ module.exports = {
 
             const user = new User({
                 email: args.userInput.email,
-                password: hashedPassword
+                password: hashedPassword,
             });
+
             const result = await user.save();
 
             log("User created successfully");
