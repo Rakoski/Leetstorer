@@ -126,8 +126,7 @@ module.exports = {
                 frequency: result.frequency,
                 link: result.link,
                 data_structure: result.data_structure,
-                date: result.date.toString(),
-                creator: { _id: user._id.toString(), email: user.email, createdProblems: user.createdProblems },
+                date: result.date.toString()
             };
         } catch (err) {
             log("Error in saving a problem: ", err);
