@@ -7,11 +7,38 @@ const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
 
 interface UserInterface {
-    _doc: any;
-    _id: ObjectId;
+    _doc: object[unknown];
+    _id: mongoose.Types.ObjectId[];
     email: string;
     createdProblems: mongoose.Types.ObjectId[];
 }
+
+const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise<unknown> => {
+    try {
+        const creator: UserInterface | null = await User.findById(userId).populate('createdProblems');
+
+        if (!creator) {
+            throw new Error("User not found");
+        }
+
+        return {
+            _id: creator._id.toString(),
+            email: creator.email,
+            createdProblems: creator.createdProblems.map((problem: ProblemInterface) => ({
+                _id: problem._id.toString(),
+                title: problem.title,
+                level: problem.level,
+                description: problem.description,
+                frequency: problem.frequency,
+                link: problem.link,
+                data_structure: problem.data_structure,
+                date: problem.date,
+            })),
+        };
+    } catch (err) {
+        throw err;
+    }
+};
 
 interface ProblemInterface {
     creator: unknown;
@@ -26,7 +53,7 @@ interface ProblemInterface {
     date: string;
 }
 
-const problemCreator = async (problemIds: Array<unknown>): Promise<Array<unknown>> => {
+const problemCreator = async (problemIds: Array<mongoose.Types.ObjectId[]>): Promise<Array<unknown>> => {
     try {
         const problems: Array<ProblemInterface> = await Problem.find({ _id: { $in: problemIds } });
 
@@ -35,34 +62,6 @@ const problemCreator = async (problemIds: Array<unknown>): Promise<Array<unknown
             _id: problem._id,
             creator: userCreator.bind(this, problem.creator),
         }));
-    } catch (err) {
-        throw err;
-    }
-};
-
-
-const userCreator = async (userId: unknown): Promise<unknown> => {
-    try {
-        const creator: UserInterface | null = await User.findById(userId).populate('createdProblems');
-
-        if (!creator) {
-            throw new Error("User not found");
-        }
-
-        return {
-            _id: creator._doc._id.toString(),
-            email: creator.email,
-            createdProblems: creator.createdProblems.map((problem: ProblemInterface) => ({
-                _id: problem._id.toString(),
-                title: problem.title,
-                level: problem.level,
-                description: problem.description,
-                frequency: problem.frequency,
-                link: problem.link,
-                data_structure: problem.data_structure,
-                date: problem.date,
-            })),
-        };
     } catch (err) {
         throw err;
     }
@@ -89,7 +88,6 @@ module.exports = {
                 throw err;
             });
     },
-    // Inside createProblem resolver
     createProblem: async (args: { problemInput: { title: string; description: string; level: string; frequency: number; link: string; data_structure: string; date: string; userId: string } }) => {
         try {
             const { title, description, level, frequency, link, data_structure, date, userId } = args.problemInput;
@@ -113,8 +111,10 @@ module.exports = {
 
             const result = await problem.save();
 
-            user.createdProblems.push(result._id);
-            await user.save();
+            let userFromUserSchema = new User
+
+            userFromUserSchema.createdProblems.push(result._id);
+            await userFromUserSchema.save();
 
             log("Problem saved successfully");
 
@@ -181,6 +181,39 @@ module.exports = {
         } catch (err) {
             log("Error in createUser resolver: ", err);
             throw new Error("Error in creating user");
+        }
+    },
+    associateUserWithProblem: async (args: { userId: string, problemId: string }) => {
+        try {
+            const { userId, problemId } = args;
+
+            let user = new User()
+            let problem = new Problem()
+
+            user = await User.findById(userId);
+            problem = await Problem.findById(problemId);
+
+            if (!user || !problem) {
+                throw new Error("User or problem not found");
+            }
+
+            user.createdProblems.push(problem._id);
+            await user.save();
+
+            return {
+                _id: problem._id.toString(),
+                title: problem.title,
+                level: problem.level,
+                description: problem.description,
+                frequency: problem.frequency,
+                link: problem.link,
+                data_structure: problem.data_structure,
+                date: problem.date.toString(),
+                creator: await userCreator(userId),
+            };
+        } catch (err) {
+            log("Error in associateUserWithProblem resolver: ", err);
+            throw err;
         }
     },
 }
