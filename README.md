@@ -240,16 +240,37 @@ To create a new problem, you can use the following example mutation:
 
    ```
    mutation {
-  createProblem(problemInput: {
-    title: "Two Sum",
-    level: "Easy",
-    description: "Given an array of integers nums and an integer target, return indices …",
-    frequency: 5,
-    link: "https://leetcode.com/problems/two-sum/",
-    data_structure: "Array",
-    date: "2023-12-31T00:00:00.000+00:00",
-    userId: "your-user-id"
-  }) {
+      createProblem(problemInput: {
+        title: "Two Sum",
+        level: "Easy",
+        description: "Given an array of integers nums and an integer target, return indices …",
+        frequency: 5,
+        link: "https://leetcode.com/problems/two-sum/",
+        data_structure: "Array",
+        date: "2023-12-31T00:00:00.000+00:00",
+        userId: "your-user-id"
+      }) {
+        _id
+        title
+        level
+        description
+        frequency
+        link
+        data_structure
+        date
+        creator {
+          _id
+          email
+          createdProblems {
+            _id
+          }
+        }
+    }
+  ```
+### Adding a established user to an established problem
+  ```
+  mutation {
+   associateUserWithProblem(userId: "user_id_here", problemId: "problem_id_here") {
     _id
     title
     level
@@ -263,11 +284,19 @@ To create a new problem, you can use the following example mutation:
       email
       createdProblems {
         _id
+        title
+        level
+        description
+        frequency
+        link
+        data_structure
+        date
       }
     }
+   }
   }
   ```
-
+    
 ## Technologies Used
 - Node.js,
 - Ts-node,
