@@ -7,16 +7,44 @@ const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
 
 interface UserInterface {
-    _doc: any;
-    _id: ObjectId;
+    _doc: object[unknown];
+    _id: mongoose.Types.ObjectId[];
     email: string;
     createdProblems: mongoose.Types.ObjectId[];
 }
 
+const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise<unknown> => {
+    try {
+        const creator: UserInterface | null = await User.findById(userId).populate('createdProblems');
+
+        if (!creator) {
+            throw new Error("User not found");
+        }
+
+        return {
+            _id: creator._id.toString(),
+            email: creator.email,
+            createdProblems: creator.createdProblems.map((problem: ProblemInterface) => ({
+                _id: problem._id.toString(),
+                title: problem.title,
+                level: problem.level,
+                description: problem.description,
+                frequency: problem.frequency,
+                link: problem.link,
+                data_structure: problem.data_structure,
+                date: problem.date,
+            })),
+        };
+    } catch (err) {
+        throw err;
+    }
+};
+
 interface ProblemInterface {
     creator: unknown;
-    _doc: any;
+    _doc: unknown;
     _id: ObjectId;
+    title: string;
     level: string;
     description: string;
     frequency: number;
@@ -25,7 +53,7 @@ interface ProblemInterface {
     date: string;
 }
 
-const problemCreator = async (problemIds: Array<unknown>): Promise<Array<unknown>> => {
+const problemCreator = async (problemIds: Array<mongoose.Types.ObjectId[]>): Promise<Array<unknown>> => {
     try {
         const problems: Array<ProblemInterface> = await Problem.find({ _id: { $in: problemIds } });
 
@@ -38,29 +66,6 @@ const problemCreator = async (problemIds: Array<unknown>): Promise<Array<unknown
         throw err;
     }
 };
-
-
-const userCreator = async (userId: unknown): Promise<unknown> => {
-    try {
-        const user: UserInterface | null = await User.findById(userId);
-
-        if (!user) {
-            throw new Error("User not found");
-        }
-
-        const createdProblems = await problemCreator(user._doc.createdProblems);
-
-        return {
-            _id: user._doc._id.toString(),
-            email: user.email,
-            createdProblems,
-        };
-    } catch (err) {
-        throw err;
-    }
-};
-
-
 
 module.exports = {
     problems: () => {
@@ -83,9 +88,15 @@ module.exports = {
                 throw err;
             });
     },
-    createProblem: async (args: { problemInput: { title: string; description: string; level: string; frequency: number; link: string; data_structure: string; date: string } }) => {
+    createProblem: async (args: { problemInput: { title: string; description: string; level: string; frequency: number; link: string; data_structure: string; date: string; userId: string } }) => {
         try {
-            const { title, description, level, frequency, link, data_structure, date } = args.problemInput;
+            const { title, description, level, frequency, link, data_structure, date, userId } = args.problemInput;
+
+            const user = await User.findById(userId);
+
+            if (!user) {
+                throw new Error("User not found");
+            }
 
             const problem = new Problem({
                 title,
@@ -95,18 +106,15 @@ module.exports = {
                 link,
                 data_structure,
                 date: new Date(date).toISOString(),
-                creator: '65ac1d594bd2d10bf82d9388',
+                creator: userId,
             });
 
             const result = await problem.save();
 
-            const user = await User.findById('65ac1d594bd2d10bf82d9388');
-            if (user) {
-                user.createdProblems.push(result._id);
-                await user.save();
-            } else {
-                throw new Error("User doesn't exist");
-            }
+            let userFromUserSchema = new User
+
+            userFromUserSchema.createdProblems.push(result._id);
+            await userFromUserSchema.save();
 
             log("Problem saved successfully");
 
@@ -118,8 +126,7 @@ module.exports = {
                 frequency: result.frequency,
                 link: result.link,
                 data_structure: result.data_structure,
-                date: result.date.toString(),
-                creator: user
+                date: result.date.toString()
             };
         } catch (err) {
             log("Error in saving a problem: ", err);
@@ -128,29 +135,45 @@ module.exports = {
     },
     users: () => {
         log("Users: ")
-        return User.find()
+        return User.find().populate('createdProblems')  
             .then((users: object[]) => {
-                return users.map((user: { _doc: { _id: string }, _id: string, email: string }) =>
-                    ({ ...user, _id: user._id.toString(), email: user.email }))
+                return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) =>
+                    ({
+                        ...user,
+                        _id: user._id.toString(),
+                        email: user.email,
+                        createdProblems: user.createdProblems.map((problem) => ({
+                            title: problem.title,
+                            level: problem.level,
+                            description: problem.description,
+                            frequency: problem.frequency,
+                            link: problem.link,
+                            data_structure: problem.data_structure,
+                            date: problem.date,
+                        }))
+                    })
+                );
             })
             .catch((err: any) => {
                 log("Error in querying a user: ", err);
                 throw err;
             });
     },
-    createUser: async (args: {userInput: {email: string; password: string}}) => {
+    createUser: async (args: { userInput: { email: string; password: string } }) => {
         try {
-            const existingUser = await User.findOne({email: args.userInput.email});
+            const existingUser = await User.findOne({ email: args.userInput.email });
 
             if (existingUser) {
                 throw new Error("User already exists!");
             }
 
             const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+
             const user = new User({
                 email: args.userInput.email,
-                password: hashedPassword
+                password: hashedPassword,
             });
+
             const result = await user.save();
 
             log("User created successfully");
@@ -158,6 +181,39 @@ module.exports = {
         } catch (err) {
             log("Error in createUser resolver: ", err);
             throw new Error("Error in creating user");
+        }
+    },
+    associateUserWithProblem: async (args: { userId: string, problemId: string }) => {
+        try {
+            const { userId, problemId } = args;
+
+            let user = new User()
+            let problem = new Problem()
+
+            user = await User.findById(userId);
+            problem = await Problem.findById(problemId);
+
+            if (!user || !problem) {
+                throw new Error("User or problem not found");
+            }
+
+            user.createdProblems.push(problem._id);
+            await user.save();
+
+            return {
+                _id: problem._id.toString(),
+                title: problem.title,
+                level: problem.level,
+                description: problem.description,
+                frequency: problem.frequency,
+                link: problem.link,
+                data_structure: problem.data_structure,
+                date: problem.date.toString(),
+                creator: await userCreator(userId),
+            };
+        } catch (err) {
+            log("Error in associateUserWithProblem resolver: ", err);
+            throw err;
         }
     },
 }
