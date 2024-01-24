@@ -267,7 +267,7 @@ To create a new problem, you can use the following example mutation:
         }
     }
   ```
-### Adding a established user to an established problem
+### Adding an established user to an established problem
   ```
   mutation {
    associateUserWithProblem(userId: "user_id_here", problemId: "problem_id_here") {
