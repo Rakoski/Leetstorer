@@ -236,7 +236,7 @@ To create a new problem, you can use the following example mutation:
 
 ## API Endpoints
 
-### Adding a user to an already established problem
+### Creating a problem and adding an already established user to it.
 
    ```
    mutation {
