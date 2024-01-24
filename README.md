@@ -46,6 +46,10 @@ Before you begin, ensure you have the following installed on your machine:
     ```
     pnpm lint
     pnpm test
+5. Start the project
+
+    ```
+    turbo build dev
 ## Project Structure
 
 The project is organized with turborepo:
