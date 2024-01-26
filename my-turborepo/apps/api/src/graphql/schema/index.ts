@@ -44,6 +44,7 @@ module.exports = buildSchema(`
   type RootMutation {
      createProblem(problemInput: ProblemInput): Problem
      createUser(userInput: UserInput): User
+     associateUserWithProblem(userId: ID!, problemId: ID!): Problem
   }
 
   schema {
