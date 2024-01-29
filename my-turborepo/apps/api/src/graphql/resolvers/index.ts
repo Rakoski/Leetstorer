@@ -135,7 +135,7 @@ module.exports = {
     },
     users: () => {
         log("Users: ")
-        return User.find().populate('createdProblems')  
+        return User.find().populate('createdProblems')
             .then((users: object[]) => {
                 return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) =>
                     ({
