@@ -42,9 +42,6 @@ describe("GraphQL Endpoints", () => {
         `,
             })
             .expect(200);
-
-        // Add your assertions based on the expected data in the response
-        // You can check if the queried user is present in the response
     });
 
     it("should create a problem", async () => {
@@ -95,8 +92,5 @@ describe("GraphQL Endpoints", () => {
         `,
             })
             .expect(200);
-
-        // Add your assertions based on the expected data in the response
-        // You can check if the queried problem is present in the response
     });
 });
