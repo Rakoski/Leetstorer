@@ -42,6 +42,8 @@ describe("GraphQL Endpoints", () => {
         `,
             })
             .expect(200);
+
+        expect(response.body.data.users).toBeDefined();
     });
 
     it("should create a problem", async () => {
@@ -92,5 +94,80 @@ describe("GraphQL Endpoints", () => {
         `,
             })
             .expect(200);
+
+        expect(response.body.data.problems).toBeDefined();
+    });
+    
+        it("should associate a user with a problem", async () => {
+        const createUserResponse = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+                  mutation {
+                    createUser(userInput: { email: "associate@example.com", password: "password123" }) {
+                      _id
+                      email
+                    }
+                  }
+                `,
+            })
+            .expect(200);
+
+        const userId = createUserResponse.body.data.createUser._id;
+
+        const createProblemResponse = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+                  mutation {
+                    createProblem(problemInput: {
+                      title: "Associate Test Problem",
+                      description: "Test Description",
+                      level: "Easy",
+                      frequency: 1.5,
+                      link: "http://example.com",
+                      data_structure: "Array",
+                      date: "2024-01-18",
+                      userId: "${userId}"
+                    }) {
+                      _id
+                      title
+                      level
+                    }
+                  }
+                `,
+            })
+            .expect(200);
+
+        const problemId = createProblemResponse.body.data.createProblem._id;
+
+        const associateResponse = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+                  mutation {
+                    associateUserWithProblem(userId: "${userId}", problemId: "${problemId}") {
+                      _id
+                      title
+                      level
+                      creator {
+                        _id
+                        email
+                      }
+                    }
+                  }
+                `,
+            })
+            .expect(200);
+
+        expect(associateResponse.body.data.associateUserWithProblem).toEqual({
+            _id: problemId,
+            title: "Associate Test Problem",
+            level: "Easy",
+            creator: {
+                _id: userId,
+                email: "associate@example.com",
+            },
+        });
     });
 });
