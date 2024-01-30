@@ -1,75 +1,14 @@
 import bcrypt from "bcryptjs";
 import {log} from "@repo/logger";
-import {ObjectId} from "mongodb";
-import mongoose from "mongoose";
+import {ProblemInterface} from "./utils/problemInterface.ts";
 
 const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
 
-const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise<unknown> => {
-    try {
-        const creator: UserInterface | null = await User.findById(userId).populate('createdProblems');
-
-        if (!creator) {
-            throw new Error("User not found");
-        }
-
-        return {
-            _id: creator._id.toString(),
-            email: creator.email,
-            createdProblems: creator.createdProblems.map((problem: ProblemInterface) => ({
-                _id: problem._id.toString(),
-                title: problem.title,
-                level: problem.level,
-                description: problem.description,
-                frequency: problem.frequency,
-                link: problem.link,
-                data_structure: problem.data_structure,
-                date: problem.date,
-            })),
-        };
-    } catch (err) {
-        throw err;
-    }
-};
-
-interface UserInterface {
-    _doc: object[unknown];
-    _id: mongoose.Types.ObjectId[];
-    email: string;
-    createdProblems: mongoose.Types.ObjectId[];
-}
-
-interface ProblemInterface {
-    creator: unknown;
-    _doc: unknown;
-    _id: ObjectId;
-    title: string;
-    level: string;
-    description: string;
-    frequency: number;
-    link: string;
-    data_structure: string;
-    date: string;
-};
-
-const problemCreator = async (problemIds: Array<mongoose.Types.ObjectId[]>): Promise<Array<unknown>> => {
-    try {
-        const problems: Array<ProblemInterface> = await Problem.find({ _id: { $in: problemIds } });
-
-        return problems.map((problem) => ({
-            ...problem._doc,
-            _id: problem._id,
-            creator: userCreator.bind(this, problem.creator),
-        }));
-    } catch (err) {
-        throw err;
-    }
-};
+const userCreator = require('./utils/userCreator.ts')
 
 module.exports = {
     users: () => {
-        log("Users: ")
         return User.find().populate('createdProblems')
             .then((users: object[]) => {
                 return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) =>

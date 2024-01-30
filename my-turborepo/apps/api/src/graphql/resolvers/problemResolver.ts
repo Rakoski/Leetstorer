@@ -1,56 +1,9 @@
 import {log} from "@repo/logger";
-import mongoose from "mongoose";
-import {ObjectId} from "mongodb";
 
-const Problem = require('../../models/problem.ts')
-const User = require('../../models/user.ts')
+const Problem = require('../../models/problem');
+const User = require('../../models/user.ts');
 
-interface UserInterface {
-    _doc: object[unknown];
-    _id: mongoose.Types.ObjectId[];
-    email: string;
-    createdProblems: mongoose.Types.ObjectId[];
-}
-
-interface ProblemInterface {
-    creator: unknown;
-    _doc: unknown;
-    _id: ObjectId;
-    title: string;
-    level: string;
-    description: string;
-    frequency: number;
-    link: string;
-    data_structure: string;
-    date: string;
-}
-
-const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise<unknown> => {
-    try {
-        const creator: UserInterface | null = await User.findById(userId).populate('createdProblems');
-
-        if (!creator) {
-            throw new Error("User not found");
-        }
-
-        return {
-            _id: creator._id.toString(),
-            email: creator.email,
-            createdProblems: creator.createdProblems.map((problem: ProblemInterface) => ({
-                _id: problem._id.toString(),
-                title: problem.title,
-                level: problem.level,
-                description: problem.description,
-                frequency: problem.frequency,
-                link: problem.link,
-                data_structure: problem.data_structure,
-                date: problem.date,
-            })),
-        };
-    } catch (err) {
-        throw err;
-    }
-};
+const userCreator = require('./utils/userCreator.ts')
 
 module.exports = {
     problems: () => {
