@@ -1,13 +1,14 @@
 import { log } from "@repo/logger";
 import { createServer } from "./server";
 import mongoose from 'mongoose';
-
+import dotenv from 'dotenv';
 import graphqlRouter from './graphql';
 
+dotenv.config();
 const port = 4000;
 const server = createServer();
 
-mongoose.connect("my-mongo-url")
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('MongoDB connected successfully');
         server.use(graphqlRouter);
