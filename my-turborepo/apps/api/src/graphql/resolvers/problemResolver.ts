@@ -1,0 +1,74 @@
+import {log} from "@repo/logger";
+
+const Problem = require('../../models/problem');
+const User = require('../../models/user.ts');
+
+const userCreator = require('./utils/userCreator.ts')
+
+module.exports = {
+    problems: () => {
+        return Problem.find()
+            .then(async (problems: any[]) => {
+                const populatedProblems = [];
+                for (const problem of problems) {
+                    const populatedUserCreator = await userCreator(problem._doc.creator);
+                    populatedProblems.push({
+                        ...problem._doc,
+                        _id: problem._id,
+                        date: problem.date.toString(),
+                        creator: populatedUserCreator
+                    });
+                }
+                return populatedProblems;
+            })
+            .catch((err: any) => {
+                log("Error in fetching problems:", err);
+                throw err;
+            });
+    },
+    createProblem: async (args: { problemInput: { title: string; description: string; level: string; frequency: number; link: string; data_structure: string; date: string; userId: string } }) => {
+        try {
+            const { title, description, level, frequency, link, data_structure, date, userId } = args.problemInput;
+
+            const user = await User.findById(userId);
+
+            if (!user) {
+                throw new Error("User not found");
+            }
+
+            const problem = new Problem({
+                title,
+                description,
+                level,
+                frequency,
+                link,
+                data_structure,
+                date: new Date(date).toISOString(),
+                creator: userId,
+            });
+
+            const result = await problem.save();
+
+            let userFromUserSchema = new User
+
+            userFromUserSchema.createdProblems.push(result._id);
+            await userFromUserSchema.save();
+
+            log("Problem saved successfully");
+
+            return {
+                _id: result._id.toString(),
+                title: result.title,
+                level: result.level,
+                description: result.description,
+                frequency: result.frequency,
+                link: result.link,
+                data_structure: result.data_structure,
+                date: result.date.toString()
+            };
+        } catch (err) {
+            log("Error in saving a problem: ", err);
+            throw err;
+        }
+    },
+}

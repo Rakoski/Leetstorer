@@ -81,7 +81,7 @@ my-turborepo/
                           |- user.ts
                       |- graphql.ts
                       |- server.ts
-                      |- index.ts
+                      |- userResolver.ts
                 |- .eslintrc.js
                 |- package.json
                 |- turbo.json
@@ -146,7 +146,7 @@ my-turborepo/
                   | - src/
                       | - __tests__/
                           | - log.tests.ts
-                      |- index.ts
+                      |- userResolver.ts
               |- base.json
               |- nextjs.json
               |- react-app.json
