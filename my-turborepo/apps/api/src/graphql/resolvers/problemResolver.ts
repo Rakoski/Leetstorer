@@ -1,4 +1,5 @@
 import {log} from "@repo/logger";
+import mongoose from "mongoose";
 
 const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
@@ -30,7 +31,9 @@ module.exports = {
         try {
             const { title, description, level, frequency, link, data_structure, date, userId } = args.problemInput;
 
-            const user = await User.findById(userId);
+            let user = new User()
+
+            user = await User.findById(userId);
 
             if (!user) {
                 throw new Error("User not found");
@@ -49,10 +52,8 @@ module.exports = {
 
             const result = await problem.save();
 
-            let userFromUserSchema = new User
-
-            userFromUserSchema.createdProblems.push(result._id);
-            await userFromUserSchema.save();
+            user.createdProblems.push(result._id);
+            await user.save();
 
             log("Problem saved successfully");
 
@@ -64,7 +65,14 @@ module.exports = {
                 frequency: result.frequency,
                 link: result.link,
                 data_structure: result.data_structure,
-                date: result.date.toString()
+                date: result.date.toString(),
+                creator: {
+                    _id: user._id.toString(),
+                    email: user.email,
+                    createdProblems: user.createdProblems.map((problemId) => ({
+                        _id: problemId.toString(),
+                    })),
+                },
             };
         } catch (err) {
             log("Error in saving a problem: ", err);
