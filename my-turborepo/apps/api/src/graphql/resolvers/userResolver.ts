@@ -11,22 +11,20 @@ module.exports = {
     users: () => {
         return User.find().populate('createdProblems')
             .then((users: object[]) => {
-                return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) =>
-                    ({
-                        ...user,
-                        _id: user._id.toString(),
-                        email: user.email,
-                        createdProblems: user.createdProblems.map((problem) => ({
-                            title: problem.title,
-                            level: problem.level,
-                            description: problem.description,
-                            frequency: problem.frequency,
-                            link: problem.link,
-                            data_structure: problem.data_structure,
-                            date: problem.date,
-                        }))
-                    })
-                );
+                return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) => ({
+                    ...user,
+                    _id: user._id.toString(),
+                    email: user.email,
+                    createdProblems: user.createdProblems.map((problem) => ({
+                        title: problem.title,
+                        level: problem.level,
+                        description: problem.description,
+                        frequency: problem.frequency,
+                        link: problem.link,
+                        data_structure: problem.data_structure,
+                        date: problem.date,
+                    }))
+                }));
             })
             .catch((err: any) => {
                 log("Error in querying a user: ", err);
