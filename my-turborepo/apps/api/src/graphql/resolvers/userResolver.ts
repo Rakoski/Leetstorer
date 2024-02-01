@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import {log} from "@repo/logger";
 import {ProblemInterface} from "./utils/problemInterface.ts";
+import jwt from "jsonwebtoken";
 
 const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
@@ -55,11 +56,37 @@ module.exports = {
             throw new Error("Error in creating user");
         }
     },
+    login: async (args: { email: string, password: string }) => {
+        try {
+            let user = null
+
+            user = await User.findOne({ email: args.email });
+
+            if (!user) {
+                throw new Error("User does not exist!");
+            }
+
+            const passwordsAreEqual = await bcrypt.compare(args.password, user.password);
+
+            if (!passwordsAreEqual) {
+                throw new Error("401 Invalid credentials");
+            }
+
+            const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY,
+                { expiresIn: '1h' }
+            );
+
+            return { userId: user.id, token: token, tokenExpiration: 1 };
+        } catch (err) {
+            console.error("Error in login:", err.message);
+            throw err;
+        }
+    },
     associateUserWithProblem: async (args: { userId: string, problemId: string }) => {
         try {
             const { userId, problemId } = args;
 
-            let user = new User()
+            let user = null
             let problem = new Problem()
 
             user = await User.findById(userId);
