@@ -31,7 +31,7 @@ module.exports = {
         try {
             const { title, description, level, frequency, link, data_structure, date, userId } = args.problemInput;
 
-            let user = new User()
+            let user = null
 
             user = await User.findById(userId);
 
