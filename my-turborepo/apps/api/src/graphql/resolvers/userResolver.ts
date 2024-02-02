@@ -9,30 +9,36 @@ const User = require('../../models/user.ts');
 const userCreator = require('./utils/userCreator.ts')
 
 module.exports = {
-    users: () => {
-        return User.find().populate('createdProblems')
-            .then((users: object[]) => {
-                return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) => ({
-                    ...user,
-                    _id: user._id.toString(),
-                    email: user.email,
-                    createdProblems: user.createdProblems.map((problem) => ({
-                        title: problem.title,
-                        level: problem.level,
-                        description: problem.description,
-                        frequency: problem.frequency,
-                        link: problem.link,
-                        data_structure: problem.data_structure,
-                        date: problem.date,
-                    }))
-                }));
-            })
-            .catch((err: any) => {
-                log("Error in querying a user: ", err);
-                throw err;
-            });
+    users: async (req: {isAuth: boolean}) => {
+        if (!req.isAuth) {
+            throw new Error("Unauthorized!")
+        }
+
+        try {
+            let users = null
+
+            users = await User.find().populate('createdProblems');
+
+            return users.map((user: { _doc: { _id: string }, _id: string, email: string, createdProblems: Array<ProblemInterface> }) => ({
+                ...user,
+                _id: user._id.toString(),
+                email: user.email,
+                createdProblems: user.createdProblems.map((problem) => ({
+                    title: problem.title,
+                    level: problem.level,
+                    description: problem.description,
+                    frequency: problem.frequency,
+                    link: problem.link,
+                    data_structure: problem.data_structure,
+                    date: problem.date,
+                }))
+            }));
+        } catch (err) {
+            log("Error in querying a user: ", err);
+            throw err;
+        }
     },
-    createUser: async (args: { userInput: { email: string; password: string } }) => {
+    createUser: async (args: {userInput: { email: string; password: string }}) => {
         try {
             const existingUser = await User.findOne({ email: args.userInput.email });
 
