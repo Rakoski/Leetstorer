@@ -33,6 +33,7 @@ Before you begin, ensure you have the following installed on your machine:
 
      ```
      git clone https://github.com/Rakoski/leetcode-problem-storer.git
+
 2. Navigate to the project directory:
 
      ```
@@ -234,37 +235,89 @@ To create a new problem, you can use the following example mutation:
 
 ## API Endpoins:
 
-### Adding a user to an already established problem
-
-   ```
-   mutation {
-  createProblem(problemInput: {
-    title: "Two Sum",
-    level: "Easy",
-    description: "Given an array of integers nums and an integer target, return indices …",
-    frequency: 5,
-    link: "https://leetcode.com/problems/two-sum/",
-    data_structure: "Array",
-    date: "2023-12-31T00:00:00.000+00:00",
-    userId: "658551a1b92599c7aedb9bd4"
-  }) {
-    _id
-    title
-    level
-    description
-    frequency
-    link
-    data_structure
-    date
-    creator {
-      _id
-      email
-      createdProblems {
-        _id
-      }
+    """
+    Represents a programming problem in the system.
+    """
+    type Problem {
+        _id: ID!
+        title: String!
+        level: String!
+        description: String!
+        frequency: Float!
+        link: String!
+        data_structure: String!
+        date: String!
+        creator: User!
     }
-  }
-  ```
+
+    
+    """
+    Represents a user in the system.
+    """
+    type User {
+        _id: ID!
+        email: String!
+        password: String
+        createdProblems: [Problem!]
+    }
+    
+    """
+    Authentication data returned after a successful login.
+    """
+    type AuthData {
+        userId: ID!
+        token: String!
+        tokenExpiration: Int!
+    }
+    
+    """
+    Input type for creating a new programming problem.
+    """
+    input ProblemInput {
+        title: String!
+        level: String!
+        description: String!
+        frequency: Float!
+        link: String!
+        data_structure: String!
+        date: String!
+        userId: String!
+    }
+    
+    """
+    Input type for creating a new user.
+    """
+    input UserInput {
+        email: String!
+        password: String!
+    }
+    
+    """
+    Root query for fetching data.
+    """
+    type RootQuery {
+        problems: [Problem!]!  # Retrieve a list of all problems.
+        users: [User!]!  # Retrieve a list of all users.
+        login(email: String!, password: String!): AuthData!  # Perform user login.
+    }
+    
+    """
+    Root mutation for creating, updating, or deleting data.
+    """
+    type RootMutation {
+        createProblem(problemInput: ProblemInput): Problem  # Create a new problem.
+        createUser(userInput: UserInput): User  # Create a new user.
+        associateUserWithProblem(userId: ID!, problemId: ID!): Problem  # Associate a user with a problem.
+    }
+    
+    """
+    Root schema that defines the available queries and mutations.
+    """
+    schema {
+        query: RootQuery
+        mutation: RootMutation
+    }
+
 
 ## Technologies Used
 - Node.js,
