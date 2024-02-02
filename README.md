@@ -1,20 +1,18 @@
 # Leetcode Storage App
 
-This project is a leetcode problem storage web app built using Turborepo, Relay, TypeScript, Node.js, React.js, Next.js, GraphQL, and MongoDB. It allows users to store and organize their leetcode problems they have solved. This is meant as a training project for those technologies and woovi's training playground. This readme.md IS INCOMPLETE, for now.
+This project is a leetcode problem storage web app built using Turborepo, Relay, TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their leetcode problems they have solved. This is meant as a training project for those technologies and woovi's training playground. 
 
 ## Table of Contents
 
 - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-- [Project Structure](#project-structure)
 - [Configuration](#configuration)
-- [Running the Application](#running-the-application)
-    - [Server](#server)
-    - [Client](#client)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
+- [Contact](#Contact)
 
 ## Getting Started
 
@@ -49,6 +47,10 @@ Before you begin, ensure you have the following installed on your machine:
     ```
     pnpm lint
     pnpm test
+5. Start the project
+
+    ```
+    turbo build dev
 ## Project Structure
 
 The project is organized with turborepo:
@@ -233,7 +235,7 @@ To create a new problem, you can use the following example mutation:
         }
     }
 
-## API Endpoins:
+## API Endpoints
 
     """
     Represents a programming problem in the system.
@@ -318,7 +320,6 @@ To create a new problem, you can use the following example mutation:
         mutation: RootMutation
     }
 
-
 ## Technologies Used
 - Node.js,
 - Ts-node,
@@ -334,3 +335,14 @@ Feel free to contribute by opening issues or pull requests.
 
 ### License
 This project is licensed under the MIT License.
+
+### Contact
+
+<div style"display: inline_block">
+    <a href="mailto:mastrakoski@gmail.com"><img
+            src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white"
+            target="_blank"></a>
+    <a href="https://www.linkedin.com/in/mateus-rakoski/" target="_blank"><img
+            src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white"
+            target="_blank"></a>
+</div>
