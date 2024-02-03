@@ -235,7 +235,7 @@ To create a new problem, you can use the following example mutation:
         }
     }
 
-## API Endpoints
+## Schema Documentation
 
     """
     Represents a programming problem in the system.
