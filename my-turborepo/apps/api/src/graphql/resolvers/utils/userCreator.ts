@@ -15,7 +15,7 @@ const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise
         return {
             _id: creator._id.toString(),
             email: creator.email,
-            createdProblems: typeof creator.createdProblems !== "string" ? creator.createdProblems?.map((problem: ProblemInterface) => ({
+            createdProblems: typeof creator.createdProblems !== "string"? creator.createdProblems?.map((problem: ProblemInterface) => ({
                 _id: problem._id.toString(),
                 title: problem.title,
                 level: problem.level,
