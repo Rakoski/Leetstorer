@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
+import {Document} from "mongodb";
 
-export interface ProblemInterface {
+export interface ProblemInterface extends Document {
     creator:  mongoose.Types.ObjectId[] | string;
-    _doc: object[unknown];
     _id: mongoose.Types.ObjectId[];
     title: string;
     level: string;

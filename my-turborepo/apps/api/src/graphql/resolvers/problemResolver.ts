@@ -1,6 +1,4 @@
 import { log } from "@repo/logger";
-import mongoose from "mongoose";
-import any = jasmine.any;
 
 const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
@@ -8,7 +6,7 @@ const User = require('../../models/user.ts');
 const userCreator = require('./utils/userCreator.ts');
 
 module.exports = {
-    problems: async (req: {isAuth: boolean}) => {
+    problems: async (args: object, req: {isAuth: boolean}) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!")
         }
@@ -18,13 +16,14 @@ module.exports = {
             const populatedProblems = [];
 
             for (const problem of problems) {
-                const populatedUserCreator = await userCreator(problem._doc.creator);
+                const populatedUserCreator = await userCreator(problem.creator);
                 populatedProblems.push({
-                    ...problem._doc,
+                    ...problem.toObject(),
                     _id: problem._id,
                     date: problem.date.toString(),
-                    creator: populatedUserCreator
+                    creator: populatedUserCreator,
                 });
+
             }
 
             return populatedProblems;
