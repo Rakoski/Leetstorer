@@ -258,6 +258,7 @@ To create a new problem, you can use the following example mutation:
     """
     type User {
         _id: ID!
+        username: String!
         email: String!
         password: String
         createdProblems: [Problem!]
