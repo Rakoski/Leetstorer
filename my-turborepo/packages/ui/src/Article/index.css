@@ -1,0 +1,20 @@
+/* ArticleComponent.css */
+.article-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 380px;
+    margin: auto;
+    margin-top: 230px;
+}
+
+@media (max-width: 600px) {
+    .article-container {
+        margin-top: 0;
+    }
+}
+

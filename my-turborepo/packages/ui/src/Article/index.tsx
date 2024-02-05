@@ -2,37 +2,30 @@ import React from "react";
 import { CounterButton } from "../CounterButton";
 import { Link } from "../Link";
 import { Fragment } from "react";
+import "./index.css";
 
 export function ArticleComponent({
- title,
- fields,
- onSubmit,
+     title,
+     fields,
+     onSubmit,
 }: {
     title: string;
     fields: JSX.Element[];
     onSubmit: () => void;
 }): JSX.Element {
     return (
-        <div
-            className="article-container"
-            style={{
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                padding: "20px",
-                borderRadius: "8px",
-                maxWidth: "380px",
-                margin: "auto",
-                marginTop: "200px",
-            }}
-        >
+        <div className="article-container">
             <h1 className="title">{title}</h1>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 {fields.map((field, index) => (
                     <Fragment key={index}>
                         {field}
                         <br />
                     </Fragment>
                 ))}
-                <CounterButton />
+                <div style={{ marginTop: "30px" }}>
+                    <CounterButton />
+                </div>
             </form>
             <p className="description">
                 Built With{" "}
