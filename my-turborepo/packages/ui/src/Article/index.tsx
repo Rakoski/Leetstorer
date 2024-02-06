@@ -8,10 +8,12 @@ export function ArticleComponent({
      title,
      fields,
      onSubmit,
+     isLoginComponent
 }: {
     title: string;
     fields: JSX.Element[];
     onSubmit: () => void;
+    isLoginComponent: boolean
 }): JSX.Element {
     return (
         <div className="article-container">
@@ -33,6 +35,14 @@ export function ArticleComponent({
                     Turborepo
                 </Link>
             </p>
+            {(isLoginComponent ?
+                <div>
+                    <Link children="Sign up!"  href={"/register"}/>
+                </div>
+                    :
+                <div>
+                    <Link children="Already a member?"  href={"/login"}/>
+                </div>)}
         </div>
     );
 }

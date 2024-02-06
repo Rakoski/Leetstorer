@@ -15,7 +15,7 @@ function LoginPage(): JSX.Element {
         <InputField key="password" label={"Password"} type="password" value={password} onChange={(e) => setPassword(e.target.value)} />,
     ];
 
-    return <ArticleComponent title="Sign in on LeetStorer" fields={loginFields} onSubmit={handleLogin} />;
+    return <ArticleComponent title="Sign in on LeetStorer" fields={loginFields} onSubmit={handleLogin} isLoginComponent={true} />;
 }
 
 export default LoginPage;

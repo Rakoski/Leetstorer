@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {InputField} from "@repo/ui/src/InputField";
 import {ArticleComponent} from "@repo/ui/src/Article";
+import {Link} from "@repo/ui";
 
 function RegistrationPage(): JSX.Element {
     const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ function RegistrationPage(): JSX.Element {
         <InputField key="password" label={"Password"} type="password" value={password} onChange={(e) => setPassword(e.target.value)} />,
     ];
 
-    return <ArticleComponent title="Sign up for LeetStorer!" fields={registrationFields} onSubmit={handleRegistration} />;
+    return <ArticleComponent title="Sign up for LeetStorer!" fields={registrationFields} onSubmit={handleRegistration} isLoginComponent={false} />;
 }
 
 export default RegistrationPage;
