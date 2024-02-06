@@ -7,12 +7,6 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 export function InputField({ label, onChange, ...rest }: InputFieldProps): JSX.Element {
     const [isFocused, setIsFocused] = useState(false);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (onChange) {
-            onChange(event);
-        }
-    };
-
     const handleFocus = () => {
         setIsFocused(true);
     };
@@ -22,6 +16,7 @@ export function InputField({ label, onChange, ...rest }: InputFieldProps): JSX.E
     };
 
     const inputStyle: React.CSSProperties = {
+        marginTop: "20px",
         width: "300px",
         height: "25px",
         border: `2px solid ${isFocused ? "blue" : "grey"}`,
@@ -34,7 +29,6 @@ export function InputField({ label, onChange, ...rest }: InputFieldProps): JSX.E
             <label>
                 <input
                     type="text"
-                    onChange={handleChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     style={inputStyle}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../Article/index.css"
 
 export function CounterButton(): JSX.Element {
   const [count, setCount] = useState(0);
