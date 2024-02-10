@@ -7,18 +7,18 @@ import "./index.css";
 export function ArticleComponent({
      title,
      fields,
-     onSubmit,
+     onClick,
      isLoginComponent
 }: {
     title: string;
     fields: JSX.Element[];
-    onSubmit: () => void;
+    onClick: () => void;
     isLoginComponent: boolean
 }): JSX.Element {
     return (
         <div className="article-container">
             <h1 className="title">{title}</h1>
-            <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <form style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 {fields.map((field, index) => (
                     <Fragment key={index}>
                         {field}
@@ -26,7 +26,7 @@ export function ArticleComponent({
                     </Fragment>
                 ))}
                 <div style={{ marginTop: "30px" }}>
-                    <CounterButton />
+                    <CounterButton onClick={onClick} />
                 </div>
             </form>
             <p className="description">

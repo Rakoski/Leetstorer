@@ -1,5 +1,8 @@
 .DS_Store
 my-turborepo/node_modules
+*.graphql.ts
+*.graphql.js
+my-turborepo/package-lock.json
 .turbo
 *.log
 .next
