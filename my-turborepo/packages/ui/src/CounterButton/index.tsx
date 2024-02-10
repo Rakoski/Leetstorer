@@ -1,14 +1,11 @@
 import { useState } from "react";
 import "../Article/index.css"
 
-export function CounterButton(): JSX.Element {
-  const [count, setCount] = useState(0);
+export function CounterButton({onClick}: () => void): JSX.Element {
 
   return (
         <button
-          onClick={() => {
-            setCount((c) => c + 1);
-          }}
+          onClick={onClick}
           style={{
             background: "black",
             fontSize: "16px",

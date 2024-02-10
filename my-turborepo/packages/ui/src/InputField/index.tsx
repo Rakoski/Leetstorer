@@ -32,6 +32,7 @@ export function InputField({ label, onChange, ...rest }: InputFieldProps): JSX.E
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     style={inputStyle}
+                    onChange={onChange}
                     placeholder={isFocused ? "" : label}
                     {...rest}
                 />
