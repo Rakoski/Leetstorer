@@ -23,7 +23,7 @@ Before you begin, ensure you have the following installed on your machine:
 - Node.js (version 18.7.X or above)
 - pnpm (version 8.X.X)
 - MongoDB (running locally or a connection to a MongoDB instance)
-- Turbo and turborepo installed
+- Turbo and turborepo installed (you can install it here: <code>npm install -g @turbo/turbo</code>)
 
 ### Configuration
 
