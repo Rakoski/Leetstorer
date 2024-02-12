@@ -116,7 +116,7 @@ my-turborepo/
                     |- graphql.ts
                     |- index.ts
                     |- server.ts
-                |- .env.example
+                |- .env
                 |- .eslintrc.js
                 |- package.json
                 |- tsconfig.json
