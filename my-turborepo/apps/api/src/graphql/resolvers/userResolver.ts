@@ -98,7 +98,7 @@ module.exports = {
             problem = await Problem.findById(problemId);
 
             if (!user || !problem) {
-                throw new Error("User or problem not found");
+                return new Error("User or problem not found");
             }
 
             user.createdProblems.push(problem._id);
