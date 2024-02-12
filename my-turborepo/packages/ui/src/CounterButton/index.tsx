@@ -1,7 +1,11 @@
 import { useState } from "react";
 import "../Article/index.css"
 
-export function CounterButton({onClick}: () => void): JSX.Element {
+interface CounterButtonProps {
+    onClick: () => void | null;
+}
+
+export function CounterButton({onClick}: CounterButtonProps): JSX.Element {
 
   return (
         <button
