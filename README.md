@@ -299,18 +299,18 @@ To create a new problem, you can use the following example mutation:
     Root query for fetching data.
     """
     type RootQuery {
-        problems: [Problem!]!  # Retrieve a list of all problems.
-        users: [User!]!  # Retrieve a list of all users.
-        login(email: String!, password: String!): AuthData!  # Perform user login.
+        problems: [Problem!]!  
+        users: [User!]!  
     }
     
     """
     Root mutation for creating, updating, or deleting data.
     """
     type RootMutation {
-        createProblem(problemInput: ProblemInput): Problem  # Create a new problem.
-        createUser(userInput: UserInput): User  # Create a new user.
-        associateUserWithProblem(userId: ID!, problemId: ID!): Problem  # Associate a user with a problem.
+        createProblem(problemInput: ProblemInput): Problem 
+        createUser(userInput: UserInput): User  
+        login(email: String!, password: String!): AuthData! 
+        associateUserWithProblem(userId: ID!, problemId: ID!): Problem  
     }
     
     """
