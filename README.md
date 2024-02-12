@@ -64,30 +64,64 @@ my-turborepo/
                       |- favicon.ico
                 |- src/
                       |- app/
-                           |- index.tsx
-                           |- styles.css
+                           |- components/
+                               |- Dashboard/
+                                    |- index.tsx
+                                    |- styles.css
+                               |- Login/
+                                    |- index.tsx
+                                    |- styles.css
+                               |- Registration/
+                                    |- index.tsx
+                                    |- styles.css
+                               |- app.tsx
+                           |- mutations/
+                               |- CreateUserMutation.ts
+                               |- LoginMutation.ts
+                           |- RelayEnvironment.ts
+                           |- constants.ts
+                           |- index.css
+                           |-  main.tsx
+                           |- schema.graphql
                       |- index.css
                       |- main.tsx
                 |- .eslintrc.js
+                |- .gitattributes
+                |- index.html
                 |- package.json
+                |- relay.config.json
                 |- turbo.json
                 |- vite.config.ts
                 |- tsconfig.json
           |- api/
                 |- src/
-                      |- __tests__/
-                          |- server.test.ts
-                      |- models/
-                          |- problem.ts
-                          |- user.ts
-                      |- graphql.ts
-                      |- server.ts
-                      |- userResolver.ts
+                    |- __tests__/
+                        |- server.test.ts    
+                    |- graphql/
+                        |- resolvers/
+                            |- utils/
+                                |- problemCreator.ts
+                                |- problemInterface.ts
+                                |- userCreator.ts
+                                |- userInterface.ts
+                            |- problemResolver.ts
+                            |- userResolver.ts
+                        |- schema/
+                            |- index.ts 
+                    |- middleware/
+                        |- is-auth.ts 
+                    |- models/
+                        |- problem.ts
+                        |- user.ts
+                    |- graphql.ts
+                    |- index.ts
+                    |- server.ts
+                |- .env.example
                 |- .eslintrc.js
                 |- package.json
-                |- turbo.json
-                |- vite.config.ts
                 |- tsconfig.json
+                |- tsup.config.ts
+                |- turbo.json
           |- blog/
                 |- app/
                       |- routes/
