@@ -1,8 +1,8 @@
 import { RelayEnvironmentProvider } from "react-relay";
-import { RelayEnvironment } from "./RelayEnvironment";
+import RelayEnvironment from "./RelayEnvironment.ts";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./app/app.tsx";
+import App from "./components/app.tsx";
 import "./index.css";
 
 const el = document.getElementById("root");

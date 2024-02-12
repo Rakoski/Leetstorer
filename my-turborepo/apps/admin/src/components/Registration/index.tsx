@@ -18,7 +18,7 @@ function RegistrationPage(): JSX.Element {
         <InputField key="password" label={"Password"} type="password" value={password} onChange={(e) => setPassword(e.target.value)} />,
     ];
 
-    return <ArticleComponent title="Sign up for LeetStorer!" fields={registrationFields} onSubmit={handleRegistration} isLoginComponent={false} />;
+    return <ArticleComponent title="Sign up for LeetStorer!" fields={registrationFields} onClick={handleRegistration} isLoginComponent={false} />;
 }
 
 export default RegistrationPage;

@@ -65,27 +65,23 @@ module.exports = {
             throw new Error("Error in creating user");
         }
     },
-    login: async (args: { email: string, password: string }) => {
+    login: async ({ email, password }) => {
         try {
             let user = null
 
-            user = await User.findOne({ email: args.email });
-
+            user = await User.findOne({ email });
             if (!user) {
                 return new Error("User does not exist!");
             }
 
-            const passwordsAreEqual = await bcrypt.compare(args.password, user.password);
-
+            const passwordsAreEqual = await bcrypt.compare(password, user.password);
             if (!passwordsAreEqual) {
                 return new Error("401 Invalid credentials");
             }
 
-            const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY,
-                { expiresIn: '1h' }
-            );
+            const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY, { expiresIn: '1h' });
 
-            return { userId: user.id, token: token, tokenExpiration: 1 };
+            return { userId: user.id, token, tokenExpiration: 1 };
         } catch (err) {
             console.error("Error in login:", err.message);
             throw err;

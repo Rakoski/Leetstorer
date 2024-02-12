@@ -2,25 +2,20 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import RegistrationPage from "./Registration";
 import LoginPage from "./Login";
+import Dashboard from "./Dashboard";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    let toggleLoggedIn = false;
-
     return (
         <Router>
             <Routes>
-                <Route path="/register" element={<RegistrationPage />} />
-                <Route path="/" element={<LoginPage toggleLoggedIn={toggleLoggedIn} />} />
-                <Route path="/login" element={<LoginPage toggleLoggedIn={toggleLoggedIn} />} />
+                <Route path="/register" element={!isLoggedIn ? <RegistrationPage /> : <Navigate to="/" />} />
+                <Route path="/login" element={!isLoggedIn ? <LoginPage setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/" />} />
+                <Route path="/" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
             </Routes>
         </Router>
     );
-}
-
-function Dashboard() {
-    return <h2>Dashboard</h2>;
 }
 
 export default App;

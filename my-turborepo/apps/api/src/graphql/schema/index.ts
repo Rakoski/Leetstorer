@@ -47,12 +47,12 @@ module.exports = buildSchema(`
   type RootQuery {
     problems: [Problem!]!
     users: [User!]!
-    login(email: String!, password: String!): AuthData!
   }
 
   type RootMutation {
      createProblem(problemInput: ProblemInput): Problem
      createUser(userInput: UserInput): User
+     login(email: String!, password: String!): AuthData
      associateUserWithProblem(userId: ID!, problemId: ID!): Problem
   }
 

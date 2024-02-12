@@ -6,16 +6,20 @@ import {
   FetchFunction,
 } from "relay-runtime";
 
+const store = new Store(new RecordSource())
+
 const HTTP_ENDPOINT = "http://localhost:4000/graphql";
 
 const fetchFn: FetchFunction = async (request, variables) => {
+  console.log("fetchFn")
+  const token = localStorage.getItem('token');
+
   const resp = await fetch(HTTP_ENDPOINT, {
     method: "POST",
     headers: {
-      Accept:
-        "application/graphql-response+json; charset=utf-8, application/json; charset=utf-8",
+      Accept: "application/json",
       "Content-Type": "application/json",
-      // will add auth headers later
+      Authorization: token ? `Bearer ${token}` : '',
     },
     body: JSON.stringify({
       query: request.text,
@@ -26,11 +30,9 @@ const fetchFn: FetchFunction = async (request, variables) => {
   return await resp.json();
 };
 
-function createRelayEnvironment() {
-  return new Environment({
-    network: Network.create(fetchFn),
-    store: new Store(new RecordSource()),
-  });
-}
+const envirionment = new Environment({
+  network: Network.create(fetchFn),
+  store: new Store(new RecordSource()),
+});
 
-export const RelayEnvironment = createRelayEnvironment();
+export default envirionment;
