@@ -13,10 +13,8 @@ function LoginPage() {
     const handleLogin = () => {
         LoginMutation(email, password.toString(), (userId, token) => {
             _saveUserData(userId, token)
-            console.log("user id: ", userId)
             console.log(localStorage.getItem(GC_AUTH_TOKEN))
             console.log(localStorage.getItem(GC_USER_ID))
-            console.log("Login Success!")
         })
     }
 
