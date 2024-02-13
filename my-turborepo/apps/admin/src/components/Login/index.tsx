@@ -4,21 +4,25 @@ import { ArticleComponent } from "@repo/ui/src/Article";
 import {GC_AUTH_TOKEN, GC_USER_ID} from "../../constants.ts";
 import LoginMutation from "../../mutations/LoginMutation.ts";
 
-function LoginPage() {
+function LoginPage({ setIsLoggedIn }) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const handleLogin = () => {
+        setLoading(true);
         LoginMutation(email, password.toString(), (userId, token) => {
-            _saveUserData(userId, token)
-            console.log(localStorage.getItem(GC_AUTH_TOKEN))
-            console.log(localStorage.getItem(GC_USER_ID))
-        })
-    }
+            saveUserData(userId, token);
+            setIsLoggedIn(true);
+        }, (error) => {
+            setLoading(false);
+            setError(error);
+        });
+    };
 
-    const _saveUserData = (id: string, token: string) => {
+
+    const saveUserData = (id: string, token: string) => {
         localStorage.setItem(GC_USER_ID, id)
         localStorage.setItem(GC_AUTH_TOKEN, token)
     }
