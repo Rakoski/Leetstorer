@@ -31,7 +31,7 @@ const mutation = graphql`
       }
 `;
 
-export default (username, email, password, callback) => {
+export default (username, email, password, callback, p: (error) => void) => {
     const variables = {
         userInput: {
             username,

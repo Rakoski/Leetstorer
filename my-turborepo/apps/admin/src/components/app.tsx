@@ -28,7 +28,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/register" element={!isLoggedIn ? <RegistrationPage /> : <Navigate to="/dashboard" />} />
+                <Route path="/register" element={!isLoggedIn ? <RegistrationPage setIsLoggedIn={setIsLoggedIn}/> : <Navigate to="/dashboard" />} />
                 <Route path="/" element={!isLoggedIn ? <LoginPage setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />} />
             </Routes>

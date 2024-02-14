@@ -7,20 +7,15 @@ import LoginMutation from "../../mutations/LoginMutation.ts";
 function LoginPage({ setIsLoggedIn }) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     const handleLogin = () => {
-        setLoading(true);
         LoginMutation(email, password.toString(), (userId, token) => {
             saveUserData(userId, token);
             setIsLoggedIn(true);
         }, (error) => {
-            setLoading(false);
-            setError(error);
+            alert("Error in Logging in.")
         });
     };
-
 
     const saveUserData = (id: string, token: string) => {
         localStorage.setItem(GC_USER_ID, id)
@@ -35,8 +30,6 @@ function LoginPage({ setIsLoggedIn }) {
     return (
         <div>
             <ArticleComponent title="Sign in on LeetStorer" fields={loginFields} onClick={handleLogin} isLoginComponent={true} />
-            {loading && <div>Loading...</div>}
-            {error && <div>Error: {error.message}</div>}
         </div>
     );
 }
