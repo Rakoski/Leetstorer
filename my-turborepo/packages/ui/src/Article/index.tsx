@@ -41,7 +41,7 @@ export function ArticleComponent({
                 </div>
                     :
                 <div>
-                    <Link children="Already a member?"  href={"/login"}/>
+                    <Link children="Already a member?"  href={"/"}/>
                 </div>)}
         </div>
     );

@@ -4,23 +4,20 @@ import { ArticleComponent } from "@repo/ui/src/Article";
 import {GC_AUTH_TOKEN, GC_USER_ID} from "../../constants.ts";
 import LoginMutation from "../../mutations/LoginMutation.ts";
 
-function LoginPage() {
+function LoginPage({ setIsLoggedIn }) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     const handleLogin = () => {
         LoginMutation(email, password.toString(), (userId, token) => {
-            _saveUserData(userId, token)
-            console.log("user id: ", userId)
-            console.log(localStorage.getItem(GC_AUTH_TOKEN))
-            console.log(localStorage.getItem(GC_USER_ID))
-            console.log("Login Success!")
-        })
-    }
+            saveUserData(userId, token);
+            setIsLoggedIn(true);
+        }, (error) => {
+            alert("Error in Logging in.")
+        });
+    };
 
-    const _saveUserData = (id: string, token: string) => {
+    const saveUserData = (id: string, token: string) => {
         localStorage.setItem(GC_USER_ID, id)
         localStorage.setItem(GC_AUTH_TOKEN, token)
     }
@@ -33,8 +30,6 @@ function LoginPage() {
     return (
         <div>
             <ArticleComponent title="Sign in on LeetStorer" fields={loginFields} onClick={handleLogin} isLoginComponent={true} />
-            {loading && <div>Loading...</div>}
-            {error && <div>Error: {error.message}</div>}
         </div>
     );
 }

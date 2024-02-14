@@ -58,7 +58,7 @@ module.exports = {
 
             const result = await user.save();
 
-            return { ...result, password: null, _id: result._id, email: result.email };
+            return { ...result, password: null, _id: result._id, email: result.email, username: result.username };
 
         } catch (err) {
             log("Error in createUser resolver: ", err);
