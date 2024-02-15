@@ -359,7 +359,7 @@ To create a new problem, you can use the following example mutation:
     }
 
 ## Technologies Used
-- Pnpm as a package manager
+- Pnpm 
 - Node.js,
 - Ts-node,
 - TypeScript,
