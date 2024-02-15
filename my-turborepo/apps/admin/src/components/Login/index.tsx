@@ -13,7 +13,7 @@ function LoginPage({ setIsLoggedIn }) {
             saveUserData(userId, token);
             setIsLoggedIn(true);
         }, (error) => {
-            alert("Error in Logging in.")
+            alert("Error in user Login.")
         });
     };
 
