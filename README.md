@@ -30,7 +30,6 @@ Before you begin, ensure you have the following installed on your machine:
    ```
    pnpm install turbo --global
 
-
 3. Clone the repository:
 
      ```
