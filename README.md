@@ -23,31 +23,35 @@ Before you begin, ensure you have the following installed on your machine:
 - Node.js (version 18.7.X or above)
 - pnpm (version 8.X.X)
 - MongoDB (running locally or a connection to a MongoDB instance)
-- Turbo and turborepo installed (you can install it here: <code>npm install -g @turbo/turbo</code>)
 
 ### Configuration
 
-1. Clone the repository:
+1. Install turborepo:
+   ```
+   pnpm install turbo --global
+
+
+3. Clone the repository:
 
      ```
      git clone https://github.com/Rakoski/leetcode-problem-storer.git
 
-2. Navigate to the project directory:
+4. Navigate to the project directory:
 
      ```
      cd my-turborepo
-3. Install dependencies for both the server and client:
+5. Install dependencies for both the server and client:
 
     ```
     pnpm install
     pnpm build
     pnpm dev
-4. Testing and linting
+6. Testing and linting
 
     ```
     pnpm lint
     pnpm test
-5. Start the project
+7. Start the project
 
     ```
     turbo build dev
@@ -356,6 +360,7 @@ To create a new problem, you can use the following example mutation:
     }
 
 ## Technologies Used
+- Pnpm as a package manager
 - Node.js,
 - Ts-node,
 - TypeScript,
