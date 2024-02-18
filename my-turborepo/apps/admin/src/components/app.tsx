@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import RegistrationPage from "./Registration";
 import LoginPage from "./Login";
-import Dashboard from "./Dashboard";
+import Dashboard from "./Header";
 import { GC_AUTH_TOKEN, GC_USER_ID } from "../constants.ts";
 
 function App() {
