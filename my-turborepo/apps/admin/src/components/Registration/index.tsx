@@ -34,7 +34,7 @@ function RegistrationPage({ setIsLoggedIn }) {
 
     return (
         <div>
-            <ArticleComponent title="Sign up for Leetstorer!" fields={registrationFields} onClick={handleRegistration} isLoginComponent={false} />
+            <ArticleComponent title="Sign up for Leetstorer" fields={registrationFields} onClick={handleRegistration} isLoginComponent={false} />
         </div>
     );
 }
