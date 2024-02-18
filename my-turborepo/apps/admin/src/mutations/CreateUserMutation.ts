@@ -4,6 +4,8 @@ import {
 } from 'react-relay'
 import environment from '../RelayEnvironment.ts'
 
+const a: number = 5;
+
 const mutation = graphql`
     mutation CreateUserMutation($userInput: UserInput!, $email: String!, $password: String!) {
         createUser(userInput: $userInput) {
