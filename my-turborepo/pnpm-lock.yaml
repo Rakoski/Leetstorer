@@ -315,6 +315,9 @@ importers:
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.10.0)
+      react-router-dom:
+        specifier: ^6.22.0
+        version: 6.22.0(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*

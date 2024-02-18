@@ -1,24 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { GC_AUTH_TOKEN, GC_USER_ID } from "../../constants.ts";
+import Header from "@repo/ui/src/Header";
 
-function Header() {
+function Dashboard() {
+    const navigate = useNavigate();
+
     return (
-        <header>
-            <div className="container">
-                <h1>Leetstorer</h1>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/view">View My Problems</Link>
-                        </li>
-                        <li>
-                            <Link to="/add">Add a Problem</Link>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
+        <>
+            <Header />
+            <h2>Dashboard</h2>
+        </>
     );
 }
 
-export default Header;
+export default Dashboard;
