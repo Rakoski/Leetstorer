@@ -54,7 +54,7 @@ export default (username, email, password, callback, p: (error) => void) => {
                 const token = response.login.token;
                 callback(id, token);
             },
-            onError: err => console.error(err),
+            onError: err => alert("Senha ou login incorretos!"),
         },
     );
 };
