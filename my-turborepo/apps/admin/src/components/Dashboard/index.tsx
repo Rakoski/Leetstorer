@@ -76,6 +76,7 @@ function Dashboard() {
                         <p className="problem-description">{problem.description}</p>
                     </div>
                 ))}
+
             </div>
         </>
     );
