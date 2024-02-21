@@ -23,31 +23,34 @@ Before you begin, ensure you have the following installed on your machine:
 - Node.js (version 18.7.X or above)
 - pnpm (version 8.X.X)
 - MongoDB (running locally or a connection to a MongoDB instance)
-- Turbo and turborepo installed
 
 ### Configuration
 
-1. Clone the repository:
+1. Install turborepo:
+   ```
+   pnpm install turbo --global
+
+3. Clone the repository:
 
      ```
      git clone https://github.com/Rakoski/leetcode-problem-storer.git
 
-2. Navigate to the project directory:
+4. Navigate to the project directory:
 
      ```
      cd my-turborepo
-3. Install dependencies for both the server and client:
+5. Install dependencies for both the server and client:
 
     ```
     pnpm install
     pnpm build
     pnpm dev
-4. Testing and linting
+6. Testing and linting
 
     ```
     pnpm lint
     pnpm test
-5. Start the project
+7. Start the project
 
     ```
     turbo build dev
@@ -56,7 +59,6 @@ Before you begin, ensure you have the following installed on your machine:
 The project is organized with turborepo:
 
 <code>
-.idea/
 my-turborepo/
     |- apps/
           |- admin/
@@ -64,30 +66,64 @@ my-turborepo/
                       |- favicon.ico
                 |- src/
                       |- app/
-                           |- index.tsx
-                           |- styles.css
+                           |- components/
+                               |- Dashboard/
+                                    |- index.tsx
+                                    |- styles.css
+                               |- Login/
+                                    |- index.tsx
+                                    |- styles.css
+                               |- Registration/
+                                    |- index.tsx
+                                    |- styles.css
+                               |- app.tsx
+                           |- mutations/
+                               |- CreateUserMutation.ts
+                               |- LoginMutation.ts
+                           |- RelayEnvironment.ts
+                           |- constants.ts
+                           |- index.css
+                           |-  main.tsx
+                           |- schema.graphql
                       |- index.css
                       |- main.tsx
                 |- .eslintrc.js
+                |- .gitattributes
+                |- index.html
                 |- package.json
+                |- relay.config.json
                 |- turbo.json
                 |- vite.config.ts
                 |- tsconfig.json
           |- api/
                 |- src/
-                      |- __tests__/
-                          |- server.test.ts
-                      |- models/
-                          |- problem.ts
-                          |- user.ts
-                      |- graphql.ts
-                      |- server.ts
-                      |- userResolver.ts
+                    |- __tests__/
+                        |- server.test.ts    
+                    |- graphql/
+                        |- resolvers/
+                            |- utils/
+                                |- problemCreator.ts
+                                |- problemInterface.ts
+                                |- userCreator.ts
+                                |- userInterface.ts
+                            |- problemResolver.ts
+                            |- userResolver.ts
+                        |- schema/
+                            |- index.ts 
+                    |- middleware/
+                        |- is-auth.ts 
+                    |- models/
+                        |- problem.ts
+                        |- user.ts
+                    |- graphql.ts
+                    |- index.ts
+                    |- server.ts
+                |- .env
                 |- .eslintrc.js
                 |- package.json
-                |- turbo.json
-                |- vite.config.ts
                 |- tsconfig.json
+                |- tsup.config.ts
+                |- turbo.json
           |- blog/
                 |- app/
                       |- routes/
@@ -235,7 +271,7 @@ To create a new problem, you can use the following example mutation:
         }
     }
 
-## API Endpoints
+## Schema Documentation
 
     """
     Represents a programming problem in the system.
@@ -299,18 +335,18 @@ To create a new problem, you can use the following example mutation:
     Root query for fetching data.
     """
     type RootQuery {
-        problems: [Problem!]!  # Retrieve a list of all problems.
-        users: [User!]!  # Retrieve a list of all users.
-        login(email: String!, password: String!): AuthData!  # Perform user login.
+        problems: [Problem!]!  
+        users: [User!]!  
     }
     
     """
     Root mutation for creating, updating, or deleting data.
     """
     type RootMutation {
-        createProblem(problemInput: ProblemInput): Problem  # Create a new problem.
-        createUser(userInput: UserInput): User  # Create a new user.
-        associateUserWithProblem(userId: ID!, problemId: ID!): Problem  # Associate a user with a problem.
+        createProblem(problemInput: ProblemInput): Problem 
+        createUser(userInput: UserInput): User  
+        login(email: String!, password: String!): AuthData! 
+        associateUserWithProblem(userId: ID!, problemId: ID!): Problem  
     }
     
     """
@@ -322,6 +358,7 @@ To create a new problem, you can use the following example mutation:
     }
 
 ## Technologies Used
+- Pnpm 
 - Node.js,
 - Ts-node,
 - TypeScript,
