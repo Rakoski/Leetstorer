@@ -1,4 +1,4 @@
-# Leetcode Storage App
+# Leetstorer Storage App for Leetcode
 
 This project is a leetcode problem storage web app built using Turborepo, Relay, TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their leetcode problems they have solved. This is meant as a training project for those technologies and woovi's training playground. 
 
