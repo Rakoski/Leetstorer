@@ -13,7 +13,7 @@ function LoginPage({ setIsLoggedIn }) {
             saveUserData(userId, token);
             setIsLoggedIn(true);
         }, (error) => {
-            alert("Error in user Login.")
+            alert("Incorrect email or password.")
         });
     };
 
