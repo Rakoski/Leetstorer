@@ -6,8 +6,6 @@ import "./index.css"
 
 function Dashboard() {
     const navigate = useNavigate();
-
-    // Placeholder data for LeetCode problems
     const [problems, setProblems] = useState([
         {
             title: "Two Sum",
