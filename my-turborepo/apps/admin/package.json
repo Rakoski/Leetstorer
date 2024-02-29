@@ -11,6 +11,7 @@
     "relay": "relay-compiler"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.5",
     "@repo/ui": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
