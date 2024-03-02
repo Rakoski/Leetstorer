@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import Header from "@repo/ui/src/Header";
@@ -6,31 +6,59 @@ import "./index.css";
 
 const GET_PROBLEMS = gql`
     query {
-        problems {
-            title
-            description
-            level
-            frequency
-            link
-            data_structure
-            date
+        users {
+            createdProblems {
+                title
+                description
+                level
+                frequency
+                link
+                data_structure
+                date
+            }
         }
     }
 `;
 
 function Dashboard() {
     const navigate = useNavigate();
+    const [problems, setProblems] = useState([]);
 
-    const { loading, error, data } = useQuery(GET_PROBLEMS);
+    useEffect(() => {
+        const authToken = localStorage.getItem("GC_AUTH_TOKEN");
+        const userId = localStorage.getItem("GC_USER_ID");
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+        console.log("authtoken e userId: ", authToken, userId)
+
+        if (authToken && userId) {
+            fetchProblems(authToken, userId).catch(error => console.log("error: ", error));
+        } else {
+            console.log("error ao mandar a requisição")
+        }
+    }, []);
+
+    const fetchProblems = async (authToken, userId) => {
+        const { loading, error, data } = await useQuery(GET_PROBLEMS, {
+            context: {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                    "GC-USER-ID": userId,
+                },
+            },
+        });
+
+        if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error: {error.message}</p>;
+
+        // Set the fetched problems to state
+        setProblems(data.users[0].createdProblems);
+    };
 
     return (
         <>
             <Header />
             <div className="problem-list">
-                {data.problems.map((problem, index) => (
+                {problems.map((problem, index) => (
                     <div
                         key={index}
                         className="problem-item"
