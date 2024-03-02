@@ -19,7 +19,7 @@ module.exports = {
             users = await User.find().populate('createdProblems');
 
             return users.map((user: { _doc: { _id: string }, _id: string, username: string, email: string,
-                createdProblems: Array<ProblemInterface> }) => ({
+                createdProblems: Array<ProblemInterface>}) => ({
                 ...user,
                 _id: user._id.toString(),
                 email: user.email,
@@ -81,9 +81,42 @@ module.exports = {
 
             const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY, { expiresIn: '1h' });
 
-            return { userId: user.id, token, tokenExpiration: 1 };
+            return { userId: user.id, token, tokenExpiration: 48 };
         } catch (err) {
             console.error("Error in login:", err.message);
+            throw err;
+        }
+    },
+
+    // because I configured my server without the proper relay modifications, I will need to do some concessions,
+    // mainly, I basically cannot do queries since I don't have the Node type. I will then, use mutations to fetch
+    // my users problems.
+    getUserProblems: async ({ userId }: { userId: string }, req: {isAuth: boolean}) => {
+        if (!req.isAuth) {
+            throw new Error("Unauthorized!");
+        }
+
+        try {
+            let user = new User()
+
+            user = await User.findById(userId).populate('createdProblems');
+
+            if (!user) {
+                return new Error("User not found!");
+            }
+
+            return user.createdProblems.map((problem: object) => ({
+                _id: problem._id.toString(),
+                title: problem.title,
+                level: problem.level,
+                description: problem.description,
+                frequency: problem.frequency,
+                link: problem.link,
+                data_structure: problem.data_structure,
+                date: problem.date.toString()
+            }));
+        } catch (err) {
+            console.log("Error in getUserProblems resolver: ", err);
             throw err;
         }
     },
