@@ -8,17 +8,12 @@ export const metadata = {
 export default function Store(): JSX.Element {
   log("Hey! This is the Store page.");
 
-  function handleOnClick() {
-      console.log("Button clicked")
-  }
-
   return (
     <div className="container">
       <h1 className="title">
         Store <br />
         <span>Kitchen Sink</span>
       </h1>
-      <CounterButton onClick={handleOnClick}/>
       <p className="description">
         Built With{" "}
         <Link href="https://turbo.build/repo" newTab>

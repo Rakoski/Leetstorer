@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
 import { ArticleComponent } from "@repo/ui/src/Article";
-import {GC_AUTH_TOKEN, GC_USER_ID} from "../../constants.ts";
 import LoginMutation from "../../mutations/LoginMutation.ts";
 
 function LoginPage({ setIsLoggedIn }) {
@@ -10,17 +9,13 @@ function LoginPage({ setIsLoggedIn }) {
 
     const handleLogin = () => {
         LoginMutation(email, password.toString(), (userId, token) => {
-            saveUserData(userId, token);
+            localStorage.setItem("GC_USER_ID", userId)
+            localStorage.setItem("GC_AUTH_TOKEN", token)
             setIsLoggedIn(true);
         }, (error) => {
             alert("Incorrect email or password.")
         });
     };
-
-    const saveUserData = (id: string, token: string) => {
-        localStorage.setItem(GC_USER_ID, id)
-        localStorage.setItem(GC_AUTH_TOKEN, token)
-    }
 
     const loginFields = [
         <InputField key="email" label={"Email"} type="email" value={email} onChange={(event) => {setEmail(event.target.value)}} />,

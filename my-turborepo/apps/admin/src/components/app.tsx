@@ -8,22 +8,6 @@ import { GC_AUTH_TOKEN, GC_USER_ID } from "../constants.ts";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        const handlePopState = () => {
-            if (!history.state && isLoggedIn) {
-                localStorage.removeItem(GC_USER_ID);
-                localStorage.removeItem(GC_AUTH_TOKEN);
-                setIsLoggedIn(false);
-            }
-        };
-
-        window.addEventListener("popstate", handlePopState);
-
-        return () => {
-            window.removeEventListener("popstate", handlePopState);
-        };
-    }, [isLoggedIn]);
-
 
     return (
         <Router>

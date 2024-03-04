@@ -7,10 +7,6 @@ const userCreator = require('./utils/userCreator.ts');
 
 module.exports = {
     problems: async (args: object, req: {isAuth: boolean}) => {
-        if (!req.isAuth) {
-            throw new Error("Unauthorized!")
-        }
-
         try {
             const problems = await Problem.find();
             const populatedProblems = [];
