@@ -91,7 +91,7 @@ module.exports = {
     // because I configured my server without the proper relay modifications, I will need to do some concessions,
     // mainly, I basically cannot do queries since I don't have the Node type. I will then, use mutations to fetch
     // my users problems.
-    getUserProblems: async ({ userId }: { userId: string }, req: {isAuth: boolean}) => {
+    getUserProblems: async (args: { userId: string }, req: {isAuth: boolean}) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!");
         }
@@ -99,7 +99,7 @@ module.exports = {
         try {
             let user = new User()
 
-            user = await User.findById(userId).populate('createdProblems');
+            user = await User.findById(args.userId).populate('createdProblems');
 
             if (!user) {
                 return new Error("User not found!");

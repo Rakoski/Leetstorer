@@ -11,8 +11,7 @@ const store = new Store(new RecordSource())
 const HTTP_ENDPOINT = "http://localhost:4000/graphql";
 
 const fetchFn: FetchFunction = async (request, variables) => {
-  console.log("fetchFn")
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('GC_AUTH_TOKEN');
 
   const resp = await fetch(HTTP_ENDPOINT, {
     method: "POST",

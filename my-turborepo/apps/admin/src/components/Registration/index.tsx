@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
 import { ArticleComponent } from "@repo/ui/src/Article";
-import { GC_AUTH_TOKEN, GC_USER_ID } from "../../constants.ts";
 import CreateUserMutation from "../../mutations/CreateUserMutation.ts";
 import LoginMutation from "../../mutations/LoginMutation.ts";
 
