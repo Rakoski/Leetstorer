@@ -1,0 +1,15 @@
+button.clicked {
+    animation: clickEffect 0.5s linear;
+}
+
+@keyframes clickEffect {
+    0% {
+        background-color: black;
+    }
+    50% {
+        background-color: darkblue;
+    }
+    100% {
+        background-color: black;
+    }
+}

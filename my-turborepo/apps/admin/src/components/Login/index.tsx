@@ -8,6 +8,9 @@ function LoginPage({ setIsLoggedIn }) {
     const [email, setEmail] = useState("");
 
     const handleLogin = () => {
+        if (!email || !password) {
+            return;
+        }
         LoginMutation(email, password.toString(), (userId, token) => {
             localStorage.setItem("GC_USER_ID", userId)
             localStorage.setItem("GC_AUTH_TOKEN", token)
