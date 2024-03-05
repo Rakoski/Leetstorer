@@ -11,6 +11,9 @@ function RegistrationPage({ setIsLoggedIn }) {
     const [loading, setLoading] = useState(false);
     
     const handleRegistration = () => {
+        if (!email || !password || !username) {
+            return;
+        }
         setLoading(true);
         CreateUserMutation(username, email, password, (userId, token) => {
             saveUserData(userId, token);
@@ -21,8 +24,8 @@ function RegistrationPage({ setIsLoggedIn }) {
     };
 
     const saveUserData = (id: string, token: string) => {
-        localStorage.setItem(GC_USER_ID, id)
-        localStorage.setItem(GC_AUTH_TOKEN, token)
+        localStorage.setItem("GC_USER_ID", id)
+        localStorage.setItem("GC_AUTH_TOKEN", token)
     }
 
     const registrationFields = [

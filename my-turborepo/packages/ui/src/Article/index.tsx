@@ -2,7 +2,7 @@ import React from "react";
 import { CounterButton } from "../CounterButton";
 import { Link } from "../Link";
 import { Fragment } from "react";
-import "./index.css";
+import "./styles.css";
 
 export function ArticleComponent({
      title,
@@ -26,7 +26,7 @@ export function ArticleComponent({
                     </Fragment>
                 ))}
                 <div style={{ marginTop: "30px" }}>
-                    <CounterButton onClick={onClick} />
+                    <CounterButton onClick={onClick} isLoginComponent={isLoginComponent}/>
                 </div>
             </form>
             <p className="description">
