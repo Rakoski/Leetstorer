@@ -6,8 +6,6 @@ import {
   FetchFunction,
 } from "relay-runtime";
 
-const store = new Store(new RecordSource())
-
 const HTTP_ENDPOINT = "http://localhost:4000/graphql";
 
 const fetchFn: FetchFunction = async (request, variables) => {
