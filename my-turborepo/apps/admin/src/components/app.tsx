@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import RegistrationPage from "./Registration";
 import LoginPage from "./Login";
 import Dashboard from "./Dashboard";
-import { GC_AUTH_TOKEN, GC_USER_ID } from "../constants.ts";
+import ProblemInfo from "./ProblemInfo";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,6 +15,7 @@ function App() {
                 <Route path="/register" element={!isLoggedIn ? <RegistrationPage setIsLoggedIn={setIsLoggedIn}/> : <Navigate to="/dashboard" />} />
                 <Route path="/" element={!isLoggedIn ? <LoginPage setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />} />
+                <Route path="/problem-info" element={isLoggedIn ? <ProblemInfo /> : <Navigate to="/" />} />
             </Routes>
         </Router>
     );
