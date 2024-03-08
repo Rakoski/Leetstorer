@@ -10,7 +10,7 @@ function RegistrationPage({ setIsLoggedIn }) {
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     
-    const handleRegistration = () => {
+n = () => {
         if (!email || !password || !username) {
             return;
         }
