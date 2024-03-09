@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { CounterButton } from ".";
+import {describe, it} from "jest"
 
 function handleOnClick () {
   console.log("Button clicked")
