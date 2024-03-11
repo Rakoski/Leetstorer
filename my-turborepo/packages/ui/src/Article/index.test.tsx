@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import { ArticleComponent } from ".";
-import {describe, it} from "jest"
 
 function onClick() {
     console.log("Counter button clicked on Article component!")
