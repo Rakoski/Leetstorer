@@ -7,6 +7,7 @@ interface ProblemData {
     title: string;
     level: string;
     description: string;
+    user_description: string;
     frequency: number;
     link: string;
     data_structure: string;
@@ -105,8 +106,8 @@ const ProblemInfo: React.FC = () => {
                                 <DescriptionField value={problem.description} readOnly />
                             </FieldContainer>
                             <FieldContainer>
-                                <FieldTitle>Frequency</FieldTitle>
-                                <InfoField value={problem.frequency.toString()} readOnly />
+                                <FieldTitle>Notes</FieldTitle>
+                                <DescriptionField value={problem.user_description} readOnly />
                             </FieldContainer>
                         </LeftColumn>
                         <RightColumn>
@@ -121,6 +122,10 @@ const ProblemInfo: React.FC = () => {
                             <FieldContainer>
                                 <FieldTitle>Date of Completion</FieldTitle>
                                 <DateField value={formatDate(problem.date)} readOnly />
+                            </FieldContainer>
+                            <FieldContainer>
+                                <FieldTitle>Frequency</FieldTitle>
+                                <InfoField value={problem.frequency.toString()} readOnly />
                             </FieldContainer>
                         </RightColumn>
                     </FieldsContainer>

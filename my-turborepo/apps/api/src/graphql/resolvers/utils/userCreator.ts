@@ -21,6 +21,7 @@ const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise
                 title: problem.title,
                 level: problem.level,
                 description: problem.description,
+                user_description: problem.user_description,
                 frequency: problem.frequency,
                 link: problem.link,
                 data_structure: problem.data_structure,
