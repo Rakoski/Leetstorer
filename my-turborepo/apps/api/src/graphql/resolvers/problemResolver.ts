@@ -7,6 +7,10 @@ const userCreator = require('./utils/userCreator.ts');
 
 module.exports = {
     problems: async (args: object, req: {isAuth: boolean}) => {
+        if (!req.isAuth) {
+            throw new Error("Unauthorized")
+        }
+
         try {
             const problems = await Problem.find();
             const populatedProblems = [];
@@ -28,16 +32,16 @@ module.exports = {
             throw err;
         }
     },
-    createProblem: async (args: {problemInput: { title: string; description: string; level: string;
-        frequency: number; link: string; data_structure: string; date: string; userId: string }},
-                          req: {isAuth: boolean}) => {
+    createProblem: async (args: {problemInput: { title: string; description: string; user_description: string;
+        level: string; frequency: number; link: string; data_structure: string; date: string; userId: string }},
+    req: {isAuth: boolean}) => {
 
         if (!req.isAuth) {
             throw new Error("Unauthorized!")
         }
 
         try {
-            const { title, description, level, frequency, link,
+            const { title, description, user_description, level, frequency, link,
                 data_structure, date, userId } = args.problemInput;
 
             let user = null
@@ -45,12 +49,13 @@ module.exports = {
             user = await User.findById(userId);
 
             if (!user) {
-                throw new Error("User not found");
+                return new Error("User not found");
             }
 
             const problem = new Problem({
                 title,
                 description,
+                user_description,
                 level,
                 frequency,
                 link,

@@ -9,8 +9,8 @@ function RegistrationPage({ setIsLoggedIn }) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
-    
-n = () => {
+
+    const handleRegistration = () => {
         if (!email || !password || !username) {
             return;
         }

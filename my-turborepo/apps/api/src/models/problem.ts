@@ -15,6 +15,10 @@ const problemSchema = new Schema({
         type: String,
         required: true
     },
+    user_description: {
+        type: String,
+        required: true
+    },
     frequency: {
         type: Number,
         require: true

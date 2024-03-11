@@ -6,6 +6,7 @@ module.exports = buildSchema(`
     title: String!
     level: String!
     description: String!
+    user_description: String!
     frequency: Float!
     link: String!
     data_structure: String!

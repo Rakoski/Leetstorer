@@ -7,6 +7,7 @@ export interface ProblemInterface extends Document {
     title: string;
     level: string;
     description: string;
+    user_description: string,
     frequency: number;
     link: string;
     data_structure: string;
