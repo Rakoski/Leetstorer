@@ -4,8 +4,6 @@ import {
 } from 'react-relay'
 import environment from '../RelayEnvironment.ts'
 
-const a: number = 5;
-
 // createProblem(problemInput: ProblemInput!): Problem
 const mutation = graphql`
     mutation CreateProblemMutation($problemInput: ProblemInput!) {
@@ -19,35 +17,30 @@ const mutation = graphql`
             link
             data_structure
             date
-            createdProblems {
+            creator {
                 _id
-                title
-                level
-                description
-                frequency
-                link
-                data_structure
-                date
+                username
+                email
             }
-        }
-
-        login(email: $email, password: $password) {
-            userId
-            token
-            tokenExpiration
         }
     }
 `;
 
-export default (username, email, password, callback, p: (error) => void) => {
+export default (problemInput: {title: string, level: string, description: string
+userDescription: string, frequency: string, link: string, dataStructure: string
+date: string, userId: string}, callback, p: (error) => void) => {
     const variables = {
-        userInput: {
-            username,
-            email,
-            password
+        problemInput: {
+            title: problemInput.title,
+            level: problemInput.level,
+            description: problemInput.description,
+            user_description: problemInput.userDescription,
+            frequency: problemInput.frequency,
+            link: problemInput.link,
+            data_structure: problemInput.dataStructure,
+            date: problemInput.date,
+            userId: problemInput.userId,
         },
-        email,
-        password
     };
 
     commitMutation(
@@ -55,12 +48,11 @@ export default (username, email, password, callback, p: (error) => void) => {
         {
             mutation,
             variables,
-            onCompleted: (response: {createUser: {_id: string}, login: {token: string}}) => {
-                const id = response.createUser._id;
-                const token = response.login.token;
-                callback(id, token);
+            onCompleted: (response: {createProblem: unknown}) => {
+                const createdProblem = response.createProblem;
+                callback(createdProblem);
             },
-            onError: err => alert("Senha ou login incorretos!"),
+            onError: (err) => console.log(err),
         },
     );
 };
