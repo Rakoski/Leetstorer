@@ -7,6 +7,7 @@ This project is a coding problem storage web app built using Turborepo, Relay, T
 - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
 - [Configuration](#configuration)
+- [Schema](#schema)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
@@ -270,7 +271,7 @@ To create a new problem, you can use the following example mutation:
         }
     }
 
-## Schema Documentation
+## Schema
 
     """
     Represents a programming problem in the system.
