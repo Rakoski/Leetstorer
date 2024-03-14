@@ -8,7 +8,6 @@ This project is a coding problem storage web app built using Turborepo, Relay, T
     - [Prerequisites](#prerequisites)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
