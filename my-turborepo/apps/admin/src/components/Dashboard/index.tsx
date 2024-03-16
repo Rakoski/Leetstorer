@@ -43,7 +43,6 @@ const Dashboard: React.FC = () => {
 
     return (
         <>
-            <Header />
             <div className="problem-list">
                 {problems.map((problem, index) => (
                     <div
