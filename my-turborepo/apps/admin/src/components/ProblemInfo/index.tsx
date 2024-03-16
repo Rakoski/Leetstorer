@@ -91,7 +91,6 @@ const ProblemInfo: React.FC = () => {
 
     return (
         <div>
-            <Header />
             <ProblemInfoContainer>
                 <ProblemTitle>{problem?.title}</ProblemTitle>
                 {problem ? (
