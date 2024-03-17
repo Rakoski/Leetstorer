@@ -66,3 +66,9 @@ nav ul li a:hover {
     margin-top: 10px;
     color: #333;
 }
+
+@media (max-width: 768px) {
+    .problem-description {
+        display: none;
+    }
+}
