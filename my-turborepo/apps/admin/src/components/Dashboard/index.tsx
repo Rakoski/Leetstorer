@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@repo/ui/src/Header';
 import './styles.css';
 import GetUserProblemsMutation from '../../mutations/GetUserProblemsMutation.ts';
 

@@ -1,5 +1,5 @@
 import {createRoot} from "react-dom/client";
-import {CounterButton} from "../CounterButton";
+import {CounterButton} from "../LoginRegisterButton";
 import Header from "./index.tsx";
 
 describe("CounterButton", () => {

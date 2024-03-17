@@ -1,5 +1,5 @@
 import React from "react";
-import { CounterButton } from "../CounterButton";
+import { CounterButton } from "../LoginRegisterButton";
 import { Link } from "../Link";
 import { Fragment } from "react";
 import "./styles.css";

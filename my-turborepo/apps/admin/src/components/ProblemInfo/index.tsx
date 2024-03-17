@@ -1,7 +1,15 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import Header from '@repo/ui/src/Header';
-import styled from 'styled-components';
+import FieldTitle from '@repo/ui/src/FieldTitle'
+import FieldContainer from "@repo/ui/src/FieldContainer";
+import LeftColumn from "@repo/ui/src/LeftColumn";
+import FieldsContainer from "@repo/ui/src/FieldsContainer";
+import ProblemTitle from "@repo/ui/src/ProblemTItle";
+import ProblemInfoContainer from "@repo/ui/src/ProblemInfoContainer";
+import InfoField from "@repo/ui/src/InfoField";
+import RightColumn from "@repo/ui/src/RightColumn";
+import DescriptionField from "@repo/ui/src/DescriptionField";
+import DateField from "@repo/ui/src/DateField";
 
 interface ProblemData {
     title: string;
@@ -13,69 +21,6 @@ interface ProblemData {
     data_structure: string;
     date: string;
 }
-
-const ProblemInfoContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-`;
-
-const ProblemTitle = styled.h2`
-    font-size: 2rem;
-    margin-bottom: 1rem;
-`;
-
-const FieldsContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px;
-`;
-
-const LeftColumn = styled.div`
-    flex: 1;
-    margin-right: 5rem;
-`;
-
-const RightColumn = styled.div`
-    flex: 1;
-`;
-
-const FieldContainer = styled.div`
-    margin-bottom: 1.5rem;
-`;
-
-const FieldTitle = styled.h3`
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-`;
-
-const InfoField = styled.input`
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1.1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-`;
-
-const DescriptionField = styled.textarea`
-    width: 100%;
-    height: 130px;
-    padding: 0.8rem;
-    font-size: 1.1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-`;
-
-const DateField = styled.input`
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1.1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-`;
 
 const ProblemInfo: React.FC = () => {
     const location = useLocation();
