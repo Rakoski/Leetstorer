@@ -7,6 +7,7 @@ const mutation = graphql`
             title
             level
             description
+            user_description
             frequency
             link
             data_structure

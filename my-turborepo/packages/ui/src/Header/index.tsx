@@ -10,7 +10,7 @@ function Header() {
                 <nav>
                     <ul className="nav-links">
                         <li>
-                            <Link to="/Dashboard">View My Problems</Link>
+                            <Link to="/dashboard">View My Problems</Link>
                         </li>
                         <li>
                             <Link to="/add">Add New Problem</Link>
