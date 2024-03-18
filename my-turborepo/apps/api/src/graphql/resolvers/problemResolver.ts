@@ -76,6 +76,7 @@ module.exports = {
                 title: result.title,
                 level: result.level,
                 description: result.description,
+                user_description: result.user_description,
                 frequency: result.frequency,
                 link: result.link,
                 data_structure: result.data_structure,
