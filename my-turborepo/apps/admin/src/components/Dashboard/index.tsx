@@ -50,7 +50,6 @@ const Dashboard: React.FC = () => {
                         onClick={() => handleProblemClick(problem, index)}
                     >
                         <h3 className="problem-title">{problem.title}</h3>
-                        <p className="problem-description">{problem.description}</p>
                     </div>
                 ))}
             </div>
