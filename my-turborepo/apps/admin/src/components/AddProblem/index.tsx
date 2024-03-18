@@ -10,6 +10,8 @@ import RightColumn from "@repo/ui/src/RightColumn";
 import DescriptionField from "@repo/ui/src/DescriptionField";
 import CreateButton from "@repo/ui/src/CreateButton";
 import DateField from "@repo/ui/src/DateField";
+import CreateProblemMutation from "../../mutations/CreateProblemMutation.ts";
+import {useNavigate} from "react-router-dom";
 
 interface ProblemData {
     title: string;
@@ -20,8 +22,11 @@ interface ProblemData {
     link: string;
     data_structure: string;
     date: string;
+    userId: string
 }
+
 const AddProblem: React.FC = () => {
+    const navigate = useNavigate();
     const [problemData, setProblemData] = useState<ProblemData>({
         title: '',
         level: '',
@@ -31,18 +36,26 @@ const AddProblem: React.FC = () => {
         link: '',
         data_structure: '',
         date: '',
+        userId: localStorage.getItem('GC_USER_ID'),
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+        const numericValue = name === 'frequency' ? parseInt(value, 10) : value;
         setProblemData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: numericValue,
         }));
     };
 
     const handleCreateProblem = () => {
-        console.log('Creating new problem:', problemData);
+        CreateProblemMutation({
+            ...problemData,
+        }, (createdProblem) => {
+            navigate('/dashboard');
+        }, (error) => {
+            console.log("error: ", error)
+        });
     };
 
     return (

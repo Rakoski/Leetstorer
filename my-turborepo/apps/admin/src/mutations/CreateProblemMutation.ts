@@ -26,20 +26,32 @@ const mutation = graphql`
     }
 `;
 
-export default (problemInput: {title: string, level: string, description: string
-userDescription: string, frequency: string, link: string, dataStructure: string
-date: string, userId: string}, callback, p: (error) => void) => {
+export default (
+    problemInput: {
+        date: string;
+        data_structure: string;
+        level: string;
+        link: string;
+        description: string;
+        title: string;
+        user_description: string;
+        frequency: number
+        userId: string
+    },
+    callback: (createdProblem: unknown) => void,
+    onError: (error: unknown) => void,
+) => {
     const variables = {
         problemInput: {
             title: problemInput.title,
             level: problemInput.level,
             description: problemInput.description,
-            user_description: problemInput.userDescription,
+            user_description: problemInput.user_description,
             frequency: problemInput.frequency,
             link: problemInput.link,
-            data_structure: problemInput.dataStructure,
+            data_structure: problemInput.data_structure,
             date: problemInput.date,
-            userId: problemInput.userId,
+            userId: problemInput.userId
         },
     };
 
@@ -48,13 +60,12 @@ date: string, userId: string}, callback, p: (error) => void) => {
         {
             mutation,
             variables,
-            onCompleted: (response: {createProblem: unknown}) => {
+            onCompleted: (response: { createProblem: unknown }) => {
                 const createdProblem = response.createProblem;
                 callback(createdProblem);
+                console.log("createdProblem: ", createdProblem)
             },
-            onError: (err) => console.log(err),
+            onError: (err) => onError(err),
         },
     );
 };
-
-

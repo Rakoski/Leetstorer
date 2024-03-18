@@ -24,6 +24,7 @@ interface ProblemData {
 
 const ProblemInfo: React.FC = () => {
     const location = useLocation();
+    // it needs to be undefined to be called from the app.tsx as a route alternative
     const problem = location.state?.problem as ProblemData | undefined;
 
     const formatDate = (dateString: string) => {
