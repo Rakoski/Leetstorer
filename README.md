@@ -1,14 +1,14 @@
-# Leetstorer, Storage App for Leetcode Problems
+# Leetstorer, Storage App for Solved Coding Problems
 
-This project is a leetcode problem storage web app built using Turborepo, Relay, TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their leetcode problems they have solved. This is meant as a training project for those technologies and woovi's training playground.
+This project is a coding problem storage web app built using Turborepo, Relay, TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their coding problems they have solved. This is meant as a training project for those technologies and woovi's training playground.
 
 ## Table of Contents
 
 - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
 - [Configuration](#configuration)
+- [Schema](#schema)
 - [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
@@ -271,7 +271,7 @@ To create a new problem, you can use the following example mutation:
         }
     }
 
-## Schema Documentation
+## Schema
 
     """
     Represents a programming problem in the system.
