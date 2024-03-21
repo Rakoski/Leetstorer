@@ -107,7 +107,6 @@ export default {
 
         try {
             const { problemInput, problemId } = args;
-
             let problem = null
 
             problem = await Problem.findById(problemId);
