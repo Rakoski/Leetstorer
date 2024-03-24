@@ -5,24 +5,9 @@ const User = require("../../models/user");
 
 const userCreator = require("./utils/userCreator");
 
-interface ProblemInput {
-    title: string;
-    description: string;
-    user_description: string;
-    level: string;
-    frequency: number;
-    link: string;
-    data_structure: string;
-    date: string;
-    userId: string;
-}
 
-interface RequestWithAuth {
-    isAuth: boolean;
-}
-
-export default {
-    problems: async (args: object, req: RequestWithAuth) => {
+module.exports = {
+    problems: async (args: object, req: {isAuth: boolean}) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized");
         }
@@ -47,15 +32,21 @@ export default {
             throw err;
         }
     },
-    createProblem: async (args: { problemInput: ProblemInput }, req: RequestWithAuth) => {
+    createProblem: async (args: {problemInput: { title: string; description: string; user_description: string;
+              level: string; frequency: number; link: string; data_structure: string; date: string; userId: string }},
+              req: {isAuth: boolean}) => {
+
+        log("reached")
+
         if (!req.isAuth) {
-            throw new Error("Unauthorized!");
+            throw new Error("Unauthorized!")
         }
 
         try {
-            const { title, description, user_description, level, frequency, link, data_structure, date, userId } = args.problemInput;
+            const { title, description, user_description, level, frequency, link,
+                data_structure, date, userId } = args.problemInput;
 
-            let user = null;
+            let user = null
 
             user = await User.findById(userId);
 
@@ -84,6 +75,13 @@ export default {
 
             return {
                 _id: result._id.toString(),
+                title: result.title,
+                level: result.level,
+                description: result.description,
+                frequency: result.frequency,
+                link: result.link,
+                data_structure: result.data_structure,
+                date: result.date.toString(),
                 creator: {
                     _id: user._id.toString(),
                     email: user.email,
@@ -98,8 +96,9 @@ export default {
         }
     },
     editProblem: async (
-        args: { problemInput: ProblemInput; problemId: string },
-        req: RequestWithAuth
+        args: {problemInput: { title: string; description: string; user_description: string;
+                level: string; frequency: number; link: string; data_structure: string; date: string; userId: string }},
+        req: {isAuth: boolean}
     ) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!");

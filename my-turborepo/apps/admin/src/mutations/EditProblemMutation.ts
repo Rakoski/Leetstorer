@@ -6,8 +6,8 @@ import environment from '../RelayEnvironment.ts'
 
 // editProblem(problemInput: ProblemInput, problemId: ID!): Problem
 const mutation = graphql`
-    mutation EditProblemMutation($problemInput: ProblemInput!, $_id: ID!) {
-        editProblem(problemInput: $problemInput, problemId: $_id) {
+    mutation EditProblemMutation($problemInput: ProblemInput!, $problemId: ID!) {
+        editProblem(problemInput: $problemInput, problemId: $problemId) {
             _id
             title
             level
@@ -27,7 +27,7 @@ const mutation = graphql`
 `;
 
 export default (
-    _id: string,
+    problemId: string,
     problemInput: {
         date: string;
         data_structure: string;
@@ -36,13 +36,14 @@ export default (
         description: string;
         title: string;
         user_description: string;
-        frequency: number
+        frequency: number;
+        userId: string
     },
     callback: (editedProblem: unknown) => void,
     onError: (error: unknown) => void,
 ) => {
     const variables = {
-        _id,
+        problemId,
         problemInput: {
             title: problemInput.title,
             level: problemInput.level,
@@ -52,6 +53,7 @@ export default (
             link: problemInput.link,
             data_structure: problemInput.data_structure,
             date: problemInput.date,
+            userId: problemInput.userId
         },
     };
 

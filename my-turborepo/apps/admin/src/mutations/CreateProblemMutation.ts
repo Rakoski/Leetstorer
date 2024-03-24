@@ -63,6 +63,7 @@ export default (
             onCompleted: (response: { createProblem: unknown }) => {
                 const createdProblem = response.createProblem;
                 callback(createdProblem);
+                console.log("response: ", response)
                 console.log("createdProblem: ", createdProblem)
             },
             onError: (err) => onError(err),

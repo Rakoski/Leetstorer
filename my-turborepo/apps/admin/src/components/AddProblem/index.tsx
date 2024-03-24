@@ -49,6 +49,7 @@ const AddProblem: React.FC = () => {
     };
 
     const handleCreateProblem = () => {
+        console.log("problem: ", problemData)
         CreateProblemMutation({
             ...problemData,
         }, (createdProblem) => {

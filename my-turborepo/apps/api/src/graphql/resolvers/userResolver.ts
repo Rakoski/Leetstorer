@@ -97,6 +97,8 @@ module.exports = {
             throw new Error("Unauthorized!");
         }
 
+        console.log("getting problems")
+
         try {
             let user = new User()
 
