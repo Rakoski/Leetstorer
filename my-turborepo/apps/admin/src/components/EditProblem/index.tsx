@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import FieldTitle from '@repo/ui/src/FieldTitle'
 import FieldContainer from "@repo/ui/src/FieldContainer";
 import LeftColumn from "@repo/ui/src/LeftColumn";
@@ -10,10 +10,12 @@ import RightColumn from "@repo/ui/src/RightColumn";
 import DescriptionField from "@repo/ui/src/DescriptionField";
 import CreateButton from "@repo/ui/src/CreateButton";
 import DateField from "@repo/ui/src/DateField";
+import {useLocation, useNavigate} from "react-router-dom";
 import CreateProblemMutation from "../../mutations/CreateProblemMutation.ts";
-import {useNavigate} from "react-router-dom";
+import EditProblemMutation from "../../mutations/EditProblemMutation.ts";
 
 interface ProblemData {
+    _id: string
     title: string;
     level: string;
     description: string;
@@ -25,43 +27,52 @@ interface ProblemData {
     userId: string
 }
 
-const AddProblem: React.FC = () => {
+const EditProblem: React.FC = () => {
     const navigate = useNavigate();
-    const [problemData, setProblemData] = useState<ProblemData>({
-        title: '',
-        level: '',
-        description: '',
-        user_description: '',
-        frequency: 0,
-        link: '',
-        data_structure: '',
-        date: '',
-        userId: localStorage.getItem('GC_USER_ID'),
-    });
+    const location = useLocation()
+    const initialProblemData = location.state?.problem as ProblemData;
+    const [problemData, setProblemData] = useState<ProblemData>(initialProblemData);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        const numericValue = name === 'frequency' ? parseInt(value, 10) : value;
-        setProblemData((prevData) => ({
-            ...prevData,
-            [name]: numericValue,
+        setProblemData((prevProblemData) => ({
+            ...prevProblemData,
+            [name]: value,
         }));
     };
 
-    const handleCreateProblem = () => {
-        console.log("problem: ", problemData)
-        CreateProblemMutation({
-            ...problemData,
-        }, (createdProblem) => {
-            navigate('/dashboard');
-        }, (error) => {
-            console.log("error: ", error)
-        });
-    };
+    useEffect(() => {
+        console.log("oiiiii")
+        console.log("problemData: ", problemData);
+    }, [problemData]);
+
+    function handleEditProblem() {
+        EditProblemMutation(
+            problemData._id,
+            {
+                date: problemData.date,
+                data_structure: problemData.data_structure,
+                level: problemData.level,
+                link: problemData.link,
+                description: problemData.description,
+                title: problemData.title,
+                user_description: problemData.user_description,
+                frequency: problemData.frequency,
+                userId: localStorage.getItem('GC_USER_ID')
+            },
+            (editedProblem: unknown) => {
+                console.log("editedProblem: ", editedProblem)
+                navigate('/dashboard');
+            },
+            (error: unknown) => {
+                console.log("error: ", error);
+            }
+        );
+    }
 
     return (
         <ProblemInfoContainer>
-            <ProblemTitle>Create New Problem</ProblemTitle>
+            <ProblemTitle>Edit Problem</ProblemTitle>
             <FieldsContainer>
                 <LeftColumn>
                     <FieldContainer>
@@ -134,9 +145,9 @@ const AddProblem: React.FC = () => {
                     </FieldContainer>
                 </RightColumn>
             </FieldsContainer>
-            <CreateButton onClick={handleCreateProblem}>Create</CreateButton>
+            <CreateButton onClick={handleEditProblem}>Save</CreateButton>
         </ProblemInfoContainer>
     );
 };
 
-export default AddProblem;
+export default EditProblem;

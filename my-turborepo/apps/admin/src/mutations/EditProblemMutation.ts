@@ -4,10 +4,10 @@ import {
 } from 'react-relay'
 import environment from '../RelayEnvironment.ts'
 
-// createProblem(problemInput: ProblemInput!): Problem
+// editProblem(problemInput: ProblemInput, problemId: ID!): Problem
 const mutation = graphql`
-    mutation CreateProblemMutation($problemInput: ProblemInput!) {
-        createProblem(problemInput: $problemInput) {
+    mutation EditProblemMutation($problemInput: ProblemInput!, $problemId: ID!) {
+        editProblem(problemInput: $problemInput, problemId: $problemId) {
             _id
             title
             level
@@ -27,6 +27,7 @@ const mutation = graphql`
 `;
 
 export default (
+    problemId: string,
     problemInput: {
         date: string;
         data_structure: string;
@@ -35,13 +36,14 @@ export default (
         description: string;
         title: string;
         user_description: string;
-        frequency: number
+        frequency: number;
         userId: string
     },
-    callback: (createdProblem: unknown) => void,
+    callback: (editedProblem: unknown) => void,
     onError: (error: unknown) => void,
 ) => {
     const variables = {
+        problemId,
         problemInput: {
             title: problemInput.title,
             level: problemInput.level,
@@ -60,11 +62,10 @@ export default (
         {
             mutation,
             variables,
-            onCompleted: (response: { createProblem: unknown }) => {
-                const createdProblem = response.createProblem;
-                callback(createdProblem);
-                console.log("response: ", response)
-                console.log("createdProblem: ", createdProblem)
+            onCompleted: (response: { updateProblem: unknown }) => {
+                const editedProblem = response.updateProblem;
+                callback(editedProblem);
+                console.log("edited Problem: ", editedProblem)
             },
             onError: (err) => onError(err),
         },

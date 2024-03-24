@@ -1,19 +1,20 @@
 import { log } from "@repo/logger";
 
-const Problem = require('../../models/problem');
-const User = require('../../models/user.ts');
+const Problem = require("../../models/problem");
+const User = require("../../models/user");
 
-const userCreator = require('./utils/userCreator.ts');
+const userCreator = require("./utils/userCreator");
+
 
 module.exports = {
     problems: async (args: object, req: {isAuth: boolean}) => {
         if (!req.isAuth) {
-            throw new Error("Unauthorized")
+            throw new Error("Unauthorized");
         }
 
         try {
             const problems = await Problem.find();
-            const populatedProblems = [];
+            const populatedProblems: any[] = [];
 
             for (const problem of problems) {
                 const populatedUserCreator = await userCreator(problem.creator);
@@ -23,7 +24,6 @@ module.exports = {
                     date: problem.date.toString(),
                     creator: populatedUserCreator,
                 });
-
             }
 
             return populatedProblems;
@@ -33,8 +33,10 @@ module.exports = {
         }
     },
     createProblem: async (args: {problemInput: { title: string; description: string; user_description: string;
-        level: string; frequency: number; link: string; data_structure: string; date: string; userId: string }},
-    req: {isAuth: boolean}) => {
+              level: string; frequency: number; link: string; data_structure: string; date: string; userId: string }},
+              req: {isAuth: boolean}) => {
+
+        log("reached")
 
         if (!req.isAuth) {
             throw new Error("Unauthorized!")
@@ -76,7 +78,6 @@ module.exports = {
                 title: result.title,
                 level: result.level,
                 description: result.description,
-                user_description: result.user_description,
                 frequency: result.frequency,
                 link: result.link,
                 data_structure: result.data_structure,
@@ -91,6 +92,69 @@ module.exports = {
             };
         } catch (err) {
             log("Error in saving a problem: ", err);
+            throw err;
+        }
+    },
+    editProblem: async (
+        args: {problemInput: { title: string; description: string; user_description: string;
+                level: string; frequency: number; link: string; data_structure: string; date: string; userId: string }},
+        req: {isAuth: boolean}
+    ) => {
+        if (!req.isAuth) {
+            throw new Error("Unauthorized!");
+        }
+
+        try {
+            const { problemInput, problemId } = args;
+
+            let problem = null
+
+            problem = await Problem.findById(problemId);
+
+            if (!problem) {
+                return new Error("Problem not found");
+            }
+
+            const {
+                title,
+                description,
+                user_description,
+                level,
+                frequency,
+                link,
+                data_structure,
+                date,
+            } = problemInput;
+
+            if (title) problem.title = title;
+            if (description) problem.description = description;
+            if (user_description) problem.user_description = user_description;
+            if (level) problem.level = level;
+            if (frequency) problem.frequency = frequency;
+            if (link) problem.link = link;
+            if (data_structure) problem.data_structure = data_structure;
+            if (date) problem.date = new Date(date).toISOString();
+
+            const updatedProblem = await problem.save();
+
+            log("Problem updated successfully");
+
+            return {
+                _id: updatedProblem._id.toString(),
+                title: updatedProblem.title,
+                level: updatedProblem.level,
+                description: updatedProblem.description,
+                user_description: updatedProblem.user_description,
+                frequency: updatedProblem.frequency,
+                link: updatedProblem.link,
+                data_structure: updatedProblem.data_structure,
+                date: updatedProblem.date.toString(),
+                creator: {
+                    _id: updatedProblem.creator.toString(),
+                },
+            };
+        } catch (err) {
+            log("Error in updating a problem: ", err);
             throw err;
         }
     },

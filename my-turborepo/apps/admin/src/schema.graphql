@@ -52,6 +52,7 @@
     createProblem(problemInput: ProblemInput!): Problem
     createUser(userInput: UserInput!): User
     login(email: String!, password: String!): AuthData!
+    editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
     getUserProblems(userId: ID!): [Problem!]!
     associateUserWithProblem(userId: ID!, problemId: ID!): Problem
   }

@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
 
     const handleProblemClick = (problem: ProblemData, index: number) => {
         setSelectedProblemIndex(index);
-        navigate('/problem-info', { state: { problem } });
+        navigate('/info', { state: { problem } });
     };
 
     return (

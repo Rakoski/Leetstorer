@@ -4,6 +4,7 @@ import environment from '../RelayEnvironment.ts';
 const mutation = graphql`
     mutation GetUserProblemsMutation($userId: ID!) {
         getUserProblems(userId: $userId) {
+            _id
             title
             level
             description

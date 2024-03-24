@@ -56,6 +56,7 @@ module.exports = buildSchema(`
      createUser(userInput: UserInput): User
      login(email: String!, password: String!): AuthData
      getUserProblems(userId: ID!): [Problem!]!
+     editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
      associateUserWithProblem(userId: ID!, problemId: ID!): Problem
   }
 
