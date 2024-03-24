@@ -6,7 +6,7 @@ import environment from '../RelayEnvironment.ts'
 
 // editProblem(problemInput: ProblemInput, problemId: ID!): Problem
 const mutation = graphql`
-    mutation UpdateProblemMutation($problemInput: ProblemInput!, $_id: ID!) {
+    mutation EditProblemMutation($problemInput: ProblemInput!, $_id: ID!) {
         editProblem(problemInput: $problemInput, problemId: $_id) {
             _id
             title

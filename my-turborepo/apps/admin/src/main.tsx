@@ -16,11 +16,9 @@ if (el) {
   const root = createRoot(el);
   root.render(
     <RelayEnvironmentProvider environment={RelayEnvironment}>
-        <ApolloProvider client={client}>
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>
-        </ApolloProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
     </RelayEnvironmentProvider>
   );
 } else {

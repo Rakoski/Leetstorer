@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import FieldTitle from '@repo/ui/src/FieldTitle'
 import FieldContainer from "@repo/ui/src/FieldContainer";
 import LeftColumn from "@repo/ui/src/LeftColumn";
@@ -10,8 +10,10 @@ import InfoField from "@repo/ui/src/InfoField";
 import RightColumn from "@repo/ui/src/RightColumn";
 import DescriptionField from "@repo/ui/src/DescriptionField";
 import DateField from "@repo/ui/src/DateField";
+import CreateButton from "@repo/ui/src/CreateButton";
 
 interface ProblemData {
+    _id: string
     title: string;
     level: string;
     description: string;
@@ -24,8 +26,13 @@ interface ProblemData {
 
 const ProblemInfo: React.FC = () => {
     const location = useLocation();
+    const navigate = useNavigate()
     // it needs to be undefined to be called from the app.tsx as a route alternative
-    const problem = location.state?.problem as ProblemData | undefined;
+    const problem = location.state?.problem as ProblemData;
+
+    const navigateToEditProblem = () => {
+        navigate('/edit', { state: { problem } });
+    }
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -77,6 +84,7 @@ const ProblemInfo: React.FC = () => {
                 ) : (
                     <p>No problem selected.</p>
                 )}
+                <CreateButton onClick={navigateToEditProblem}>Edit</CreateButton>
             </ProblemInfoContainer>
         </div>
     );
