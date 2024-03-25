@@ -36,8 +36,6 @@ module.exports = {
               level: string; frequency: number; link: string; data_structure: string; date: string; userId: string }},
               req: {isAuth: boolean}) => {
 
-        log("reached")
-
         if (!req.isAuth) {
             throw new Error("Unauthorized!")
         }

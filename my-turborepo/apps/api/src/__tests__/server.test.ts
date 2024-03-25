@@ -5,9 +5,30 @@ const Problem = require('./models/problem');
 const User = require('./models/user');
 
 describe("GraphQL Endpoints", () => {
+    let token;
+
+    beforeAll(async () => {
+        // Perform login mutation to obtain token
+        const loginResponse = await supertest(createServer())
+            .post("/graphql")
+            .send({
+                query: `
+                    mutation {
+                        login(email: "virgilvdikje@gmail.com", password: "123456") {
+                            token
+                        }
+                    }
+                `,
+            })
+            .expect(200);
+
+        token = loginResponse.body.data.login.token;
+    });
+
     it("should create a user", async () => {
         const response = await supertest(createServer())
             .post("/graphql")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 query: `
           mutation {
@@ -31,6 +52,7 @@ describe("GraphQL Endpoints", () => {
     it("should query users", async () => {
         const response = await supertest(createServer())
             .post("/graphql")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 query: `
           {
@@ -49,6 +71,7 @@ describe("GraphQL Endpoints", () => {
     it("should create a problem", async () => {
         const response = await supertest(createServer())
             .post("/graphql")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 query: `
           mutation {
@@ -82,6 +105,7 @@ describe("GraphQL Endpoints", () => {
     it("should query problems", async () => {
         const response = await supertest(createServer())
             .post("/graphql")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 query: `
           {
@@ -101,6 +125,7 @@ describe("GraphQL Endpoints", () => {
         it("should associate a user with a problem", async () => {
         const createUserResponse = await supertest(createServer())
             .post("/graphql")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 query: `
                   mutation {
@@ -117,6 +142,7 @@ describe("GraphQL Endpoints", () => {
 
         const createProblemResponse = await supertest(createServer())
             .post("/graphql")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 query: `
                   mutation {
@@ -143,6 +169,7 @@ describe("GraphQL Endpoints", () => {
 
         const associateResponse = await supertest(createServer())
             .post("/graphql")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 query: `
                   mutation {
