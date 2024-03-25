@@ -345,6 +345,7 @@ To create a new problem, you can use the following example mutation:
     type RootMutation {
         createProblem(problemInput: ProblemInput): Problem 
         createUser(userInput: UserInput): User  
+        editProblem(problemInput: ProblemInput, problemId: ID!): Problem
         login(email: String!, password: String!): AuthData! 
         associateUserWithProblem(userId: ID!, problemId: ID!): Problem  
     }
