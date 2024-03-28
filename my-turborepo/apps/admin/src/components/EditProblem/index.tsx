@@ -41,11 +41,6 @@ const EditProblem: React.FC = () => {
         }));
     };
 
-    useEffect(() => {
-        console.log("oiiiii")
-        console.log("problemData: ", problemData);
-    }, [problemData]);
-
     function handleEditProblem() {
         EditProblemMutation(
             problemData._id,

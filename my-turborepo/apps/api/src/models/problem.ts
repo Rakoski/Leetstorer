@@ -17,7 +17,7 @@ const problemSchema = new Schema({
     },
     user_description: {
         type: String,
-        required: true
+        required: false
     },
     frequency: {
         type: Number,
@@ -33,7 +33,7 @@ const problemSchema = new Schema({
     },
     date: {
         type: String,
-        required: true
+        required: false
     },
     creator: {
         type: Schema.Types.ObjectId,

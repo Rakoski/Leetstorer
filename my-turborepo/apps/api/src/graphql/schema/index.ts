@@ -6,11 +6,11 @@ module.exports = buildSchema(`
     title: String!
     level: String!
     description: String!
-    user_description: String!
+    user_description: String
     frequency: Float!
     link: String!
     data_structure: String!
-    date: String!
+    date: String
     creator: User!
   }
   
@@ -32,11 +32,11 @@ module.exports = buildSchema(`
     title: String!
     level: String!
     description: String!
-    user_description: String!
+    user_description: String
     frequency: Float!
     link: String!
     data_structure: String!
-    date: String!
+    date: String
     userId: String!
   }
   
