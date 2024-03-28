@@ -242,6 +242,7 @@ To create a new problem, you can use the following example mutation:
         title: "Two Sum"
         level: "Easy"
         description: "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order."
+        user_description: "This uses an array"
         frequency: 5
         link: "https://leetcode.com/problems/two-sum/"
         data_structure: "Array"
@@ -251,6 +252,7 @@ To create a new problem, you can use the following example mutation:
         title
         level
         description
+        user_description
         frequency
         link
         data_structure
@@ -264,6 +266,7 @@ To create a new problem, you can use the following example mutation:
             title
             level
             description
+            user_description
             frequency
             link
             data_structure
@@ -281,10 +284,11 @@ To create a new problem, you can use the following example mutation:
         title: String!
         level: String!
         description: String!
+        user_description: String
         frequency: Float!
         link: String!
         data_structure: String!
-        date: String!
+        date: String
         creator: User!
     }
 
@@ -318,8 +322,9 @@ To create a new problem, you can use the following example mutation:
         description: String!
         frequency: Float!
         link: String!
+        user_description: String
         data_structure: String!
-        date: String!
+        date: String
         userId: String!
     }
     
@@ -327,6 +332,7 @@ To create a new problem, you can use the following example mutation:
     Input type for creating a new user.
     """
     input UserInput {
+        username: String!
         email: String!
         password: String!
     }
@@ -343,11 +349,12 @@ To create a new problem, you can use the following example mutation:
     Root mutation for creating, updating, or deleting data.
     """
     type RootMutation {
-        createProblem(problemInput: ProblemInput): Problem 
-        createUser(userInput: UserInput): User  
-        editProblem(problemInput: ProblemInput, problemId: ID!): Problem
-        login(email: String!, password: String!): AuthData! 
-        associateUserWithProblem(userId: ID!, problemId: ID!): Problem  
+        createProblem(problemInput: ProblemInput!): Problem
+        createUser(userInput: UserInput!): User
+        login(email: String!, password: String!): AuthData!
+        editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
+        getUserProblems(userId: ID!): [Problem!]!
+        associateUserWithProblem(userId: ID!, problemId: ID!): Problem
     }
     
     """
