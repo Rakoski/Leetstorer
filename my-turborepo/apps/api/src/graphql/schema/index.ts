@@ -66,7 +66,7 @@ module.exports = buildSchema(`
   type RootQuery {
     problems: [Problem!]!
     users: [User!]!
-    existingProblems: [ExistingProblems!]!
+    existing_problems: [ExistingProblems!]!
   }
 
   type RootMutation {
