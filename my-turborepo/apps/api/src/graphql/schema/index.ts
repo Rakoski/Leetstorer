@@ -55,7 +55,7 @@ module.exports = buildSchema(`
     password: String!
   }
   
-    input ExistingProblemsInput {
+  input ExistingProblemsInput {
     number_title: String!
     existing_link: String!
     existing_description: String!
@@ -66,12 +66,13 @@ module.exports = buildSchema(`
   type RootQuery {
     problems: [Problem!]!
     users: [User!]!
-    existing_problems: [ExistingProblems!]!
+    existingProblems: [ExistingProblems!]!
   }
 
   type RootMutation {
-     createProblem(problemInput: ProblemInput): Problem
-     createUser(userInput: UserInput): User
+     createProblem(problemInput: ProblemInput!): Problem
+     createUser(userInput: UserInput!): User
+     createExistingProblems(existingProblemsInput: ExistingProblemsInput!): ExistingProblems
      login(email: String!, password: String!): AuthData
      getUserProblems(userId: ID!): [Problem!]!
      editProblem(problemInput: ProblemInput!, problemId: ID!): Problem

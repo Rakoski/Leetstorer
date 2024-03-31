@@ -29,13 +29,16 @@ const existingProblemsResolver = {
             throw err;
         }
     },
-    createExistingProblem: async (args, req) => {
+    createExistingProblems: async (args: {existingProblemsInput: { number_title: string, existing_link: string,
+    existing_description: string, existing_difficulty: string, existing_video: string }},
+    req: {isAuth: boolean}) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!");
         }
 
         try {
-            const { number_title, existing_link, existing_description, existing_difficulty, existing_video } = args.problemInput;
+            const { number_title, existing_link, existing_description, existing_difficulty, existing_video } =
+                args.existingProblemsInput;
 
             const existingProblem = new ExistingProblems({
                 number_title,
