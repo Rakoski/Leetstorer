@@ -1,7 +1,7 @@
 import {buildSchema} from "graphql";
 
 module.exports = buildSchema(`
-    type Problem {
+  type Problem {
     _id: ID!
     title: String!
     level: String!
@@ -28,6 +28,15 @@ module.exports = buildSchema(`
     tokenExpiration: Int!
   }
   
+  type ExistingProblems {
+    _id: ID!
+    number_title: String!
+    existing_link: String!
+    existing_description: String!
+    existing_difficulty: String!
+    existing_video: String
+  }
+  
   input ProblemInput {
     title: String!
     level: String!
@@ -45,15 +54,25 @@ module.exports = buildSchema(`
     email: String!
     password: String!
   }
+  
+  input ExistingProblemsInput {
+    number_title: String!
+    existing_link: String!
+    existing_description: String!
+    existing_difficulty: String!
+    existing_video: String
+  }
 
   type RootQuery {
     problems: [Problem!]!
     users: [User!]!
+    existing_problems: [ExistingProblems!]!
   }
 
   type RootMutation {
-     createProblem(problemInput: ProblemInput): Problem
-     createUser(userInput: UserInput): User
+     createProblem(problemInput: ProblemInput!): Problem
+     createUser(userInput: UserInput!): User
+     createExistingProblems(existingProblemsInput: ExistingProblemsInput!): ExistingProblems
      login(email: String!, password: String!): AuthData
      getUserProblems(userId: ID!): [Problem!]!
      editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
