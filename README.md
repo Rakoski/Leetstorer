@@ -6,7 +6,7 @@ This project is a coding problem storage web app built using Turborepo, Relay, T
 
 - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
-- [Configuration](#configuration)
+    - [Configuration](#configuration)
 - [Schema](#schema)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
