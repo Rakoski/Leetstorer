@@ -64,12 +64,12 @@ module.exports = {
                 creator: userId,
             });
 
-            const result = await problem.save();
+            let result = null;
+
+            result = await problem.save();
 
             user.createdProblems.push(result._id);
             await user.save();
-
-            log("Problem saved successfully");
 
             return {
                 _id: result._id.toString(),

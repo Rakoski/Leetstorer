@@ -5,8 +5,10 @@ const schema = require('./graphql/schema/index.ts')
 
 const userResolvers = require('./graphql/resolvers/userResolver.ts')
 const problemResolvers = require('./graphql/resolvers/problemResolver.ts')
+import existingProblemsResolver from "./graphql/resolvers/existingProblemsResolver.ts";
 
 const combinedResolvers = {
+    ...existingProblemsResolver,
     ...userResolvers,
     ...problemResolvers,
 };

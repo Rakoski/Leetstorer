@@ -25,6 +25,15 @@
     tokenExpiration: Int!
   }
 
+ type ExistingProblems {
+   _id: ID!
+   number_title: String!
+   existing_link: String!
+   existing_description: String!
+   existing_difficulty: String!
+   existing_video: String
+ }
+
   input ProblemInput {
     title: String!
     level: String!
@@ -43,14 +52,25 @@
     password: String!
   }
 
+ input ExistingProblemsInput {
+   number_title: String!
+   existing_link: String!
+   existing_description: String!
+   existing_difficulty: String!
+   existing_video: String
+ }
+
   type RootQuery {
     problems: [Problem!]!
     users: [User!]!
+    existing_problems: [ExistingProblems!]!
   }
 
   type RootMutation {
     createProblem(problemInput: ProblemInput!): Problem
     createUser(userInput: UserInput!): User
+    createExistingProblems(existingProblemsInput: ExistingProblemsInput!): ExistingProblems
+    clearExistingProblems: String
     login(email: String!, password: String!): AuthData!
     editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
     getUserProblems(userId: ID!): [Problem!]!
