@@ -11,15 +11,29 @@ import EditProblem from "./EditProblem";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    const PrivateRoute = ({ element, ...props }) => {
+        return isLoggedIn ? element : <Navigate to="/" />;
+    };
+
+    const PublicRoute = ({ element, redirectTo, ...props }) => {
+        return !isLoggedIn ? element : <Navigate to={redirectTo} />;
+    };
+
     return (
         <Router>
             <Routes>
-                <Route path="/register" element={!isLoggedIn ? <RegistrationPage setIsLoggedIn={setIsLoggedIn}/> : <Navigate to="/dashboard" />} />
-                <Route path="/" element={!isLoggedIn ? <LoginPage setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/dashboard" />} />
-                <Route path="/dashboard" element={isLoggedIn ? <Layout><Dashboard /></Layout> : <Navigate to="/" />} />
-                <Route path="/info" element={isLoggedIn ? <Layout><ProblemInfo /></Layout> : <Navigate to="/" />} />
-                <Route path="/add" element={isLoggedIn ? <Layout><AddProblem /></Layout> : <Navigate to="/" />} />
-                <Route path="/edit" element={isLoggedIn ? <Layout><EditProblem /></Layout> : <Navigate to="/" />} />
+                <Route
+                    path="/register"
+                    element={<PublicRoute element={<RegistrationPage setIsLoggedIn={setIsLoggedIn} />} redirectTo="/dashboard" />}
+                />
+                <Route
+                    path="/"
+                    element={<PublicRoute element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} redirectTo="/dashboard" />}
+                />
+                <Route path="/dashboard" element={<PrivateRoute element={<Layout><Dashboard /></Layout>} />} />
+                <Route path="/info" element={<PrivateRoute element={<Layout><ProblemInfo /></Layout>} />} />
+                <Route path="/add" element={<PrivateRoute element={<Layout><AddProblem /></Layout>} />} />
+                <Route path="/edit" element={<PrivateRoute element={<Layout><EditProblem /></Layout>} />} />
             </Routes>
         </Router>
     );

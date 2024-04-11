@@ -11,6 +11,7 @@ import RightColumn from "@repo/ui/src/RightColumn";
 import DescriptionField from "@repo/ui/src/DescriptionField";
 import DateField from "@repo/ui/src/DateField";
 import CreateButton from "@repo/ui/src/CreateButton";
+import NotesField from "@repo/ui/src/NotesFIeld";
 
 interface ProblemData {
     _id: string
@@ -50,22 +51,18 @@ const ProblemInfo: React.FC = () => {
                     <FieldsContainer>
                         <LeftColumn>
                             <FieldContainer>
-                                <FieldTitle>Level of Difficulty</FieldTitle>
-                                <InfoField value={problem.level} readOnly />
-                            </FieldContainer>
-                            <FieldContainer>
                                 <FieldTitle>Description</FieldTitle>
                                 <DescriptionField value={problem.description} readOnly />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <FieldTitle>Notes</FieldTitle>
-                                <DescriptionField value={problem.user_description} readOnly />
                             </FieldContainer>
                         </LeftColumn>
                         <RightColumn>
                             <FieldContainer>
                                 <FieldTitle>Link</FieldTitle>
                                 <InfoField value={problem.link} readOnly />
+                            </FieldContainer>
+                            <FieldContainer>
+                                <FieldTitle>Level of Difficulty</FieldTitle>
+                                <InfoField value={problem.level} readOnly />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldTitle>Data Structure</FieldTitle>
@@ -78,6 +75,10 @@ const ProblemInfo: React.FC = () => {
                             <FieldContainer>
                                 <FieldTitle>Frequency</FieldTitle>
                                 <InfoField value={problem.frequency.toString()} readOnly />
+                            </FieldContainer>
+                            <FieldContainer>
+                                <FieldTitle>Notes</FieldTitle>
+                                <NotesField value={problem.user_description} readOnly />
                             </FieldContainer>
                         </RightColumn>
                     </FieldsContainer>

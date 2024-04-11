@@ -61,14 +61,3 @@ nav ul li a:hover {
     font-weight: bold;
     color: black;
 }
-
-.problem-description {
-    margin-top: 10px;
-    color: #333;
-}
-
-@media (max-width: 768px) {
-    .problem-description {
-        display: none;
-    }
-}
