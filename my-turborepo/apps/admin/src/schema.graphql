@@ -70,6 +70,7 @@
     createProblem(problemInput: ProblemInput!): Problem
     createUser(userInput: UserInput!): User
     createExistingProblems(existingProblemsInput: ExistingProblemsInput!): ExistingProblems
+    clearExistingProblems: String
     login(email: String!, password: String!): AuthData!
     editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
     getUserProblems(userId: ID!): [Problem!]!

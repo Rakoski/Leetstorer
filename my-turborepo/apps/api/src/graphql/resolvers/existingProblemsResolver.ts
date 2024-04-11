@@ -48,21 +48,38 @@ const existingProblemsResolver = {
                 existing_video,
             });
 
-            const result = await existingProblem.save();
+            let result = null
 
-            return {
-                _id: result._id.toString(),
-                number_title: result.number_title,
-                existing_link: result.existing_link,
-                existing_description: result.existing_description,
-                existing_difficulty: result.existing_difficulty,
-                existing_video: result.existing_video,
-            };
+            result = await existingProblem.save();
+
+            if (result) {
+                return {
+                    _id: result._id.toString(),
+                    number_title: result.number_title,
+                    existing_link: result.existing_link,
+                    existing_description: result.existing_description,
+                    existing_difficulty: result.existing_difficulty,
+                    existing_video: result.existing_video,
+                };
+            }
         } catch (err) {
             log("Error in saving an existing problem: ", err);
             throw err;
         }
     },
+    clearExistingProblems: async (args, req: { isAuth: boolean }) => {
+        if (!req.isAuth) {
+            throw new Error("Unauthorized!")
+        }
+
+        try {
+            const result = await ExistingProblems.deleteMany({});
+            return "Existing problems collection cleared successfully.";
+        } catch (err) {
+            console.error("Error in clearing existing problems:", err);
+            throw err;
+        }
+    }
 };
 
 export default existingProblemsResolver;
