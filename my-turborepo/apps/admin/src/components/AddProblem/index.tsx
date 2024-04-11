@@ -12,6 +12,7 @@ import CreateButton from "@repo/ui/src/CreateButton";
 import DateField from "@repo/ui/src/DateField";
 import CreateProblemMutation from "../../mutations/CreateProblemMutation.ts";
 import {useNavigate} from "react-router-dom";
+import NotesField from "@repo/ui/src/NotesFIeld";
 
 interface ProblemData {
     title: string;
@@ -73,26 +74,10 @@ const AddProblem: React.FC = () => {
                         />
                     </FieldContainer>
                     <FieldContainer>
-                        <FieldTitle>Level of Difficulty</FieldTitle>
-                        <InfoField
-                            name="level"
-                            value={problemData.level}
-                            onChange={handleChange}
-                        />
-                    </FieldContainer>
-                    <FieldContainer>
                         <FieldTitle>Description</FieldTitle>
                         <DescriptionField
                             name="description"
                             value={problemData.description}
-                            onChange={handleChange}
-                        />
-                    </FieldContainer>
-                    <FieldContainer>
-                        <FieldTitle>Notes</FieldTitle>
-                        <DescriptionField
-                            name="user_description"
-                            value={problemData.user_description}
                             onChange={handleChange}
                         />
                     </FieldContainer>
@@ -103,6 +88,14 @@ const AddProblem: React.FC = () => {
                         <InfoField
                             name="link"
                             value={problemData.link}
+                            onChange={handleChange}
+                        />
+                    </FieldContainer>
+                    <FieldContainer>
+                        <FieldTitle>Level of Difficulty</FieldTitle>
+                        <InfoField
+                            name="level"
+                            value={problemData.level}
                             onChange={handleChange}
                         />
                     </FieldContainer>
@@ -129,6 +122,14 @@ const AddProblem: React.FC = () => {
                             name="frequency"
                             type="number"
                             value={problemData.frequency}
+                            onChange={handleChange}
+                        />
+                    </FieldContainer>
+                    <FieldContainer>
+                        <FieldTitle>Notes</FieldTitle>
+                        <NotesField
+                            name="user_description"
+                            value={problemData.user_description}
                             onChange={handleChange}
                         />
                     </FieldContainer>
