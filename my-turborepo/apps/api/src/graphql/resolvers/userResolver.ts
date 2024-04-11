@@ -80,7 +80,7 @@ module.exports = {
                 return new Error("401 Invalid credentials");
             }
 
-            const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY, { expiresIn: '1h' });
+            const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY, { expiresIn: '48h' });
 
             return { userId: user.id, token, tokenExpiration: 48 };
         } catch (err) {
