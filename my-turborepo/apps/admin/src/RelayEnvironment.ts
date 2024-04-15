@@ -27,9 +27,9 @@ const fetchFn: FetchFunction = async (request, variables) => {
   return await resp.json();
 };
 
-const envirionment = new Environment({
+const environment = new Environment({
   network: Network.create(fetchFn),
   store: new Store(new RecordSource()),
 });
 
-export default envirionment;
+export default environment;
