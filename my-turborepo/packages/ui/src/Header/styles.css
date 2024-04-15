@@ -12,10 +12,6 @@ header {
     align-items: center;
 }
 
-h1 {
-    margin: 0;
-}
-
 /* buttons */
 nav ul {
     list-style-type: none;
