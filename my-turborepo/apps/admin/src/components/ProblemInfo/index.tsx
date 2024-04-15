@@ -58,7 +58,7 @@ const ProblemInfo: React.FC = () => {
                         <RightColumn>
                             <FieldContainer>
                                 <FieldTitle>Link</FieldTitle>
-                                <InfoField value={problem.link} readOnly />
+                                <InfoField value={problem.link} readOnly link />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldTitle>Level of Difficulty</FieldTitle>

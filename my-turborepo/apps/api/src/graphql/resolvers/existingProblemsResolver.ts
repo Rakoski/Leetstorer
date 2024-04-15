@@ -1,8 +1,8 @@
-import ExistingProblems from "../../models/existing_problems.ts";
+import ExistingProblems from "../../models/existingproblems.ts";
 import {log} from "@repo/logger";
 
 const existingProblemsResolver = {
-    existingProblems: async (args, req: {isAuth: boolean}) => {
+    existingproblems: async (args: object, req: {isAuth: boolean}) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!")
         }
@@ -13,7 +13,7 @@ const existingProblemsResolver = {
             existingProblems = await ExistingProblems.find();
 
             if (!existingProblems) {
-                return new Error("Existing Problem not found")
+                return new Error("Existing Problems not found")
             }
 
             return existingProblems.map(problem => ({

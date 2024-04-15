@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
-import { ArticleComponent } from "@repo/ui/src/Article";
+import { ArticleComponent } from "../../../../../packages/ui/src/SignInPagesArticle";
 import CreateUserMutation from "../../mutations/CreateUserMutation.ts";
 
 function RegistrationPage({ setIsLoggedIn }) {
