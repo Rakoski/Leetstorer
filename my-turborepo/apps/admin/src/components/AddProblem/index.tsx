@@ -13,7 +13,7 @@ import DateField from "@repo/ui/src/DateField";
 import CreateProblemMutation from "../../mutations/CreateProblemMutation.ts";
 import {useNavigate} from "react-router-dom";
 import NotesField from "@repo/ui/src/NotesFIeld";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
 interface ProblemData {
     title: string;
@@ -29,7 +29,7 @@ interface ProblemData {
 
 const AddProblem: React.FC = () => {
     const navigate = useNavigate();
-    const [problemData, setProblemData] = useState<ProblemData>({
+    const [problemData, setProblemData] = useState({
         title: '',
         level: '',
         description: '',

@@ -1,26 +1,27 @@
-import styled from 'styled-components';
-import React, { HTMLAttributes } from 'react';
+import React from 'react';
 
-interface InfoFieldProps extends HTMLAttributes<HTMLInputElement> {
+interface InfoFieldProps {
+    name: string;
     value: string;
-    link?: boolean;
-    readOnly?: boolean;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InfoField: React.FC<InfoFieldProps> = ({ value, link, readOnly, ...rest }) => {
-    if (link && value && /^https?:\/\//.test(value)) {
-        return <a href={value} {...rest}>{value}</a>;
-    }
-
-    return <StyledInput value={value} readOnly={readOnly} />;
+const InfoField: React.FC<InfoFieldProps> = ({ name, value, onChange }) => {
+    return (
+        <input
+            type="text"
+            name={name}
+            value={value}
+            onChange={onChange}
+            style={{
+                width: '100%',
+                padding: '8px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                fontSize: '16px',
+            }}
+        />
+    );
 };
-
-const StyledInput = styled.input`
-  width: 100%;
-  padding: 0.8rem;
-  font-size: 1.1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
 
 export default InfoField;
