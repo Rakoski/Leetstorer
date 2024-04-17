@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
-import { ArticleComponent } from "@repo/ui/src/Article";
+import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
 import LoginMutation from "../../mutations/LoginMutation.ts";
+import Cookies from 'js-cookie';
 
 function LoginPage({ setIsLoggedIn }) {
     const [password, setPassword] = useState("");
@@ -12,8 +13,8 @@ function LoginPage({ setIsLoggedIn }) {
             return;
         }
         LoginMutation(email, password.toString(), (userId, token) => {
-            localStorage.setItem("GC_USER_ID", userId)
-            localStorage.setItem("GC_AUTH_TOKEN", token)
+            Cookies.set("GC_USER_ID", userId);
+            Cookies.set("GC_AUTH_TOKEN", token);
             setIsLoggedIn(true);
         }, (error) => {
             alert("Incorrect email or password.")

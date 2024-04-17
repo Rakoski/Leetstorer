@@ -18,7 +18,8 @@ module.exports = buildSchema(`
     _id: ID!
     username: String!
     email: String!
-    password: String
+    password: String!
+    isAdmin: Boolean!
     createdProblems: [Problem!]
   }
   
@@ -66,7 +67,7 @@ module.exports = buildSchema(`
   type RootQuery {
     problems: [Problem!]!
     users: [User!]!
-    existing_problems: [ExistingProblems!]!
+    existingproblems: [ExistingProblems!]!
   }
 
   type RootMutation {

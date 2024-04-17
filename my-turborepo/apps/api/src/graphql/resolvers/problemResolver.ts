@@ -7,8 +7,8 @@ const userCreator = require("./utils/userCreator");
 
 
 module.exports = {
-    problems: async (args: object, req: {isAuth: boolean}) => {
-        if (!req.isAuth) {
+    problems: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
+        if (!req.isAuth || !req.isAdmin) {
             throw new Error("Unauthorized");
         }
 

@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const ExistingProblemsSchema = new Schema({
     number_title: {
@@ -19,10 +19,10 @@ const ExistingProblemsSchema = new Schema({
     },
     existing_video: {
         type: String,
-        required: true
+        required: false
     },
 });
 
-const ExistingProblems = mongoose.model('ExistingProblems', ExistingProblemsSchema);
+const ExistingProblems = mongoose.model('Existingproblems', ExistingProblemsSchema);
 
 export default ExistingProblems;

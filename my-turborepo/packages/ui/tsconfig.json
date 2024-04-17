@@ -4,6 +4,6 @@
     "lib": ["dom", "ES2015"],
     "types": ["jest", "node"]
   },
-  "include": ["."],
+  "include": [".ts", "src", "src/CreateButton/index.test.tsx", "src/Header/index.test.tsx"],
   "exclude": ["dist", "build", "node_modules"]
 }
