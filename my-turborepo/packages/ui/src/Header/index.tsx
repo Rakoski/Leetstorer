@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css"
 
-function Header() {
+function Header({onLogout}) {
+
     return (
         <header>
             <div className="container">
@@ -14,6 +15,9 @@ function Header() {
                         </li>
                         <li>
                             <Link to="/add">Add New Problem</Link>
+                        </li>
+                        <li>
+                            <Link onClick={onLogout} >Leave</Link>
                         </li>
                     </ul>
                 </nav>

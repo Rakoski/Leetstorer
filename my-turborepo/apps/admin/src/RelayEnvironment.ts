@@ -5,11 +5,12 @@ import {
   Store,
   FetchFunction,
 } from "relay-runtime";
+import Cookies from "js-cookie";
 
 const HTTP_ENDPOINT = "http://localhost:4000/graphql";
 
 const fetchFn: FetchFunction = async (request, variables) => {
-  const token = localStorage.getItem('GC_AUTH_TOKEN');
+  const token = Cookies.get('GC_AUTH_TOKEN');
 
   const resp = await fetch(HTTP_ENDPOINT, {
     method: "POST",
