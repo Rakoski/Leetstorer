@@ -28,7 +28,7 @@ interface ProblemData {
 const ProblemInfo: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate()
-    // it needs to be undefined to be called from the app.tsx as a route alternative
+    // state needs to be undefined as to be called from the app.tsx as a route alternative
     const problem = location.state?.problem as ProblemData;
 
     const navigateToEditProblem = () => {

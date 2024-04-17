@@ -2,8 +2,8 @@ import ExistingProblems from "../../models/existingproblems.ts";
 import {log} from "@repo/logger";
 
 const existingProblemsResolver = {
-    existingproblems: async (args: object, req: {isAuth: boolean}) => {
-        if (!req.isAuth) {
+    existingproblems: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
+        if (!req.isAuth || !req.isAdmin) {
             throw new Error("Unauthorized!")
         }
 

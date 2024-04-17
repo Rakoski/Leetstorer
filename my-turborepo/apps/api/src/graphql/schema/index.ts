@@ -18,7 +18,8 @@ module.exports = buildSchema(`
     _id: ID!
     username: String!
     email: String!
-    password: String
+    password: String!
+    isAdmin: Boolean!
     createdProblems: [Problem!]
   }
   

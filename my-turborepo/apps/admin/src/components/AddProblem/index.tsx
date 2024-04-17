@@ -13,6 +13,7 @@ import DateField from "@repo/ui/src/DateField";
 import CreateProblemMutation from "../../mutations/CreateProblemMutation.ts";
 import {useNavigate} from "react-router-dom";
 import NotesField from "@repo/ui/src/NotesFIeld";
+import Cookies from "js-cookie";
 
 interface ProblemData {
     title: string;
@@ -28,7 +29,7 @@ interface ProblemData {
 
 const AddProblem: React.FC = () => {
     const navigate = useNavigate();
-    const [problemData, setProblemData] = useState<ProblemData>({
+    const [problemData, setProblemData] = useState({
         title: '',
         level: '',
         description: '',
@@ -37,7 +38,7 @@ const AddProblem: React.FC = () => {
         link: '',
         data_structure: '',
         date: '',
-        userId: localStorage.getItem('GC_USER_ID'),
+        userId: Cookies.get('GC_USER_ID'),
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -50,7 +51,6 @@ const AddProblem: React.FC = () => {
     };
 
     const handleCreateProblem = () => {
-        console.log("problem: ", problemData)
         CreateProblemMutation({
             ...problemData,
         }, (createdProblem) => {

@@ -5,11 +5,12 @@ import {
   Store,
   FetchFunction,
 } from "relay-runtime";
+import Cookies from "js-cookie";
 
 const HTTP_ENDPOINT = "http://localhost:4000/graphql";
 
 const fetchFn: FetchFunction = async (request, variables) => {
-  const token = localStorage.getItem('GC_AUTH_TOKEN');
+  const token = Cookies.get('GC_AUTH_TOKEN');
 
   const resp = await fetch(HTTP_ENDPOINT, {
     method: "POST",
@@ -27,9 +28,9 @@ const fetchFn: FetchFunction = async (request, variables) => {
   return await resp.json();
 };
 
-const envirionment = new Environment({
+const environment = new Environment({
   network: Network.create(fetchFn),
   store: new Store(new RecordSource()),
 });
 
-export default envirionment;
+export default environment;

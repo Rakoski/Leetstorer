@@ -15,6 +15,11 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     createdProblems: [
         {
             type: Schema.Types.ObjectId,

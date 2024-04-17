@@ -1,10 +1,10 @@
 import React from 'react';
 import Header from '../Header/index.tsx';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, onLogout }) => {
     return (
         <div>
-            <Header />
+            <Header onLogout={onLogout} />
             {children}
         </div>
     );
