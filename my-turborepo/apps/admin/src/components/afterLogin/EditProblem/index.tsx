@@ -21,7 +21,7 @@ interface ProblemData {
     level: string;
     description: string;
     user_description: string;
-    frequency: number;
+    frequency: string;
     link: string;
     data_structure: string;
     date: string;
@@ -53,7 +53,7 @@ const EditProblem: React.FC = () => {
                 description: problemData.description,
                 title: problemData.title,
                 user_description: problemData.user_description,
-                frequency: problemData.frequency,
+                frequency: Number(problemData.frequency),
                 userId: Cookies.get('GC_USER_ID')
             },
             (editedProblem: unknown) => {

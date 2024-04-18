@@ -20,7 +20,7 @@ interface ProblemData {
     level: string;
     description: string;
     user_description: string;
-    frequency: number;
+    frequency: string;
     link: string;
     data_structure: string;
     date: string;
@@ -43,7 +43,7 @@ const AddProblem: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        const numericValue = name === 'frequency' ? parseInt(value, 10) : value;
+        const numericValue = name === 'frequency' ? Number(value) : value;
         setProblemData((prevData) => ({
             ...prevData,
             [name]: numericValue,
@@ -121,7 +121,7 @@ const AddProblem: React.FC = () => {
                         <InfoField
                             name="frequency"
                             type="number"
-                            value={problemData.frequency}
+                            value={problemData.frequency.toString()}
                             onChange={handleChange}
                         />
                     </FieldContainer>
