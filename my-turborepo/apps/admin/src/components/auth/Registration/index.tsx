@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
 import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
-import CreateUserMutation from "../../mutations/CreateUserMutation.ts";
+import CreateUserMutation from "../../../mutations/CreateUserMutation.ts";
 import Cookies from 'js-cookie'
 
 function RegistrationPage({ setIsLoggedIn }) {
