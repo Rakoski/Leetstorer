@@ -30,10 +30,12 @@ Before you begin, ensure you have the following installed on your machine:
    ```
    pnpm install turbo --global
 
+2. Fork this repository to your machine:
+
 3. Clone the repository:
 
      ```
-     git clone https://github.com/Rakoski/leetcode-problem-storer.git
+     git clone https://github.com/<YOUR_GITHUB_USERNAME>/leetcode-problem-storer.git
 
 4. Navigate to the project directory:
 
@@ -210,7 +212,7 @@ To create a new problem, you can use the following example mutation:
 - GraphQL,
 - MongoDB
 - Turborepo
-- Relay
+- Relay Modern
 
 ### Contributing
 Feel free to contribute by opening issues or pull requests.
