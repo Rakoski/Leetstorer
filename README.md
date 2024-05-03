@@ -138,7 +138,8 @@ To create a new problem, you can use the following example mutation:
         _id: ID!
         username: String!
         email: String!
-        password: String
+        password: String!
+        isAdmin: Boolean!
         createdProblems: [Problem!]
     }
     
@@ -150,7 +151,19 @@ To create a new problem, you can use the following example mutation:
         token: String!
         tokenExpiration: Int!
     }
-    
+
+    """
+    Easy-to-add Problems that will appear as a dropdown
+    """
+    type ExistingProblems {
+       _id: ID!
+       number_title: String!
+       existing_link: String!
+       existing_description: String!
+       existing_difficulty: String!
+       existing_video: String
+     }
+        
     """
     Input type for creating a new programming problem.
     """
@@ -174,26 +187,40 @@ To create a new problem, you can use the following example mutation:
         email: String!
         password: String!
     }
+
+    """
+    Easy-to-add Problems input
+    """
+     input ExistingProblemsInput {
+       number_title: String!
+       existing_link: String!
+       existing_description: String!
+       existing_difficulty: String!
+       existing_video: String
+     }
     
     """
     Root query for fetching data.
     """
-    type RootQuery {
-        problems: [Problem!]!  
-        users: [User!]!  
-    }
+      type RootQuery {
+        problems: [Problem!]!
+        users: [User!]!
+        existingproblems: [ExistingProblems!]!
+      }
     
     """
     Root mutation for creating, updating, or deleting data.
     """
-    type RootMutation {
+      type RootMutation {
         createProblem(problemInput: ProblemInput!): Problem
         createUser(userInput: UserInput!): User
+        createExistingProblems(existingProblemsInput: ExistingProblemsInput!): ExistingProblems
+        clearExistingProblems: String
         login(email: String!, password: String!): AuthData!
         editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
         getUserProblems(userId: ID!): [Problem!]!
         associateUserWithProblem(userId: ID!, problemId: ID!): Problem
-    }
+      }
     
     """
     Root schema that defines the available queries and mutations.
