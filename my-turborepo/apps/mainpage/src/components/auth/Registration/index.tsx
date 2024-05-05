@@ -23,7 +23,7 @@ function RegistrationPage({ setIsLoggedIn }) {
         });
     };
 
-    const saveUserData = (id: string, token: string) => {
+    const saveUserData = (userId: string, token: string) => {
         Cookies.set("GC_USER_ID", userId);
         Cookies.set("GC_AUTH_TOKEN", token);
     }
