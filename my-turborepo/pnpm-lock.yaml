@@ -87,6 +87,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@jest/globals':
+        specifier: ^29.7.0
+        version: 29.7.0
       '@repo/logger':
         specifier: workspace:*
         version: link:../../packages/logger
@@ -135,6 +138,9 @@ importers:
       morgan:
         specifier: ^1.10.0
         version: 1.10.0
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.1.1(@babel/core@7.23.6)(esbuild@0.19.7)(jest@29.7.0)(typescript@5.3.2)
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -287,6 +293,9 @@ importers:
 
   packages/jest-presets:
     dependencies:
+      '@types/jest':
+        specifier: ^29.5.10
+        version: 29.5.10
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.10.0)
@@ -1768,7 +1777,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       jest-mock: 29.7.0
 
   /@jest/expect-utils@29.7.0:
@@ -1912,7 +1921,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       '@types/yargs': 17.0.32
       chalk: 4.1.2
 
@@ -2730,7 +2739,6 @@ packages:
     dependencies:
       expect: 29.7.0
       pretty-format: 29.7.0
-    dev: true
 
   /@types/js-cookie@3.0.6:
     resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
@@ -6774,7 +6782,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       jest-util: 29.7.0
 
   /jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
