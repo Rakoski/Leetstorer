@@ -77,6 +77,7 @@ module.exports = buildSchema(`
      clearExistingProblems: String
      login(email: String!, password: String!): AuthData
      getUserProblems(userId: ID!): [Problem!]!
+     sendPasswordResetEmail(email: String!, resetToken: String!): User
      editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
      associateUserWithProblem(userId: ID!, problemId: ID!): Problem
   }

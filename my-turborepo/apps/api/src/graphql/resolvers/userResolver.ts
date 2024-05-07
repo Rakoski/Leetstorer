@@ -157,10 +157,13 @@ module.exports = {
             throw err;
         }
     },
-    sendPasswordResetEmail: async (email: string, resetToken: string) => {
+    sendPasswordResetEmail: async (args: {email: string, resetToken: string}) => {
+        const emailToSendReset = args.email
+        const resetToken = args.resetToken
+
         const mailOptions = {
             from: process.env.VERIFIED_EMAIL_ADDRESS,
-            to: email,
+            to: emailToSendReset,
             subject: 'Password Reset',
             text: `You are receiving this email because you (or someone else) has requested a password reset for your account.\n\n
             Please click the following link, or paste it into your browser to complete the process:\n\n
