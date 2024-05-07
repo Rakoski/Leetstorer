@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import {log} from "@repo/logger";
 import {ProblemInterface} from "./utils/problemInterface.ts";
 import jwt from "jsonwebtoken";
+import transporter from '../../utils/email-transporter.ts'
 
 const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
@@ -155,5 +156,18 @@ module.exports = {
             log("Error in associateUserWithProblem resolver: ", err);
             throw err;
         }
+    },
+    sendPasswordResetEmail: async (email: string, resetToken: string) => {
+        const mailOptions = {
+            from: process.env.VERIFIED_EMAIL_ADDRESS,
+            to: email,
+            subject: 'Password Reset',
+            text: `You are receiving this email because you (or someone else) has requested a password reset for your account.\n\n
+            Please click the following link, or paste it into your browser to complete the process:\n\n
+            https://leetstorer.com/reset-password/${resetToken}\n\n
+            If you did not request this, please ignore this email and your password will remain unchanged.`
+        };
+
+        await transporter.sendMail(mailOptions);
     },
 }
