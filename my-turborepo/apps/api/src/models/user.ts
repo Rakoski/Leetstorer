@@ -15,6 +15,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    resetPasswordToken: {
+        type: String,
+        required: false
+    },
+    resetPasswordExpires: {
+        type: Date,
+        required: false
+    },
     isAdmin: {
         type: Boolean,
         required: true,
