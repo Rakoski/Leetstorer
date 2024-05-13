@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import dateScalar from "../utils/graphqlDateScalarType.ts";
 
 const Schema = mongoose.Schema;
 
@@ -20,7 +21,7 @@ const userSchema = new Schema({
         required: false
     },
     resetPasswordExpires: {
-        type: Date,
+        type: dateScalar,
         required: false
     },
     isAdmin: {

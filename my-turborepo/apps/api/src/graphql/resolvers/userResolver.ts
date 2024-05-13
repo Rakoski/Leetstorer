@@ -1,8 +1,10 @@
 import bcrypt from "bcryptjs";
-import {log} from "@repo/logger";
-import {ProblemInterface} from "./utils/problemInterface.ts";
+import { log } from "@repo/logger";
+import { ProblemInterface } from "./utils/problemInterface.ts";
+import { UserInterface } from "./utils/userInterface.ts";
 import jwt from "jsonwebtoken";
-import transporter from '../../utils/email-transporter.ts'
+import { sendPasswordResetEmail } from '../../utils/aws-config.ts';
+import * as crypto from "crypto";
 
 const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
@@ -157,20 +159,52 @@ module.exports = {
             throw err;
         }
     },
-    sendPasswordResetEmail: async (args: {email: string, resetToken: string}) => {
-        const emailToSendReset = args.email
-        const resetToken = args.resetToken
+    requestPasswordReset: async ({ email }) => {
+        try {
+            let user: UserInterface
 
-        const mailOptions = {
-            from: process.env.VERIFIED_EMAIL_ADDRESS,
-            to: emailToSendReset,
-            subject: 'Password Reset',
-            text: `You are receiving this email because you (or someone else) has requested a password reset for your account.\n\n
-            Please click the following link, or paste it into your browser to complete the process:\n\n
-            https://leetstorer.com/reset-password/${resetToken}\n\n
-            If you did not request this, please ignore this email and your password will remain unchanged.`
-        };
+            user = await User.findOne({ email });
 
-        await transporter.sendMail(mailOptions);
+            if (!user) {
+                return new Error('User with this email does not exist');
+            }
+
+            const resetToken = crypto.randomBytes(20).toString('hex');
+            user.resetPasswordToken = resetToken;
+            user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+
+            await user.save();
+
+            await sendPasswordResetEmail(email, resetToken);
+
+            return true;
+        } catch (err) {
+            console.error('Error in requestPasswordReset:', err);
+            throw err;
+        }
+    },
+    resetPassword: async ({ token, newPassword }) => {
+        try {
+            let user: UserInterface
+            user = await User.findOne({
+                resetPasswordToken: token,
+                resetPasswordExpires: { $gt: Date.now() }
+            });
+
+            if (!user) {
+                return new Error('Invalid or expired reset token');
+            }
+
+            user.password = await bcrypt.hash(newPassword, 12);
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpires = undefined;
+
+            await user.save();
+
+            return true;
+        } catch (err) {
+            console.error('Error in resetPassword:', err);
+            throw err;
+        }
     },
 }

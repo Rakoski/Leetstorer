@@ -14,7 +14,7 @@ module.exports = {
 
         try {
             const problems = await Problem.find();
-            const populatedProblems: any[] = [];
+            const populatedProblems: object[] = [];
 
             for (const problem of problems) {
                 const populatedUserCreator = await userCreator(problem.creator);

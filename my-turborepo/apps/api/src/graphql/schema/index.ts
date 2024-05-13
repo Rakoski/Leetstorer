@@ -1,6 +1,8 @@
 import {buildSchema} from "graphql";
 
 module.exports = buildSchema(`
+  scalar Date
+
   type Problem {
     _id: ID!
     title: String!
