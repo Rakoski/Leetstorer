@@ -1,15 +1,15 @@
-const AWS = require('aws-sdk')
-require('dotenv').config()
+const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
+require('dotenv').config();
 
-const SES_CONFIG = {
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+const AWS_SES = new SESClient({
     region: process.env.AWS_REGION,
-}
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    }
+});
 
-const AWS_SES = new AWS.SES(SES_CONFIG)
-
-const sendPasswordResetEmail = async (email: string, resetToken: string) => {
+const sendPasswordResetEmail = async (email, resetToken) => {
     const params = {
         Destination: {
             ToAddresses: [email]
@@ -24,6 +24,7 @@ const sendPasswordResetEmail = async (email: string, resetToken: string) => {
                     please ignore this email and your password will remain unchanged.`
                 },
                 Text: {
+                    Charset: 'UTF-8',
                     Data: `You are receiving this email because you (or someone else) has requested a password reset 
                     for your account.\n\nPlease click the following link, or paste it into your browser to complete the 
                     process:\n\nhttps://leetstorer.com/reset-password/${resetToken}\n\nIf you did not request this, 
@@ -40,7 +41,8 @@ const sendPasswordResetEmail = async (email: string, resetToken: string) => {
     };
 
     try {
-        await AWS_SES.sendEmail(params).promise();
+        const command = new SendEmailCommand(params);
+        await AWS_SES.send(command);
     } catch (error) {
         console.error("Error sending email:", error);
         throw error;
@@ -48,3 +50,4 @@ const sendPasswordResetEmail = async (email: string, resetToken: string) => {
 };
 
 export { sendPasswordResetEmail };
+

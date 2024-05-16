@@ -15,11 +15,13 @@
     "preset": "@repo/jest-presets/jest/node"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.577.0",
     "@repo/logger": "workspace:*",
     "@types/bcryptjs": "^2.4.6",
     "@types/dotenv": "^8.2.0",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/nodemailer": "^6.4.15",
+    "aws-sdk": "^2.1618.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
