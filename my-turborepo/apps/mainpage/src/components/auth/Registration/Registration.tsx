@@ -1,8 +1,10 @@
-import { useState } from "react";
+import React, {Fragment, useState} from "react";
 import { InputField } from "@repo/ui/src/InputField";
 import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
 import CreateUserMutation from "../../../mutations/CreateUserMutation.ts";
 import Cookies from 'js-cookie'
+import {CounterButton} from "@repo/ui/src/LoginRegisterButton";
+import {Link} from "@repo/ui/src/Link";
 
 function RegistrationPage({ setIsLoggedIn }) {
     const [username, setUsername] = useState("");
@@ -36,7 +38,15 @@ function RegistrationPage({ setIsLoggedIn }) {
 
     return (
         <div>
-            <ArticleComponent title="Sign up for Leetstorer" fields={registrationFields} onClick={handleRegistration} isLoginComponent={false} />
+            <ArticleComponent
+                title="Sign in to Leetstorer"
+                fields={registrationFields}
+                onClick={handleRegistration}
+                isLoginComponent={false}
+                buttonPhrase={"Register"}
+                articleUnderPhrase="Back to Login"
+                hrefTo="/"
+            />
         </div>
     );
 }

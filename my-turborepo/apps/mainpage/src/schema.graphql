@@ -75,6 +75,7 @@
     login(email: String!, password: String!): AuthData!
     editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
     getUserProblems(userId: ID!): [Problem!]!
+    sendPasswordResetEmail(email: String!, resetToken: String!): User
     associateUserWithProblem(userId: ID!, problemId: ID!): Problem
   }
 

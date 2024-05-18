@@ -3,10 +3,11 @@ import "./styles.css";
 
 interface CounterButtonProps {
     onClick: () => void | null;
-    isLoginComponent: boolean;
+    buttonPhrase: string
+
 }
 
-export function CounterButton({onClick, isLoginComponent}: CounterButtonProps): JSX.Element {
+export function CounterButton({onClick, buttonPhrase}: CounterButtonProps): JSX.Element {
     const [clicked, setClicked] = useState(false);
 
     const handleClick = () => {
@@ -33,7 +34,7 @@ export function CounterButton({onClick, isLoginComponent}: CounterButtonProps): 
             }}
             type="button"
         >
-            {isLoginComponent ? "Login" : "Register"}
+            {buttonPhrase}
         </button>
     );
 }
