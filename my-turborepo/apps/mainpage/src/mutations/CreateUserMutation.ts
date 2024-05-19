@@ -1,62 +1,52 @@
-import {
-    commitMutation,
-    graphql
-} from 'react-relay'
-import environment from '../RelayEnvironment.ts'
-
-const a: number = 5;
+import { commitMutation, graphql } from 'react-relay';
+import environment from '../RelayEnvironment.ts';
 
 const mutation = graphql`
-    mutation CreateUserMutation($userInput: UserInput!, $email: String!, $password: String!) {
+    mutation CreateUserMutation($userInput: UserInput!) {
         createUser(userInput: $userInput) {
             _id
             username
             email
-            password
             createdProblems {
                 _id
                 title
                 level
                 description
+                user_description
                 frequency
                 link
                 data_structure
                 date
             }
         }
-
-        login(email: $email, password: $password) {
-            userId
-            token
-            tokenExpiration
-        }
-      }
+    }
 `;
 
-export default (username, email, password, callback, p: (error) => void) => {
+export default function createUser(username, email, password, callback, onError) {
     const variables = {
         userInput: {
             username,
             email,
             password
-        },
-        email,
-        password
+        }
     };
 
-    commitMutation(
-        environment,
-        {
-            mutation,
-            variables,
-            onCompleted: (response: {createUser: {_id: string}, login: {token: string}}) => {
-                const id = response.createUser._id;
-                const token = response.login.token;
-                callback(id, token);
-            },
-            onError: err => alert("Senha ou login incorretos!"),
+    commitMutation(environment, {
+        mutation,
+        variables,
+        onCompleted: (response, errors) => {
+            const { createUser } = response;
+            if (createUser) {
+                callback(createUser);
+            } else if (errors && errors.length > 0) {
+                onError(new Error("Email already in use!"));
+            } else {
+                onError(new Error("An unexpected error occurred."));
+            }
         },
-    );
-};
-
-
+        onError: (error) => {
+            console.error("Mutation error: ", error);
+            onError(error);
+        }
+    });
+}

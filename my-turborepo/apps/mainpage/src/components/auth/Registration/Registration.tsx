@@ -1,10 +1,9 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
 import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
 import CreateUserMutation from "../../../mutations/CreateUserMutation.ts";
-import Cookies from 'js-cookie'
-import {CounterButton} from "@repo/ui/src/LoginRegisterButton";
-import {Link} from "@repo/ui/src/Link";
+import Cookies from 'js-cookie';
+import loginMutation from "../../../mutations/LoginMutation.ts";
 
 function RegistrationPage({ setIsLoggedIn }) {
     const [username, setUsername] = useState("");
@@ -17,18 +16,26 @@ function RegistrationPage({ setIsLoggedIn }) {
             return;
         }
         setLoading(true);
-        CreateUserMutation(username, email, password, (userId, token) => {
-            saveUserData(userId, token);
-            setIsLoggedIn(true);
-        }, (error) => {
-            alert("Error in registration")
-        });
+        CreateUserMutation(
+            username,
+            email,
+            password,
+            (userId, token) => {
+                loginMutation(email, password, (userId, token) => {
+                    Cookies.set("GC_USER_ID", userId);
+                    Cookies.set("GC_AUTH_TOKEN", token);
+                    setIsLoggedIn(true);
+                    setLoading(false);
+                }, onerror => {
+                    console.log("error in logging in after registration")
+                })
+            },
+            (error) => {
+                alert(error);
+                setLoading(false);
+            }
+        );
     };
-
-    const saveUserData = (userId: string, token: string) => {
-        Cookies.set("GC_USER_ID", userId);
-        Cookies.set("GC_AUTH_TOKEN", token);
-    }
 
     const registrationFields = [
         <InputField key="username" label={"Username"} type="text" value={username} onChange={(e) => setUsername(e.target.value)} />,

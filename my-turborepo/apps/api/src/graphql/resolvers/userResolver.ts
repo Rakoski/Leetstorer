@@ -12,8 +12,8 @@ const User = require('../../models/user.ts');
 const userCreator = require('./utils/userCreator.ts')
 
 module.exports = {
-    users: async (args: object, req: {isAuth: boolean}) => {
-        if (!req.isAuth) {
+    users: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
+        if (!req.isAuth && !req.isAdmin) {
             throw new Error("Unauthorized!")
         }
 
@@ -48,6 +48,7 @@ module.exports = {
         try {
             const existingUser = await User.findOne({ email: args.userInput.email });
 
+            log("existinguser: ", existingUser);
             if (existingUser) {
                 return new Error("User already exists!");
             }
@@ -62,7 +63,7 @@ module.exports = {
 
             const result = await user.save();
 
-            return { ...result, password: null, _id: result._id, email: result.email, username: result.username };
+            return { password: null, _id: result._id, email: result.email, username: result.username };
 
         } catch (err) {
             log("Error in createUser resolver: ", err);
@@ -96,7 +97,7 @@ module.exports = {
     // mainly, I basically cannot do queries since I don't have the Node type. I will then, use mutations to fetch
     // my users problems.
     getUserProblems: async (args: { userId: string }, req: {isAuth: boolean, isAdmin: boolean}) => {
-        if (!req.isAuth || !req.isAdmin) {
+        if (!req.isAuth) {
             throw new Error("Unauthorized!");
         }
 
