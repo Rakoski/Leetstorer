@@ -3,15 +3,20 @@ import { InputField } from "@repo/ui/src/InputField";
 import {CounterButton} from "@repo/ui/src/LoginRegisterButton";
 import {Link} from "@repo/ui/src/Link";
 import {ArticleComponent} from "@repo/ui/src/SignInPagesArticle";
+import requestPasswordResetMutation from "../../../mutations/RequestPasswordResetMutation.ts";
 
 function resetPasswordPage() {
-    const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 
     const handleSendEmail = () => {
-        if (!email || !password) {
+        if (!email) {
             return;
         }
+        requestPasswordResetMutation(email, () => {
+            console.log("email sent!")
+        }, (errors) => {
+            console.log("errors: ", errors)
+        })
     };
 
     const resetPasswordFields = [

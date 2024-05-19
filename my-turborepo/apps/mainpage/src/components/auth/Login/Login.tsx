@@ -35,7 +35,7 @@ function LoginPage({ setIsLoggedIn }) {
                 isLoginComponent={true}
                 buttonPhrase={"Login"}
                 articleUnderPhrase="Forgot your password?"
-                hrefTo="/resetpassword"
+                hrefTo="/send-token"
             />
         </div>
     );

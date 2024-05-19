@@ -63,7 +63,7 @@ function App() {
                     element={<PublicRoute element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} redirectTo="/dashboard" />}
                 />
                 <Route
-                    path="/resetpassword"
+                    path="/send-token"
                     element={<PublicRoute element={<ResetPassword setIsLoggedIn={setIsLoggedIn} />} />}
                 />
             </Routes>

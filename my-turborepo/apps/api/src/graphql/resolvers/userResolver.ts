@@ -162,6 +162,7 @@ module.exports = {
     },
     requestPasswordReset: async ({ email }) => {
         try {
+            log("email sent!")
             let user: UserInterface
 
             user = await User.findOne({ email });
