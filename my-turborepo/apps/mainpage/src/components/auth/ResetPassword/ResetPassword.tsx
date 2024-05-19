@@ -12,10 +12,8 @@ function resetPasswordPage() {
         if (!email) {
             return;
         }
-        requestPasswordResetMutation(email, () => {
-            console.log("email sent!")
-        }, (errors) => {
-            console.log("errors: ", errors)
+        requestPasswordResetMutation(email, () => {}, (errors) => {
+            console.log("error in reseting password")
         })
     };
 
