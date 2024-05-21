@@ -30,7 +30,7 @@ Before you begin, ensure you have the following installed on your machine:
    ```
    pnpm install turbo --global
 
-2. Fork this repository to your machine:
+2. Fork this repository to your machine
 
 3. Clone the repository:
 
