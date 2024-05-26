@@ -18,7 +18,15 @@ function resetPasswordPage() {
     };
 
     const resetPasswordFields = [
-        <InputField key="email" label={"Email"} type="email" value={email} onChange={(event) => {setEmail(event.target.value)}} />,
+        <InputField
+            key="email"
+            label={"Email"}
+            type="email"
+            value={email}
+            onChange={(event) => {
+                setEmail(event.target.value)
+            }}
+        />,
     ];
 
     return (

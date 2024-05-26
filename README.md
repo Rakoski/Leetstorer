@@ -68,13 +68,13 @@ my-turborepo/
                       |- app/
                            |- components/
                                |- Dashboard/
-                                    |- index.tsx
+                                    |- Login.tsx
                                     |- styles.css
                                |- Login/
-                                    |- index.tsx
+                                    |- Login.tsx
                                     |- styles.css
                                |- Registration/
-                                    |- index.tsx
+                                    |- Login.tsx
                                     |- styles.css
                                |- app.tsx
                            |- mutations/
@@ -191,10 +191,10 @@ my-turborepo/
               |- react-library.json
           |- ui/
               |- src/
-                  |- index.tsx
+                  |- Login.tsx
                   |- CounterButton/
                       |- index.test.tsx
-                      |- index.tsx
+                      |- Login.tsx
                   |- Link/
               |- .eslintrc.js
               |- package.json
