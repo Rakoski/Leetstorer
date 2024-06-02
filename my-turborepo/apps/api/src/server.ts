@@ -12,7 +12,7 @@ export const createServer = (): Express => {
         .disable('x-powered-by')
         .use(morgan('dev'))
         .use(cors({
-            origin: 'https://leetstorer.com',
+            origin: '*',
             methods: ['POST', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization']
         }))
