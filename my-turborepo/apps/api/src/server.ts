@@ -12,8 +12,8 @@ export const createServer = (): Express => {
         .disable('x-powered-by')
         .use(morgan('dev'))
         .use(cors({
-            origin: '*', // Allow all origins for now, change it to specific domain after testing
-            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            origin: 'https://leetstorer.com',
+            methods: ['GET', 'POST', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization']
         }))
         .use(json())
