@@ -7,7 +7,7 @@ import {
 } from "relay-runtime";
 import Cookies from "js-cookie";
 
-const HTTP_ENDPOINT = "http://localhost:4000/graphql";
+const HTTP_ENDPOINT = "https://leetstorer.com:4000/graphql";
 
 const fetchFn: FetchFunction = async (request, variables) => {
   const token = Cookies.get('GC_AUTH_TOKEN');
