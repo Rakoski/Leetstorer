@@ -13,7 +13,7 @@ export const createServer = (): Express => {
         .use(morgan('dev'))
         .use(cors({
             origin: 'https://leetstorer.com',
-            methods: ['GET', 'POST', 'OPTIONS'],
+            methods: ['POST', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization']
         }))
         .use(json())
