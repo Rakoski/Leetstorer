@@ -11,13 +11,13 @@ export const createServer = (): Express => {
     app
         .disable('x-powered-by')
         .use(morgan('dev'))
-        .use(json())
-        .use(urlencoded({ extended: true }))
         .use(cors({
-            origin: '*',
-            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            origin: '*', // Allow all origins for now, change it to specific domain after testing
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization']
         }))
+        .use(json())
+        .use(urlencoded({ extended: true }))
         .use(isAuth)
         .use('/graphql', graphqlRouter);
 
