@@ -18,7 +18,7 @@ const graphqlRouter = express.Router();
 graphqlRouter.use('/graphql', graphqlHTTP({
     schema: schema,
     rootValue: combinedResolvers,
-    graphiql: false,
+    graphiql: true,
 }));
 
 export default graphqlRouter;
