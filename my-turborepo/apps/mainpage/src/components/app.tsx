@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import RegistrationPage from "./auth/Registration/Registration.tsx";
 import LoginPage from "./auth/Login/Login.tsx";
-import Dashboard from "./afterLogin/Dashboard";
-import ProblemInfo from "./afterLogin/ProblemInfo";
-import AddProblem from "./afterLogin/AddProblem";
+import Dashboard from "./afterLogin/Dashboard/Dashboard.tsx";
+import ProblemInfo from "./afterLogin/ProblemInfo/ProblemInfo.tsx";
+import AddProblem from "./afterLogin/AddProblem/AddProblem.tsx";
 import Layout from "@repo/ui/src/Layout";
-import EditProblem from "./afterLogin/EditProblem";
+import EditProblem from "./afterLogin/EditProblem/EditProblem.tsx";
 import Cookies from "js-cookie";
 import ResetPassword from "./auth/ResetPassword/ResetPassword.tsx";
 

@@ -15,18 +15,6 @@ import {useNavigate} from "react-router-dom";
 import NotesField from "@repo/ui/src/NotesFIeld";
 import Cookies from "js-cookie";
 
-interface ProblemData {
-    title: string;
-    level: string;
-    description: string;
-    user_description: string;
-    frequency: string;
-    link: string;
-    data_structure: string;
-    date: string;
-    userId: string
-}
-
 const AddProblem: React.FC = () => {
     const navigate = useNavigate();
     const [problemData, setProblemData] = useState({
@@ -34,7 +22,7 @@ const AddProblem: React.FC = () => {
         level: '',
         description: '',
         user_description: '',
-        frequency: 0,
+        frequency: '',
         link: '',
         data_structure: '',
         date: '',
@@ -43,16 +31,23 @@ const AddProblem: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        const numericValue = name === 'frequency' ? Number(value) : value;
         setProblemData((prevData) => ({
             ...prevData,
-            [name]: numericValue,
+            [name]: value,
         }));
     };
 
     const handleCreateProblem = () => {
+        const frequencyNumber = parseInt(problemData.frequency, 10);
+
+        if (isNaN(frequencyNumber)) {
+            console.log("Invalid frequency value. Please enter a valid number.");
+            return;
+        }
+
         CreateProblemMutation({
             ...problemData,
+            frequency: frequencyNumber,
         }, (createdProblem) => {
             navigate('/dashboard');
         }, (error) => {
@@ -120,8 +115,7 @@ const AddProblem: React.FC = () => {
                         <FieldTitle>Frequency</FieldTitle>
                         <InfoField
                             name="frequency"
-                            type="number"
-                            value={problemData.frequency.toString()}
+                            value={problemData.frequency}
                             onChange={handleChange}
                         />
                     </FieldContainer>
