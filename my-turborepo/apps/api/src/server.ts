@@ -1,20 +1,25 @@
-import { json, urlencoded } from "body-parser";
-import express, { Express } from "express";
-import morgan from "morgan";
-import cors from "cors";
+import express, { Express } from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import { json, urlencoded } from 'body-parser';
 import graphqlRouter from './graphql';
-
-const isAuth = require('./middleware/is-auth.ts')
+import isAuth from './middleware/is-auth';
 
 export const createServer = (): Express => {
     const app = express();
+
     app
-        .use(isAuth)
-        .disable("x-powered-by")
-        .use(morgan("dev"))
+        .disable('x-powered-by')
+        .use(morgan('dev'))
+        .use(cors({
+            origin: '*',
+            methods: ['POST', 'OPTIONS'],
+            allowedHeaders: ['Content-Type', 'Authorization']
+        }))
         .use(json())
-        .use(cors())
-        .use('/graphql', graphqlRouter)
+        .use(urlencoded({ extended: true }))
+        .use(isAuth)
+        .use('/graphql', graphqlRouter);
 
     return app;
 };

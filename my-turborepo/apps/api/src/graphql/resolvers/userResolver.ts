@@ -1,18 +1,17 @@
 import bcrypt from "bcryptjs";
 import { log } from "@repo/logger";
+import { ProblemInterface } from "./utils/problemInterface.ts";
+import { UserInterface } from "./utils/userInterface.ts";
 import jwt from "jsonwebtoken";
-import {UserInterface} from "./utils/userInterface.ts";
-import {ProblemInterface} from "./utils/problemInterface.ts";
-import {Document, Types} from "mongoose";
-const User = require('../../models/user.ts')
-const Problem = require('../../models/problem.ts')
+import { sendPasswordResetEmail } from '../../utils/aws-config.ts';
+import * as crypto from "crypto";
 
 const userCreator = require('./utils/userCreator');
 
 module.exports = {
-    users: async (_args: unknown, req: { isAuth: boolean }) => {
-        if (!req.isAuth) {
-            throw new Error("Unauthorized!");
+    users: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
+        if (!req.isAuth && !req.isAdmin) {
+            throw new Error("Unauthorized!")
         }
 
         try {
@@ -47,6 +46,7 @@ module.exports = {
         try {
             const existingUser = await User.findOne({ email });
 
+            log("existinguser: ", existingUser);
             if (existingUser) {
                 return new Error("User already exists!");
             }
@@ -59,8 +59,9 @@ module.exports = {
                 password: hashedPassword,
             });
 
-            let result = null
-            result = await user.save();
+            const result = await user.save();
+
+            return { password: null, _id: result._id, email: result.email, username: result.username };
 
             if (result) {
                 return { ...result._doc, password: null };
@@ -99,8 +100,9 @@ module.exports = {
     // because I configured my server without the proper relay modifications, I will need to do some concessions,
     // mainly, I basically cannot do queries since I don't have the Node type. I will then, use mutations to fetch
     // my users problems.
-    getUserProblems: async (_args: unknown, args: { userId: string }, req: { isAuth: boolean, isAdmin: boolean }) => {
-        if (!req.isAuth || !req.isAdmin) {
+    getUserProblems: async (args: { userId: string }, req: {isAuth: boolean, isAdmin: boolean}) => {
+        if (!req.isAuth) {
+
             throw new Error("Unauthorized!");
         }
 
@@ -159,6 +161,55 @@ module.exports = {
             };
         } catch (err) {
             log("Error in associateUserWithProblem resolver: ", err);
+            throw err;
+        }
+    },
+    requestPasswordReset: async ({ email }) => {
+        try {
+            log("email sent!")
+            let user: UserInterface
+
+            user = await User.findOne({ email });
+
+            if (!user) {
+                return new Error('User with this email does not exist');
+            }
+
+            const resetToken = crypto.randomBytes(20).toString('hex');
+            user.resetPasswordToken = resetToken;
+            user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+
+            await user.save();
+
+            await sendPasswordResetEmail(email, resetToken);
+
+            return true;
+        } catch (err) {
+            console.error('Error in requestPasswordReset:', err);
+            throw err;
+        }
+    },
+    resetPassword: async ({ token, newPassword }) => {
+        try {
+            let user: UserInterface
+            user = await User.findOne({
+                resetPasswordToken: token,
+                resetPasswordExpires: { $gt: Date.now() }
+            });
+
+            if (!user) {
+                return new Error('Invalid or expired reset token');
+            }
+
+            user.password = await bcrypt.hash(newPassword, 12);
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpires = undefined;
+
+            await user.save();
+
+            return true;
+        } catch (err) {
+            console.error('Error in resetPassword:', err);
             throw err;
         }
     },

@@ -28,7 +28,15 @@ function LoginPage({ setIsLoggedIn }) {
 
     return (
         <div>
-            <ArticleComponent title="Sign in to Leetstorer" fields={loginFields} onClick={handleLogin} isLoginComponent={true} />
+            <ArticleComponent
+                title="Sign in to Leetstorer"
+                fields={loginFields}
+                onClick={handleLogin}
+                isLoginComponent={true}
+                buttonPhrase={"Login"}
+                articleUnderPhrase="Forgot your password?"
+                hrefTo="/send-token"
+            />
         </div>
     );
 }

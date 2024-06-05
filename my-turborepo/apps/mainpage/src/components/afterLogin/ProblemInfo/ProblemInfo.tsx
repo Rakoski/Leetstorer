@@ -52,33 +52,63 @@ const ProblemInfo: React.FC = () => {
                         <LeftColumn>
                             <FieldContainer>
                                 <FieldTitle>Description</FieldTitle>
-                                <DescriptionField value={problem.description} readOnly />
+                                <DescriptionField
+                                    value={problem.description}
+                                    readOnly
+                                />
                             </FieldContainer>
                         </LeftColumn>
                         <RightColumn>
                             <FieldContainer>
                                 <FieldTitle>Link</FieldTitle>
-                                <InfoField value={problem.link} readOnly link />
+                                <InfoField
+                                    value={problem.link}
+                                    name={"Link"}
+                                    onChange={null}
+                                    link
+                                    readOnly
+                                />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldTitle>Level of Difficulty</FieldTitle>
-                                <InfoField value={problem.level} readOnly />
+                                <InfoField
+                                    value={problem.level}
+                                    name={"Level"}
+                                    onChange={null}
+                                    readOnly
+                                />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldTitle>Data Structure</FieldTitle>
-                                <InfoField value={problem.data_structure} readOnly />
+                                <InfoField
+                                    value={problem.data_structure}
+                                    name={"Data Structures"}
+                                    onChange={null}
+                                    readOnly
+                                />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldTitle>Date of Completion</FieldTitle>
-                                <DateField value={formatDate(problem.date)} readOnly />
+                                <DateField
+                                    value={formatDate(problem.date)}
+                                    readOnly
+                                />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldTitle>Frequency</FieldTitle>
-                                <InfoField value={problem.frequency.toString()} readOnly />
+                                <InfoField
+                                    value={problem.frequency.toString()}
+                                    name={"Frequency"}
+                                    onChange={null}
+                                    readOnly
+                                />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldTitle>Notes</FieldTitle>
-                                <NotesField value={problem.user_description} readOnly />
+                                <NotesField
+                                    value={problem.user_description}
+                                    readOnly
+                                />
                             </FieldContainer>
                         </RightColumn>
                     </FieldsContainer>

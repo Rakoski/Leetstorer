@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "run": "cd my-turborepo turbo build dev",
-    "build_relay": "cd my-turborepo/apps/admin/src/mutations pnpm run relay"
+    "build_relay": "cd my-turborepo/apps/mainpage/src/mutations pnpm run relay"
   },
   "keywords": [],
   "author": "",
