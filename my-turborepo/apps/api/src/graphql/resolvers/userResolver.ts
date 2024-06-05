@@ -6,10 +6,7 @@ import jwt from "jsonwebtoken";
 import { sendPasswordResetEmail } from '../../utils/aws-config.ts';
 import * as crypto from "crypto";
 
-const Problem = require('../../models/problem');
-const User = require('../../models/user.ts');
-
-const userCreator = require('./utils/userCreator.ts')
+const userCreator = require('./utils/userCreator');
 
 module.exports = {
     users: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
@@ -18,16 +15,17 @@ module.exports = {
         }
 
         try {
-            let users = null
-            users = await User.find().populate('createdProblems');
+            let users = UserInterface;
+             users = await User.find().populate('createdProblems');
 
-            return users.map((user: { _doc: { _id: string }, _id: string, username: string, email: string,
-                createdProblems: Array<ProblemInterface>}) => ({
-                ...user,
+            if (!users) {
+                return new Error("Could not retrieve user and it's problems");
+            }
+
+            return users.map((user) => ({
+                ...user._doc,
                 _id: user._id.toString(),
-                email: user.email,
-                username: user.username,
-                createdProblems: user.createdProblems.map((problem) => ({
+                createdProblems: user.createdProblems.map((problem: ProblemInterface) => ({
                     title: problem.title,
                     level: problem.level,
                     description: problem.description,
@@ -44,20 +42,20 @@ module.exports = {
             throw err;
         }
     },
-    createUser: async (args: {userInput: { username: string, email: string; password: string }}) => {
+    createUser: async (_args: unknown, { userInput: { username, email, password } }: { userInput: { username: string, email: string, password: string } }) => {
         try {
-            const existingUser = await User.findOne({ email: args.userInput.email });
+            const existingUser = await User.findOne({ email });
 
             log("existinguser: ", existingUser);
             if (existingUser) {
                 return new Error("User already exists!");
             }
 
-            const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+            const hashedPassword = await bcrypt.hash(password, 12);
 
             const user = new User({
-                username: args.userInput.username,
-                email: args.userInput.email,
+                username,
+                email,
                 password: hashedPassword,
             });
 
@@ -65,18 +63,20 @@ module.exports = {
 
             return { password: null, _id: result._id, email: result.email, username: result.username };
 
+            if (result) {
+                return { ...result._doc, password: null };
+            }
         } catch (err) {
             log("Error in createUser resolver: ", err);
             throw new Error("Error in creating user");
         }
     },
-    login: async ({ email, password }) => {
+    login: async (_args: unknown, { email, password }: { email: string, password: string }) => {
         try {
             let user = null
-
             user = await User.findOne({ email });
             if (!user) {
-                return new Error("User does not exist!");
+                return new Error("404 " + email +  " User not found!");
             }
 
             const passwordsAreEqual = await bcrypt.compare(password, user.password);
@@ -84,11 +84,15 @@ module.exports = {
                 return new Error("401 Invalid credentials");
             }
 
-            const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY, { expiresIn: '48h' });
+            const token = process.env.JWT_KEY
+                ? jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY, { expiresIn: '48h' })
+                : null;
 
             return { userId: user.id, token, tokenExpiration: 48 };
         } catch (err) {
-            console.error("Error in login:", err.message);
+            if (err instanceof Error) {
+                console.error("Error in login:", err.message);
+            }
             throw err;
         }
     },
@@ -98,11 +102,12 @@ module.exports = {
     // my users problems.
     getUserProblems: async (args: { userId: string }, req: {isAuth: boolean, isAdmin: boolean}) => {
         if (!req.isAuth) {
+
             throw new Error("Unauthorized!");
         }
 
         try {
-            let user = new User()
+            let user = null
 
             user = await User.findById(args.userId).populate('createdProblems');
 
@@ -110,7 +115,7 @@ module.exports = {
                 return new Error("User not found!");
             }
 
-            return user.createdProblems.map((problem: object) => ({
+            return user.createdProblems.map((problem) => ({
                 _id: problem._id.toString(),
                 title: problem.title,
                 level: problem.level,
@@ -119,19 +124,18 @@ module.exports = {
                 frequency: problem.frequency,
                 link: problem.link,
                 data_structure: problem.data_structure,
-                date: problem.date.toString()
+                date: problem.date?.toString()
             }));
         } catch (err) {
             console.log("Error in getUserProblems resolver: ", err);
             throw err;
         }
     },
-    associateUserWithProblem: async (args: { userId: string, problemId: string }) => {
+    associateUserWithProblem: async (_args: unknown, args: { userId: string, problemId: string }) => {
         try {
             const { userId, problemId } = args;
 
-            let user = null
-            let problem = new Problem()
+            let user, problem = null
 
             user = await User.findById(userId);
             problem = await Problem.findById(problemId);
@@ -152,7 +156,7 @@ module.exports = {
                 frequency: problem.frequency,
                 link: problem.link,
                 data_structure: problem.data_structure,
-                date: problem.date.toString(),
+                date: problem.date?.toString(),
                 creator: await userCreator(userId),
             };
         } catch (err) {

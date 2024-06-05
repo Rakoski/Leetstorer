@@ -18,7 +18,8 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "types": ["jest"]
   },
   "exclude": ["node_modules"]
 }
