@@ -35,7 +35,7 @@ Before you begin, ensure you have the following installed on your machine:
 3. Clone the repository:
 
      ```
-     git clone https://github.com/<YOUR_GITHUB_USERNAME>/leetcode-problem-storer.git
+     git clone https://github.com/<YOUR_GITHUB_USERNAME>/Leetstorer.git
 
 4. Navigate to the project directory:
 
