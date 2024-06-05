@@ -25,7 +25,7 @@ const sendPasswordResetEmail = async (email, resetToken) => {
                     process:\n\n
                     ${
                         process.env.PRODUCTION == true ?
-                            'https://leetstorer.com/reset-password/'
+                            `${process.env.PRODUCTION_URL}/reset-password/`
                             :
                             `http://localhost:${process.env.FRONTEND_PORT}/reset-password/`
                     }${resetToken}\n\n
@@ -39,7 +39,7 @@ const sendPasswordResetEmail = async (email, resetToken) => {
                     process:\n\n
                     ${
                         process.env.PRODUCTION == true ?
-                            'https://leetstorer.com/reset-password/'
+                            `${process.env.PRODUCTION_URL}/reset-password/`
                             :
                             `http://localhost:${process.env.FRONTEND_PORT}/reset-password/`
                     }${resetToken}\n\n
