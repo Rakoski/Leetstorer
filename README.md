@@ -219,6 +219,8 @@ To create a new problem, you can use the following example mutation:
         login(email: String!, password: String!): AuthData!
         editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
         getUserProblems(userId: ID!): [Problem!]!
+        requestPasswordReset(email: String!): Boolean!
+        resetPassword(token: String!, newPassword: String!): Boolean!
         associateUserWithProblem(userId: ID!, problemId: ID!): Problem
       }
     
