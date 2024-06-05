@@ -9,6 +9,7 @@ import Layout from "@repo/ui/src/Layout";
 import EditProblem from "./afterLogin/EditProblem/EditProblem.tsx";
 import Cookies from "js-cookie";
 import ResetPassword from "./auth/ResetPassword/ResetPassword.tsx";
+import ResetToken from "./auth/ResetToken/ResetToken.tsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,6 +40,22 @@ function App() {
         <Router>
             <Routes>
                 <Route
+                    path="/"
+                    element={<PublicRoute element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} redirectTo="/dashboard" />}
+                />
+                <Route
+                    path="/register"
+                    element={<PublicRoute element={<RegistrationPage setIsLoggedIn={setIsLoggedIn} />} redirectTo="/dashboard" />}
+                />
+                <Route
+                    path="/reset-password/:token"
+                    element={<PublicRoute element={<ResetPassword setIsLoggedIn={setIsLoggedIn} />} />}
+                />
+                <Route
+                    path="/send-token"
+                    element={<PublicRoute element={<ResetToken setIsLoggedIn={setIsLoggedIn} />} />}
+                />
+                <Route
                     path="/dashboard"
                     element={<PrivateRoute element={<Layout onLogout={handleLogout}><Dashboard /></Layout>} />}
                 />
@@ -54,18 +71,7 @@ function App() {
                     path="/edit"
                     element={<PrivateRoute element={<Layout onLogout={handleLogout}><EditProblem /></Layout>} />}
                 />
-                <Route
-                    path="/register"
-                    element={<PublicRoute element={<RegistrationPage setIsLoggedIn={setIsLoggedIn} />} redirectTo="/dashboard" />}
-                />
-                <Route
-                    path="/"
-                    element={<PublicRoute element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} redirectTo="/dashboard" />}
-                />
-                <Route
-                    path="/send-token"
-                    element={<PublicRoute element={<ResetPassword setIsLoggedIn={setIsLoggedIn} />} />}
-                />
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </Router>
     );

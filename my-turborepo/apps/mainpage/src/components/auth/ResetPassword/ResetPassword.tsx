@@ -1,47 +1,88 @@
-import React, {Fragment, useState} from "react";
+import React, { useState } from 'react';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { InputField } from "@repo/ui/src/InputField";
-import {CounterButton} from "@repo/ui/src/LoginRegisterButton";
-import {Link} from "@repo/ui/src/Link";
-import {ArticleComponent} from "@repo/ui/src/SignInPagesArticle";
-import requestPasswordResetMutation from "../../../mutations/RequestPasswordResetMutation.ts";
+import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
+import resetPasswordMutation from "../../../mutations/ResetPasswordMutation.ts";
 
-function resetPasswordPage() {
-    const [email, setEmail] = useState("");
+const PasswordResetPage: React.FC = () => {
+    const { token: resetToken } = useParams();
+    const navigate = useNavigate();
 
-    const handleSendEmail = () => {
-        if (!email) {
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [isPasswordResetSuccessful, setIsPasswordResetSuccessful] = useState(false);
+    const [error, setError] = useState('');
+
+    const handlePasswordReset = async () => {
+        console.log("clicked")
+        if (newPassword !== confirmPassword) {
+            console.log('Passwords do not match');
             return;
         }
-        requestPasswordResetMutation(email, () => {}, (errors) => {
-            console.log("error in reseting password")
-        })
+
+        if (!resetToken) {
+            console.log('Invalid or missing reset token');
+            return;
+        }
+
+        resetPasswordMutation(resetToken, newPassword, (success) => {
+            if (success) {
+                setIsPasswordResetSuccessful(true);
+                navigate("/"); // Redirect to root
+            } else {
+                console.log('Password reset failed');
+            }
+        }, (err) => {
+            console.error("Error in resetting password:", err);
+            console.log('An error occurred while resetting the password');
+        });
     };
 
     const resetPasswordFields = [
         <InputField
-            key="email"
-            label={"Email"}
-            type="email"
-            value={email}
-            onChange={(event) => {
-                setEmail(event.target.value)
-            }}
+            key="newPassword"
+            type="password"
+            placeholder="New Password"
+            label={"New Password"}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
         />,
+        <InputField
+            key="confirmPassword"
+            type="password"
+            placeholder="Confirm New Password"
+            label={"Confirm New Password"}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+        />
     ];
 
     return (
         <div>
-            <ArticleComponent
-                title="Reset your password"
-                fields={resetPasswordFields}
-                onClick={handleSendEmail}
-                isLoginComponent={false}
-                buttonPhrase={"Send Reset Password Email"}
-                articleUnderPhrase="Back to login"
-                hrefTo="/"
-            />
+            {isPasswordResetSuccessful ? (
+                <div>
+                    <h2>Password reset successful</h2>
+                    <p>You can now log in with your new password.</p>
+                    <a href={"/"}>Back to login</a>
+                </div>
+            ) : (
+                <div>
+                    <ArticleComponent
+                        articleUnderPhrase={"Back to login"}
+                        hrefTo="/"
+                        isLoginComponent={false}
+                        buttonPhrase={"Reset Password"}
+                        onClick={handlePasswordReset}
+                        title={"Reset your password"}
+                        fields={resetPasswordFields}
+                    />
+                </div>
+            )}
+            {
+                (error && !isPasswordResetSuccessful) && <p>{error}</p>
+            }
         </div>
     );
-}
+};
 
-export default resetPasswordPage;
+export default PasswordResetPage;

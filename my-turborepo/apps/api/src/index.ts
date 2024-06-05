@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import graphqlRouter from './graphql';
 
 dotenv.config();
-const port = 4000;
+const port = process.env.PORT;
 const server = createServer();
 
 mongoose.connect(process.env.MONGODB_URI)

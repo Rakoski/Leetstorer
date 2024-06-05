@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "relay-compiler --validate && vite build",
+    "build": "pnpm run relay",
     "clean": "rm -rf dist",
     "dev": "vite --host 0.0.0.0 --port 3001 --clearScreen false",
     "typecheck": "tsc --noEmit",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.9.5",
     "@repo/ui": "workspace:*",
+    "@types/dotenv": "^8.2.0",
     "@types/js-cookie": "^3.0.6",
     "dotenv": "^16.4.1",
     "js-cookie": "^3.0.5",

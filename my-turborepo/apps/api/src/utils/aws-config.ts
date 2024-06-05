@@ -1,5 +1,7 @@
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
-require('dotenv').config();
+import dotenv from "dotenv";
+
+dotenv.config()
 
 const AWS_SES = new SESClient({
     region: process.env.AWS_REGION,
@@ -20,14 +22,28 @@ const sendPasswordResetEmail = async (email, resetToken) => {
                     Charset: 'UTF-8',
                     Data: `You are receiving this email because you (or someone else) has requested a password reset 
                     for your account.\n\nPlease click the following link, or paste it into your browser to complete the 
-                    process:\n\nhttps://leetstorer.com/reset-password/${resetToken}\n\nIf you did not request this, 
+                    process:\n\n
+                    ${
+                        process.env.PRODUCTION == true ?
+                            'https://leetstorer.com/reset-password/'
+                            :
+                            `http://localhost:${process.env.FRONTEND_PORT}/reset-password/`
+                    }${resetToken}\n\n
+                    If you did not request this, 
                     please ignore this email and your password will remain unchanged.`
                 },
                 Text: {
                     Charset: 'UTF-8',
                     Data: `You are receiving this email because you (or someone else) has requested a password reset 
                     for your account.\n\nPlease click the following link, or paste it into your browser to complete the 
-                    process:\n\nhttps://leetstorer.com/reset-password/${resetToken}\n\nIf you did not request this, 
+                    process:\n\n
+                    ${
+                        process.env.PRODUCTION == true ?
+                            'https://leetstorer.com/reset-password/'
+                            :
+                            `http://localhost:${process.env.FRONTEND_PORT}/reset-password/`
+                    }${resetToken}\n\n
+                    If you did not request this, 
                     please ignore this email and your password will remain unchanged.`
                 }
             },
