@@ -3,7 +3,7 @@ import React from 'react';
 interface InfoFieldProps {
     name: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void | null;
 }
 
 const InfoField: React.FC<InfoFieldProps> = ({ name, value, onChange }) => {

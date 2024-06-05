@@ -1,6 +1,8 @@
 import {buildSchema} from "graphql";
 
 module.exports = buildSchema(`
+  scalar Date
+
   type Problem {
     _id: ID!
     title: String!
@@ -19,6 +21,8 @@ module.exports = buildSchema(`
     username: String!
     email: String!
     password: String!
+    resetPasswordToken: String
+    resetPasswordExpires: Date
     isAdmin: Boolean!
     createdProblems: [Problem!]
   }
@@ -77,6 +81,8 @@ module.exports = buildSchema(`
      clearExistingProblems: String
      login(email: String!, password: String!): AuthData
      getUserProblems(userId: ID!): [Problem!]!
+     requestPasswordReset(email: String!): Boolean!
+     resetPassword(token: String!, newPassword: String!): Boolean!
      editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
      associateUserWithProblem(userId: ID!, problemId: ID!): Problem
   }

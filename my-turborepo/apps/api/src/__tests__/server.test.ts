@@ -1,11 +1,12 @@
 import supertest from "supertest";
 import { createServer } from "../server";
+import { describe, it, beforeAll, expect } from '@jest/globals';
 
 const Problem = require('./models/problem');
 const User = require('./models/user');
 
 describe("GraphQL Endpoints", () => {
-    let token;
+    let token = String;
 
     beforeAll(async () => {
         // Perform login mutation to obtain token

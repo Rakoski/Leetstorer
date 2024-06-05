@@ -17,7 +17,7 @@ function Header({onLogout}) {
                             <Link to="/add">Add New Problem</Link>
                         </li>
                         <li>
-                            <Link onClick={onLogout} >Leave</Link>
+                            <Link onClick={onLogout}>Leave</Link>
                         </li>
                     </ul>
                 </nav>

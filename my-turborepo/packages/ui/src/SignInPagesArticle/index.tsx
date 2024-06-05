@@ -1,4 +1,4 @@
-import React from "react";
+import React, {JSX} from "react";
 import { CounterButton } from "../LoginRegisterButton";
 import { Link } from "../Link";
 import { Fragment } from "react";
@@ -8,12 +8,18 @@ export function ArticleComponent({
      title,
      fields,
      onClick,
-     isLoginComponent
+     isLoginComponent,
+     buttonPhrase,
+     articleUnderPhrase,
+     hrefTo
 }: {
     title: string;
     fields: JSX.Element[];
     onClick: () => void;
-    isLoginComponent: boolean
+    buttonPhrase: string,
+    isLoginComponent: boolean,
+    articleUnderPhrase: string,
+    hrefTo: string
 }): JSX.Element {
     return (
         <div className="article-container">
@@ -26,23 +32,15 @@ export function ArticleComponent({
                     </Fragment>
                 ))}
                 <div style={{ marginTop: "30px" }}>
-                    <CounterButton onClick={onClick} isLoginComponent={isLoginComponent}/>
+                    <CounterButton onClick={onClick} isLoginComponent={isLoginComponent} buttonPhrase={buttonPhrase}/>
                 </div>
             </form>
-            <p className="description">
-                Built With{" "}
-                <Link href="https://turbo.build/repo" newTab>
-                    Turborepo
-                </Link>
-            </p>
-            {(isLoginComponent ?
+            <p>
                 <div>
-                    <Link children="Sign up!"  href={"/register"}/>
+                    <Link children={articleUnderPhrase} href={hrefTo}/>
                 </div>
-                    :
-                <div>
-                    <Link children="Already a member?"  href={"/"}/>
-                </div>)}
+            </p>
+                {isLoginComponent ? <Link children={"Don't have an account?"} href={"/register"}></Link> : null}
         </div>
     );
 }

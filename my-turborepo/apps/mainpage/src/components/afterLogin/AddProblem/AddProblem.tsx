@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import FieldTitle from '@repo/ui/src/FieldTitle'
 import FieldContainer from "@repo/ui/src/FieldContainer";
 import LeftColumn from "@repo/ui/src/LeftColumn";
@@ -10,65 +10,54 @@ import RightColumn from "@repo/ui/src/RightColumn";
 import DescriptionField from "@repo/ui/src/DescriptionField";
 import CreateButton from "@repo/ui/src/CreateButton";
 import DateField from "@repo/ui/src/DateField";
-import {useLocation, useNavigate} from "react-router-dom";
-import EditProblemMutation from "../../mutations/EditProblemMutation.ts";
+import CreateProblemMutation from "../../../mutations/CreateProblemMutation.ts";
+import {useNavigate} from "react-router-dom";
 import NotesField from "@repo/ui/src/NotesFIeld";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
-interface ProblemData {
-    _id: string
-    title: string;
-    level: string;
-    description: string;
-    user_description: string;
-    frequency: number;
-    link: string;
-    data_structure: string;
-    date: string;
-    userId: string
-}
-
-const EditProblem: React.FC = () => {
+const AddProblem: React.FC = () => {
     const navigate = useNavigate();
-    const location = useLocation()
-    const initialProblemData = location.state?.problem as ProblemData;
-    const [problemData, setProblemData] = useState<ProblemData>(initialProblemData);
+    const [problemData, setProblemData] = useState({
+        title: '',
+        level: '',
+        description: '',
+        user_description: '',
+        frequency: '',
+        link: '',
+        data_structure: '',
+        date: '',
+        userId: Cookies.get('GC_USER_ID'),
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setProblemData((prevProblemData) => ({
-            ...prevProblemData,
+        setProblemData((prevData) => ({
+            ...prevData,
             [name]: value,
         }));
     };
 
-    function handleEditProblem() {
-        EditProblemMutation(
-            problemData._id,
-            {
-                date: problemData.date,
-                data_structure: problemData.data_structure,
-                level: problemData.level,
-                link: problemData.link,
-                description: problemData.description,
-                title: problemData.title,
-                user_description: problemData.user_description,
-                frequency: problemData.frequency,
-                userId: Cookies.get('GC_USER_ID')
-            },
-            (editedProblem: unknown) => {
-                console.log("editedProblem: ", editedProblem)
-                navigate('/dashboard');
-            },
-            (error: unknown) => {
-                console.log("error: ", error);
-            }
-        );
-    }
+    const handleCreateProblem = () => {
+        const frequencyNumber = parseInt(problemData.frequency, 10);
+
+        if (isNaN(frequencyNumber)) {
+            console.log("Invalid frequency value. Please enter a valid number.");
+            return;
+        }
+
+        CreateProblemMutation({
+            ...problemData,
+            frequency: frequencyNumber,
+        }, (createdProblem) => {
+            navigate('/dashboard');
+        }, (error) => {
+            console.log("error: ", error)
+        });
+    };
 
     return (
         <ProblemInfoContainer>
-            <ProblemTitle>Edit Problem</ProblemTitle>
+            <ProblemTitle>Create New Problem</ProblemTitle>
             <FieldsContainer>
                 <LeftColumn>
                     <FieldContainer>
@@ -126,7 +115,6 @@ const EditProblem: React.FC = () => {
                         <FieldTitle>Frequency</FieldTitle>
                         <InfoField
                             name="frequency"
-                            type="number"
                             value={problemData.frequency}
                             onChange={handleChange}
                         />
@@ -141,9 +129,9 @@ const EditProblem: React.FC = () => {
                     </FieldContainer>
                 </RightColumn>
             </FieldsContainer>
-            <CreateButton onClick={handleEditProblem}>Save</CreateButton>
+            <CreateButton onClick={handleCreateProblem}>Create</CreateButton>
         </ProblemInfoContainer>
     );
 };
 
-export default EditProblem;
+export default AddProblem;

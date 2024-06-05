@@ -5,6 +5,20 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/inspectionProfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/api/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/api/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/blog/.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/blog/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/blog/build" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/blog/public/build" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/mainpage/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/mainpage/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/apps/storefront/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/packages/logger/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/packages/logger/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/packages/ui/.turbo" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/packages/ui/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
