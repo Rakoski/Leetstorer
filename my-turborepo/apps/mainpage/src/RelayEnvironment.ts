@@ -7,10 +7,7 @@ import {
 } from "relay-runtime";
 import Cookies from "js-cookie";
 
-const HTTP_ENDPOINT =
-    import.meta.env.VITE_PRODUCTION == "true" ?
-        import.meta.env.VITE_PRODUCTION_URL + "/graphql"
-        : "http://localhost:4000/graphql";
+const HTTP_ENDPOINT = "https://leetstorer.com/graphql"
 
 const fetchFn: FetchFunction = async (request, variables) => {
   const token = Cookies.get('GC_AUTH_TOKEN');
