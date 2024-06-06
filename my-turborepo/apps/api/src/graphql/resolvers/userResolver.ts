@@ -5,6 +5,7 @@ import { UserInterface } from "./utils/userInterface.ts";
 import jwt from "jsonwebtoken";
 import { sendPasswordResetEmail } from '../../utils/aws-config.ts';
 import * as crypto from "crypto";
+import assert from "node:assert";
 
 const Problem = require('../../models/problem');
 const User = require('../../models/user.ts');
@@ -61,6 +62,8 @@ module.exports = {
                 password: hashedPassword,
             });
 
+            assert(user, "User is null");
+
             const result = await user.save();
 
             return { password: null, _id: result._id, email: result.email, username: result.username };
@@ -109,6 +112,8 @@ module.exports = {
             if (!user) {
                 return new Error("User not found!");
             }
+
+            assert(Array.isArray(user.createdProblems), "user.createdProblems is not an array");
 
             return user.createdProblems.map((problem: object) => ({
                 _id: problem._id.toString(),
