@@ -4,7 +4,4 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [relay, react()],
-  define: {
-    'process.env': process.env
-  }
 });

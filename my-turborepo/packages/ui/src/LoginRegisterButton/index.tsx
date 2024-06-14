@@ -4,7 +4,7 @@ import "./styles.css";
 interface CounterButtonProps {
     onClick: () => void | null;
     buttonPhrase: string
-
+    isLoginComponent: boolean
 }
 
 export function CounterButton({onClick, buttonPhrase}: CounterButtonProps): JSX.Element {

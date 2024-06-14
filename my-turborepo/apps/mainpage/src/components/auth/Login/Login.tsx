@@ -4,7 +4,7 @@ import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
 import LoginMutation from "../../../mutations/LoginMutation.ts";
 import Cookies from 'js-cookie';
 
-function LoginPage({ setIsLoggedIn }) {
+function LoginPage({ setIsLoggedIn }: {setIsLoggedIn: (isLoggedIn: boolean) => void }) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 
@@ -12,11 +12,11 @@ function LoginPage({ setIsLoggedIn }) {
         if (!email || !password) {
             return;
         }
-        LoginMutation(email, password.toString(), (userId, token) => {
+        LoginMutation(email, password.toString(), (userId: string, token: string) => {
             Cookies.set("GC_USER_ID", userId);
             Cookies.set("GC_AUTH_TOKEN", token);
             setIsLoggedIn(true);
-        }, (error) => {
+        }, () => {
             alert("Incorrect email or password.")
         });
     };

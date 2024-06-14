@@ -11,7 +11,7 @@ const mutation = graphql`
     }
 `;
 
-export default (email, password, callback, errorCallback) => {
+export default (email: string, password: string, callback: Function, errorCallback: Function) => {
     const variables = {
         email,
         password
@@ -22,14 +22,10 @@ export default (email, password, callback, errorCallback) => {
         {
             mutation,
             variables,
-            onCompleted: (response: { login: { userId: string, token: string } }, errors: object[]) => {
-                if (errors) {
-                    errorCallback(errors[0].message);
-                } else {
-                    const id = response.login.userId;
-                    const token = response.login.token;
-                    callback(id, token);
-                }
+            onCompleted: (response: { login: { userId: string, token: string }} ) => {
+                const id = response.login.userId;
+                const token = response.login.token;
+                callback(id, token);
             },
             onError: err => errorCallback(err.message || "An unknown error occurred."),
         },
