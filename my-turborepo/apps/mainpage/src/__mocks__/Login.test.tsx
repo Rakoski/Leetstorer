@@ -81,6 +81,6 @@ test('handles login error state', async () => {
         return new Promise(resolve => setImmediate(resolve));
     });
 
-    expect(await screen.findByText(/invalid email or password/i)).toHaveBeenCalledWith(true);
+    expect(await screen.findByText(/Invalid email or password/i)).toHaveBeenCalledWith(true);
     expect(setIsLoggedIn).not.toHaveBeenCalled();
 });

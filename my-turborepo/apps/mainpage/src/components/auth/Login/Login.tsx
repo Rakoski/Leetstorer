@@ -17,7 +17,7 @@ function LoginPage({ setIsLoggedIn }: {setIsLoggedIn: (isLoggedIn: boolean) => v
             Cookies.set("GC_AUTH_TOKEN", token);
             setIsLoggedIn(true);
         }, () => {
-            alert("Incorrect email or password.")
+            window.alert("Invalid email or password")
         });
     };
 
