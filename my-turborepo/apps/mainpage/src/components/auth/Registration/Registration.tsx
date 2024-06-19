@@ -5,7 +5,7 @@ import CreateUserMutation from "../../../mutations/CreateUserMutation.ts";
 import Cookies from 'js-cookie';
 import loginMutation from "../../../mutations/LoginMutation.ts";
 
-function RegistrationPage({ setIsLoggedIn }) {
+function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boolean) => void }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -20,17 +20,17 @@ function RegistrationPage({ setIsLoggedIn }) {
             username,
             email,
             password,
-            (userId, token) => {
-                loginMutation(email, password, (userId, token) => {
+            (userId: string, token: string) => {
+                loginMutation(email, password, (userId: string, token: string) => {
                     Cookies.set("GC_USER_ID", userId);
                     Cookies.set("GC_AUTH_TOKEN", token);
                     setIsLoggedIn(true);
                     setLoading(false);
-                }, onerror => {
+                }, (error: unknown) => {
                     console.log("error in logging in after registration")
                 })
             },
-            (error) => {
+            (error: unknown) => {
                 alert(error);
                 setLoading(false);
             }

@@ -25,7 +25,7 @@ interface ProblemData {
     link: string;
     data_structure: string;
     date: string;
-    userId: string
+    userId: string | undefined;
 }
 
 const EditProblem: React.FC = () => {
