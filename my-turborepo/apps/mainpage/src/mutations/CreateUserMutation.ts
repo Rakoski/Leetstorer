@@ -22,7 +22,7 @@ const mutation = graphql`
     }
 `;
 
-export default function createUser(username, email, password, callback, onError) {
+export default function createUser(username: string, email: string, password: string, callback: Function, onError: Function) {
     const variables = {
         userInput: {
             username,
@@ -35,9 +35,8 @@ export default function createUser(username, email, password, callback, onError)
         mutation,
         variables,
         onCompleted: (response, errors) => {
-            const { createUser } = response;
-            if (createUser) {
-                callback(createUser);
+            if (response) {
+                callback(response);
             } else if (errors && errors.length > 0) {
                 onError(new Error("Email already in use!"));
             } else {
