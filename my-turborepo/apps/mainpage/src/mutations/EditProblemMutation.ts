@@ -1,8 +1,25 @@
-import {
-    commitMutation,
-    graphql
-} from 'react-relay'
-import environment from '../RelayEnvironment.ts'
+import { commitMutation, graphql } from 'react-relay';
+import environment from '../RelayEnvironment.ts';
+import { PayloadError } from 'relay-runtime';
+
+interface EditProblemResponse {
+    editProblem: {
+        _id: string;
+        title: string;
+        level: string;
+        description: string;
+        user_description: string;
+        frequency: number;
+        link: string;
+        data_structure: string;
+        date: string;
+        creator: {
+            _id: string;
+            username: string;
+            email: string;
+        }
+    } | null | undefined;
+}
 
 // editProblem(problemInput: ProblemInput, problemId: ID!): Problem
 const mutation = graphql`
@@ -37,9 +54,9 @@ export default (
         title: string;
         user_description: string;
         frequency: number;
-        userId: string
+        userId: string | undefined;
     },
-    callback: (editedProblem: unknown) => void,
+    callback: (editedProblem: EditProblemResponse["editProblem"]) => void,
     onError: (error: unknown) => void,
 ) => {
     const variables = {
@@ -53,21 +70,18 @@ export default (
             link: problemInput.link,
             data_structure: problemInput.data_structure,
             date: problemInput.date,
-            userId: problemInput.userId
+            userId: problemInput.userId,
         },
     };
 
-    commitMutation(
-        environment,
-        {
-            mutation,
-            variables,
-            onCompleted: (response: { updateProblem: unknown }) => {
-                const editedProblem = response.updateProblem;
-                callback(editedProblem);
-                console.log("edited Problem: ", editedProblem)
-            },
-            onError: (err) => onError(err),
+    commitMutation(environment, {
+        mutation,
+        variables,
+        onCompleted: (response: any, errors: readonly PayloadError[] | null | undefined) => {
+            const editedProblem: EditProblemResponse["editProblem"] = response.editProblem;
+            callback(editedProblem);
+            console.log('edited Problem: ', editedProblem);
         },
-    );
+        onError: (err) => onError(err),
+    });
 };

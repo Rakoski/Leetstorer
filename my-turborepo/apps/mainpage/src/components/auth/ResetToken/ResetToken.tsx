@@ -12,8 +12,8 @@ function resetPasswordPage() {
         }
         requestPasswordResetMutation(email, () => {
             alert("Email sent! Check your inbox for updates!")
-        }, (errors) => {
-            console.log("error in reseting password")
+        }, (error: unknown) => {
+            alert("Error in reseting password")
         })
     };
 

@@ -2,16 +2,17 @@ import React from 'react';
 
 interface InfoFieldProps {
     name: string;
+    type?: string | undefined;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void | null;
 }
 
-const InfoField: React.FC<InfoFieldProps> = ({ name, value, onChange }) => {
+const InfoField: React.FC<InfoFieldProps> = ({ name, value, type, onChange }) => {
     return (
         <input
-            type="text"
             name={name}
             value={value}
+            type={type ? type : 'text'}
             onChange={onChange}
             style={{
                 width: '100%',
