@@ -1,6 +1,13 @@
 import { commitMutation, graphql } from 'react-relay';
 import environment from '../RelayEnvironment.ts';
 
+interface LoginResponse {
+    login: {
+        userId: string,
+        token: string
+    } | null | undefined;
+}
+
 const mutation = graphql`
     mutation LoginMutation($email: String!, $password: String!) {
         login(email: $email, password: $password) {
@@ -11,7 +18,7 @@ const mutation = graphql`
     }
 `;
 
-export default (email, password, callback, errorCallback) => {
+export default (email: string, password: string, callback: Function, errorCallback: Function) => {
     const variables = {
         email,
         password
@@ -22,13 +29,18 @@ export default (email, password, callback, errorCallback) => {
         {
             mutation,
             variables,
-            onCompleted: (response: { login: { userId: string, token: string } }, errors: object[]) => {
-                if (errors) {
-                    errorCallback(errors[0].message);
-                } else {
-                    const id = response.login.userId;
-                    const token = response.login.token;
-                    callback(id, token);
+            onCompleted: (response: { login?: LoginResponse["login"] }, errors) => {
+                try {
+                    const login = response.login;
+                    if (login && login.userId && login.token) {
+                        const id = login.userId;
+                        const token = login.token;
+                        callback(id, token);
+                    } else {
+                        errorCallback("Invalid email or password");
+                    }
+                } catch (error) {
+                    console.log("Error during login operation: ", error);
                 }
             },
             onError: err => errorCallback(err.message || "An unknown error occurred."),

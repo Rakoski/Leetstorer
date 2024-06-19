@@ -30,8 +30,8 @@ const existingProblemsResolver = {
         }
     },
     createExistingProblems: async (args: {existingProblemsInput: { number_title: string, existing_link: string,
-    existing_description: string, existing_difficulty: string, existing_video: string }},
-    req: {isAuth: boolean}) => {
+                                           existing_description: string, existing_difficulty: string, existing_video: string }},
+                                   req: {isAuth: boolean}) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!");
         }
@@ -67,7 +67,7 @@ const existingProblemsResolver = {
             throw err;
         }
     },
-    clearExistingProblems: async (args, req: { isAuth: boolean }) => {
+    clearExistingProblems: async (args: unknown, req: { isAuth: boolean }) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!")
         }

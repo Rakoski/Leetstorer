@@ -35,11 +35,11 @@ export function ArticleComponent({
                     <CounterButton onClick={onClick} isLoginComponent={isLoginComponent} buttonPhrase={buttonPhrase}/>
                 </div>
             </form>
-            <p>
-                <div>
+            <div>
+                <p>
                     <Link children={articleUnderPhrase} href={hrefTo}/>
-                </div>
-            </p>
+                </p>
+            </div>
                 {isLoginComponent ? <Link children={"Don't have an account?"} href={"/register"}></Link> : null}
         </div>
     );

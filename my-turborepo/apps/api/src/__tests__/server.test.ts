@@ -9,7 +9,6 @@ describe("GraphQL Endpoints", () => {
     let token = String;
 
     beforeAll(async () => {
-        // Perform login mutation to obtain token
         const loginResponse = await supertest(createServer())
             .post("/graphql")
             .send({

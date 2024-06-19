@@ -24,7 +24,7 @@ module.exports = async (req: RequestWithUser, res: Request, next: CallableFuncti
         const decodedToken = jwt.verify(token, process.env.JWT_KEY);
         req.isAuth = true;
         req.userId = decodedToken.userId;
-        req.isAdmin = await User.findById(req.userId).then(user => user.isAdmin);
+        req.isAdmin = await User.findById(req.userId).then((user: { isAdmin: boolean; }) => user.isAdmin);
         return next();
     } catch (err) {
         req.isAuth = false;
