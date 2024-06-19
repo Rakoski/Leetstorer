@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Router} from 'express';
 import { graphqlHTTP } from 'express-graphql';
 
 const schema = require('./graphql/schema/index.ts')
@@ -13,7 +13,7 @@ const combinedResolvers = {
     ...problemResolvers,
 };
 
-const graphqlRouter = express.Router();
+const graphqlRouter: Router = express.Router();
 
 graphqlRouter.use('/graphql', graphqlHTTP({
     schema: schema,

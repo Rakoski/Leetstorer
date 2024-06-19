@@ -73,10 +73,13 @@ module.exports = {
             throw new Error("Error in creating user");
         }
     },
-    login: async ({ email, password }) => {
+    login: async (args: { email: string, password: string }) => {
         try {
             let user = null
 
+            let email = args.email;
+            let password = args.password;
+          
             user = await User.findOne({ email });
             if (!user) {
                 return new Error("User does not exist!");
@@ -87,15 +90,20 @@ module.exports = {
                 return new Error("401 Invalid credentials");
             }
 
-            const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_KEY, { expiresIn: '48h' });
+            const jwtKey = process.env.JWT_KEY;
+            if (!jwtKey) {
+                return new Error("JWT_KEY is not defined in environment variables");
+            }
+
+            const token = jwt.sign({ userId: user.id, email: user.email }, jwtKey, { expiresIn: '48h' });
 
             return { userId: user.id, token, tokenExpiration: 48 };
-        } catch (err) {
-            console.error("Error in login:", err.message);
+        } catch (err: unknown) {
+            console.error("Error in login:", err);
+
             throw err;
         }
     },
-
     // because I configured my server without the proper relay modifications, I will need to do some concessions,
     // mainly, I basically cannot do queries since I don't have the Node type. I will then, use mutations to fetch
     // my users problems.
@@ -115,7 +123,8 @@ module.exports = {
 
             assert(Array.isArray(user.createdProblems), "user.createdProblems is not an array");
 
-            return user.createdProblems.map((problem: object) => ({
+            return user.createdProblems.map((problem: ProblemInterface) => ({
+
                 _id: problem._id.toString(),
                 title: problem.title,
                 level: problem.level,
@@ -165,11 +174,12 @@ module.exports = {
             throw err;
         }
     },
-    requestPasswordReset: async ({ email }) => {
+    requestPasswordReset: async (args: { email: string }) => {
         try {
             log("email sent!")
             let user: UserInterface
 
+            const { email } = args;
             user = await User.findOne({ email });
 
             if (!user) {
@@ -190,9 +200,10 @@ module.exports = {
             throw err;
         }
     },
-    resetPassword: async ({ token, newPassword }) => {
+    resetPassword: async (args: { token: string, newPassword: string }) => {
         try {
             let user: UserInterface
+            let token = args.token;
             user = await User.findOne({
                 resetPasswordToken: token,
                 resetPasswordExpires: { $gt: Date.now() }
@@ -202,6 +213,7 @@ module.exports = {
                 return new Error('Invalid or expired reset token');
             }
 
+            let newPassword = args.newPassword;
             user.password = await bcrypt.hash(newPassword, 12);
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;

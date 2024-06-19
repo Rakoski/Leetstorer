@@ -7,6 +7,7 @@ import {
 } from "relay-runtime";
 import Cookies from "js-cookie";
 
+
 const HTTP_ENDPOINT = "https://leetstorer.com/graphql"
 
 const fetchFn: FetchFunction = async (request, variables) => {
