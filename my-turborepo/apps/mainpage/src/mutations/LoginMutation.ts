@@ -40,7 +40,7 @@ export default (email: string, password: string, callback: Function, errorCallba
                         errorCallback("Invalid email or password");
                     }
                 } catch (error) {
-                    console.log("Error during login operation");
+                    console.log("Error during login operation: ", error);
                 }
             },
             onError: err => errorCallback(err.message || "An unknown error occurred."),
