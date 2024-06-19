@@ -1,0 +1,18 @@
+services:
+  mainpage:
+    build:
+      context: .
+      dockerfile: apps/mainpage/Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "4000:4000"
+    env_file:
+      - apps/api/.env

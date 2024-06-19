@@ -79,6 +79,7 @@ module.exports = {
 
             let email = args.email;
             let password = args.password;
+          
             user = await User.findOne({ email });
             if (!user) {
                 return new Error("User does not exist!");
@@ -99,10 +100,10 @@ module.exports = {
             return { userId: user.id, token, tokenExpiration: 48 };
         } catch (err: unknown) {
             console.error("Error in login:", err);
+
             throw err;
         }
     },
-
     // because I configured my server without the proper relay modifications, I will need to do some concessions,
     // mainly, I basically cannot do queries since I don't have the Node type. I will then, use mutations to fetch
     // my users problems.
@@ -123,6 +124,7 @@ module.exports = {
             assert(Array.isArray(user.createdProblems), "user.createdProblems is not an array");
 
             return user.createdProblems.map((problem: ProblemInterface) => ({
+
                 _id: problem._id.toString(),
                 title: problem.title,
                 level: problem.level,

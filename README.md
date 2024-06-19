@@ -1,6 +1,8 @@
 # Leetstorer, Storage App for Solved Coding Problems
 
-This project is a coding problem storage web app built using Turborepo, Relay, TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their coding problems they have solved. This is meant as a training project for those technologies and woovi's training playground.
+This project is a coding problem storage web app built using Turborepo, Relay modern, TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their coding problems they have solved. This is meant as a training project for those technologies and woovi's training playground.
+
+The website is available at: https://leetstorer.com
 
 ## Table of Contents
 
@@ -30,12 +32,12 @@ Before you begin, ensure you have the following installed on your machine:
    ```
    pnpm install turbo --global
 
-2. Fork this repository to your machine:
+2. Fork this repository to your machine
 
 3. Clone the repository:
 
      ```
-     git clone https://github.com/<YOUR_GITHUB_USERNAME>/leetcode-problem-storer.git
+     git clone https://github.com/<YOUR_GITHUB_USERNAME>/Leetstorer.git
 
 4. Navigate to the project directory:
 
@@ -219,6 +221,8 @@ To create a new problem, you can use the following example mutation:
         login(email: String!, password: String!): AuthData!
         editProblem(problemInput: ProblemInput!, problemId: ID!): Problem
         getUserProblems(userId: ID!): [Problem!]!
+        requestPasswordReset(email: String!): Boolean!
+        resetPassword(token: String!, newPassword: String!): Boolean!
         associateUserWithProblem(userId: ID!, problemId: ID!): Problem
       }
     
