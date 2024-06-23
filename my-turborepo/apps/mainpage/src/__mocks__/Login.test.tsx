@@ -3,38 +3,15 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { act } from 'react-dom/test-utils';
 import { test, expect, vi, beforeEach } from 'vitest';
-import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 import LoginPage from '../components/auth/Login/Login';
+import { createMockEnvironment } from './test_utils/mockEnvirionment';
 
-// Mock Relay Environment
-function createMockEnvironment() {
-    const source = new RecordSource();
-    const store = new Store(source);
-
-    const network = Network.create(async (operation, variables) => {
-        console.log(`Operation requested: ${operation.name}`, variables);
-
-        if (operation.name === 'LoginMutation') {
-            if (variables.email === 'test@example.com' && variables.password === 'password') {
-                return {
-                    data: {
-                        login: {
-                            userId: '1',
-                            token: 'fake-token',
-                            tokenExpiration: 3600,
-                        },
-                    },
-                };
-            } else {
-                throw new Error('Invalid email or password');
-            }
-        }
-
-        throw new Error(`Unhandled operation: ${operation.name}`);
-    });
-
-    return new Environment({ network, store });
-}
+// Login doesn't actually need a local mongodb because it is a single mutation and I actually need to know
+// if my user is actually being set up
+beforeEach(() => {
+    environment = createMockEnvironment();
+    vi.spyOn(window, 'alert').mockImplementation(() => {});
+});
 
 function renderWithRelay(ui: React.ReactElement, env: any) {
     return render(
@@ -46,27 +23,21 @@ function renderWithRelay(ui: React.ReactElement, env: any) {
 
 let environment: any;
 
-beforeEach(() => {
-    environment = createMockEnvironment();
-});
-
 test('renders LoginPage component correctly and handles login', async () => {
     const setIsLoggedIn = vi.fn();
 
     renderWithRelay(<LoginPage setIsLoggedIn={setIsLoggedIn} />, environment);
-    console.log("setIsLoggedIn", setIsLoggedIn);
 
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'mastrakoski@gmail.com' } });
-    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: '123456' } });
+    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@gmail.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'test-password' } });
 
-    await act(() => {
+    await act(async () => {
         fireEvent.click(screen.getByText('Login'));
-        return new Promise(resolve => setImmediate(resolve));
     });
 
     await waitFor(() => {
         expect(setIsLoggedIn).toHaveBeenCalledWith(true);
-    });
+    }, { timeout: 5000 });
 });
 
 test('handles login error state', async () => {

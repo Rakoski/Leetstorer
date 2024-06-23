@@ -38,9 +38,9 @@ function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boole
     };
 
     const registrationFields = [
-        <InputField key="username" label={"Username"} type="text" value={username} onChange={(e) => setUsername(e.target.value)} />,
-        <InputField key="email" label={"Email"} type="email" value={email} onChange={(e) => setEmail(e.target.value)} />,
-        <InputField key="password" label={"Password"} type="password" value={password} onChange={(e) => setPassword(e.target.value)} />,
+        <InputField key="username" label="Username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />,
+        <InputField key="email" label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />,
+        <InputField key="password" label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />,
     ];
 
     return (
