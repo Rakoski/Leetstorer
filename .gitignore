@@ -12,8 +12,10 @@ dist
 dist-ssr
 *.local
 .env
+.env.test
 **/env
 my-turborepo/apps/mainpage/.env.production
+my-turborepo/apps/api/.env.test
 .cache
 server/dist
 public/dist
