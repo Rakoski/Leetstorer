@@ -2,15 +2,15 @@ import supertest from "supertest";
 import { createServer } from "../server";
 import { describe, it, beforeAll, expect } from '@jest/globals';
 
-const Problem = require('./models/problem');
-const User = require('./models/user');
+import Problem from '../models/problem.ts';
+import User from '../models/user';
 
 describe("GraphQL Endpoints", () => {
     let token = String;
 
     beforeAll(async () => {
         const loginResponse = await supertest(createServer())
-            .post("/graphql")
+            .post("localhost:4000/graphql")
             .send({
                 query: `
                     mutation {
@@ -43,10 +43,12 @@ describe("GraphQL Endpoints", () => {
 
         const createdUser = await User.findOne({ email: "test@example.com" });
 
-        expect(response.body.data.createUser).toEqual({
-            _id: createdUser._id.toString(),
-            email: createdUser.email,
-        });
+        if (createdUser && createdUser._id) {
+            expect(response.body.data.createUser).toEqual({
+                _id: createdUser._id,
+                email: createdUser.email,
+            });
+        }
     });
 
     it("should query users", async () => {
@@ -95,6 +97,9 @@ describe("GraphQL Endpoints", () => {
 
         const createdProblem = await Problem.findOne({ title: "Test Problem" });
 
+        if (!createdProblem) {
+            throw new Error("Problem not created");
+        }
         expect(response.body.data.createProblem).toEqual({
             _id: createdProblem._id.toString(),
             title: createdProblem.title,

@@ -3,25 +3,13 @@ import Problem from "../../models/problem";
 import User from "../../models/user";
 import userCreator from "./utils/userCreator";
 
-interface ProblemInput {
-    title: string;
-    description: string;
-    user_description: string;
-    level: string;
-    frequency: number;
-    link: string;
-    data_structure: string;
-    date: string;
-    userId: string;
-}
-
 interface AuthRequest {
     isAuth: boolean;
     isAdmin?: boolean;
 }
 
 export const ProblemResolvers = {
-    problems: async (_: any, __: any, { req }: { req: AuthRequest }): Promise<object[]> => {
+    problems: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
         if (!req.isAuth || !req.isAdmin) {
             throw new Error("Unauthorized");
         }

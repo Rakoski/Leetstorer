@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   mainpage:
     build:
@@ -16,3 +17,25 @@ services:
       - "4000:4000"
     env_file:
       - apps/api/.env
+
+  test-mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_test_data:/data/db
+
+  test-api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "4001:4001"
+    environment:
+      - MONGODB_URI=mongodb://test-mongodb:27017/testdb
+      - PORT=4001
+    depends_on:
+      - test-mongodb
+
+volumes:
+  mongodb_test_data:

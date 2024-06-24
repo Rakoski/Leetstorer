@@ -5,14 +5,11 @@ import dotenv from 'dotenv';
 import graphqlRouter from './graphql';
 
 dotenv.config();
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 const server = createServer();
 
-let MONGODB_URI = process.env.MONGODB_URI;
-if (!MONGODB_URI) {
-    log("MONGODB_URI is not defined");
-    process.exit(1);
-}
+let MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/defaultdb';
+
 mongoose.connect(MONGODB_URI)
     .then(() => {
         console.log('MongoDB connected successfully');
