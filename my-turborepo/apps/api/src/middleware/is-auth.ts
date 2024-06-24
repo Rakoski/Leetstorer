@@ -2,7 +2,6 @@ import {NextFunction} from "express";
 import RequestWithUserAuth from "../utils/RequestWithUserAuth.ts";
 
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.ts')
 
 export const isAuth = (req: RequestWithUserAuth, res: Response, next: NextFunction): void => {
     const authHeader = req.get('Authorization');

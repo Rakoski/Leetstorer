@@ -1,14 +1,12 @@
-import mongoose from "mongoose";
-import {Document} from "mongodb";
-import {ProblemInterface} from "./problemInterface.ts";
+import { Document, ObjectId } from "mongodb";
 
 export interface UserInterface extends Document {
-    _id: mongoose.Types.ObjectId[];
+    _id: ObjectId;
     username: string;
     email: string;
-    password: string | null;
-    resetPasswordToken: string | undefined;
-    resetPasswordExpires: Date | number | undefined;
-    createdProblems: mongoose.Types.ObjectId[] | string;
-    isAdmin: boolean
+    password: string;
+    resetPasswordToken?: string | null;
+    resetPasswordExpires?: Date | null;
+    createdProblems: ObjectId[];
+    isAdmin: boolean;
 }

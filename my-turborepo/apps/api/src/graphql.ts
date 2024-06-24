@@ -3,8 +3,8 @@ import { graphqlHTTP } from 'express-graphql';
 
 const schema = require('./graphql/schema/index.ts')
 
-const userResolvers = require('./graphql/resolvers/userResolver.ts')
-const problemResolvers = require('./graphql/resolvers/problemResolver.ts')
+import userResolvers from './graphql/resolvers/userResolver.ts';
+import problemResolvers from './graphql/resolvers/problemResolver.ts';
 import existingProblemsResolver from "./graphql/resolvers/existingProblemsResolver.ts";
 
 const combinedResolvers = {

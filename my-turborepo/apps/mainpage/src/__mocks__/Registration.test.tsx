@@ -1,14 +1,38 @@
-import React from 'react';
+import { beforeAll, afterAll, beforeEach, afterEach, test, expect, vi } from 'vitest';
+import { startMongoMemoryServer, stopMongoMemoryServer, getMongoClient } from './test_utils/mongoMemoryServer';
+import RegistrationPage from '../components/auth/Registration/Registration';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { act } from 'react-dom/test-utils';
-import { test, expect, vi, beforeEach } from 'vitest';
-import RegistrationPage from '../components/auth/Registration/Registration';
 import { createMockEnvironment } from './test_utils/mockEnvirionment';
+import React from 'react';
+import { MongoClient } from 'mongodb';
 
-beforeEach(() => {
+let client: MongoClient;
+let environment: any;
+
+beforeAll(async () => {
+    await startMongoMemoryServer();
+});
+
+afterAll(async () => {
+    await stopMongoMemoryServer();
+});
+
+beforeEach(async () => {
     environment = createMockEnvironment();
-    vi.spyOn(window, 'alert').mockImplementation(() => {});
+    client = getMongoClient();
+    const db = client.db('test');
+    await db.collection('users').insertOne({
+        username: 'existinguser',
+        email: 'existinguser@example.com',
+        password: 'password',
+    });
+});
+
+afterEach(async () => {
+    const db = client.db('test');
+    await db.collection('users').deleteMany({});
 });
 
 function renderWithRelay(ui: React.ReactElement, env: any) {
@@ -18,8 +42,6 @@ function renderWithRelay(ui: React.ReactElement, env: any) {
         </RelayEnvironmentProvider>
     );
 }
-
-let environment: any;
 
 test('renders RegistrationPage component correctly and handles registration', async () => {
     const setIsLoggedIn = vi.fn();

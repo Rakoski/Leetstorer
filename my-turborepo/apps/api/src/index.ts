@@ -8,7 +8,12 @@ dotenv.config();
 const port = process.env.PORT;
 const server = createServer();
 
-mongoose.connect(process.env.MONGODB_URI)
+let MONGODB_URI = process.env.MONGODB_URI;
+if (!MONGODB_URI) {
+    log("MONGODB_URI is not defined");
+    process.exit(1);
+}
+mongoose.connect(MONGODB_URI)
     .then(() => {
         console.log('MongoDB connected successfully');
         server.use(graphqlRouter);

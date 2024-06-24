@@ -1,13 +1,27 @@
 import { log } from "@repo/logger";
+import Problem from "../../models/problem";
+import User from "../../models/user";
+import userCreator from "./utils/userCreator";
 
-const Problem = require("../../models/problem");
-const User = require("../../models/user");
+interface ProblemInput {
+    title: string;
+    description: string;
+    user_description: string;
+    level: string;
+    frequency: number;
+    link: string;
+    data_structure: string;
+    date: string;
+    userId: string;
+}
 
-const userCreator = require("./utils/userCreator");
+interface AuthRequest {
+    isAuth: boolean;
+    isAdmin?: boolean;
+}
 
-
-module.exports = {
-    problems: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
+export const ProblemResolvers = {
+    problems: async (_: any, __: any, { req }: { req: AuthRequest }): Promise<object[]> => {
         if (!req.isAuth || !req.isAdmin) {
             throw new Error("Unauthorized");
         }
@@ -19,9 +33,9 @@ module.exports = {
             for (const problem of problems) {
                 const populatedUserCreator = await userCreator(problem.creator);
                 populatedProblems.push({
-                    ...problem.toObject(),
-                    _id: problem._id,
-                    date: problem.date.toString(),
+                    ...problem,
+                    _id: problem._id.toString(),
+                    date: problem.date?.toString() || "",
                     creator: populatedUserCreator,
                 });
             }
@@ -37,16 +51,13 @@ module.exports = {
                           req: {isAuth: boolean}) => {
 
         if (!req.isAuth) {
-            throw new Error("Unauthorized!")
+            throw new Error("Unauthorized!");
         }
 
         try {
-            const { title, description, user_description, level, frequency, link,
-                data_structure, date, userId } = args.problemInput;
+            const { title, description, user_description, level, frequency, link, data_structure, date, userId } = args.problemInput;
 
-            let user = null
-
-            user = await User.findById(userId);
+            const user = await User.findById(userId);
 
             if (!user) {
                 return new Error("User not found");
@@ -64,9 +75,7 @@ module.exports = {
                 creator: userId,
             });
 
-            let result = null;
-
-            result = await problem.save();
+            const result = await problem.save();
 
             user.createdProblems.push(result._id);
             await user.save();
@@ -79,11 +88,11 @@ module.exports = {
                 frequency: result.frequency,
                 link: result.link,
                 data_structure: result.data_structure,
-                date: result.date.toString(),
+                date: result.date ? result.date.toString() : "",
                 creator: {
                     _id: user._id.toString(),
                     email: user.email,
-                    createdProblems: user.createdProblems.map((problemId: string) => ({
+                    createdProblems: user.createdProblems.map((problemId) => ({
                         _id: problemId.toString(),
                     })),
                 },
@@ -102,29 +111,16 @@ module.exports = {
     ) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!");
-        }
+        };
 
         try {
-            const { problemInput, problemId } = args;
-
-            let problem = null
-
-            problem = await Problem.findById(problemId);
+            const problem = await Problem.findById(args.problemId);
 
             if (!problem) {
                 return new Error("Problem not found");
             }
 
-            const {
-                title,
-                description,
-                user_description,
-                level,
-                frequency,
-                link,
-                data_structure,
-                date,
-            } = problemInput;
+            const { title, description, user_description, level, frequency, link, data_structure, date } = args.problemInput;
 
             if (title) problem.title = title;
             if (description) problem.description = description;
@@ -148,9 +144,9 @@ module.exports = {
                 frequency: updatedProblem.frequency,
                 link: updatedProblem.link,
                 data_structure: updatedProblem.data_structure,
-                date: updatedProblem.date.toString(),
+                date: updatedProblem.date?.toString() || "",
                 creator: {
-                    _id: updatedProblem.creator.toString(),
+                    _id: updatedProblem.creator ? updatedProblem.creator.toString() : "",
                 },
             };
         } catch (err) {
@@ -159,3 +155,5 @@ module.exports = {
         }
     },
 };
+
+export default ProblemResolvers;

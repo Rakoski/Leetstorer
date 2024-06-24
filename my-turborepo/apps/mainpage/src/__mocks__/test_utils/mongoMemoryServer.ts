@@ -6,14 +6,19 @@ let client: MongoClient;
 
 export const startMongoMemoryServer = async () => {
     mongoServer = await MongoMemoryServer.create();
-    const uri = mongoServer.getUri();
+    const uri: string = mongoServer.getUri();
     client = new MongoClient(uri);
     await client.connect();
+    return client;
 };
 
 export const stopMongoMemoryServer = async () => {
-    await client.close();
-    await mongoServer.stop();
+    if (client) {
+        await client.close();
+    }
+    if (mongoServer) {
+        await mongoServer.stop();
+    }
 };
 
 export const getMongoClient = () => client;
