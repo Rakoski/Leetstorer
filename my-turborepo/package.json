@@ -4,6 +4,7 @@
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
+    "test:setup": "./test-setup.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test",

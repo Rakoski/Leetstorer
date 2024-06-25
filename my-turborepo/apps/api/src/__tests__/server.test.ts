@@ -10,7 +10,7 @@ describe("GraphQL Endpoints", () => {
 
     beforeAll(async () => {
         const loginResponse = await supertest(createServer())
-            .post("localhost:4000/graphql")
+            .post("localhost:4001/graphql")
             .send({
                 query: `
                     mutation {

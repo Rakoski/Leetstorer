@@ -15,7 +15,6 @@ WORKDIR /app/apps/api
 
 RUN pnpm install
 
-ARG PORT=4000
-EXPOSE ${PORT}
+EXPOSE 4001
 
 CMD ["node", "dist/index.js"]

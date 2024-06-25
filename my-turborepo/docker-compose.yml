@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   mainpage:
     build:
@@ -17,13 +16,15 @@ services:
       - "4000:4000"
     env_file:
       - apps/api/.env
+    depends_on:
+      - mongodb
 
-  test-mongodb:
+  mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_test_data:/data/db
+      - mongodb_data:/data/db
 
   test-api:
     build:
@@ -32,10 +33,15 @@ services:
     ports:
       - "4001:4001"
     environment:
-      - MONGODB_URI=mongodb://test-mongodb:27017/testdb
+      - MONGODB_URI=mongodb://mongodb:27017/testdb
       - PORT=4001
+      - NODE_ENV=test
     depends_on:
-      - test-mongodb
+      - mongodb
 
 volumes:
-  mongodb_test_data:
+  mongodb_data:
+
+networks:
+  default:
+    name: my-network

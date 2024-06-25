@@ -28,8 +28,8 @@ test('renders LoginPage component correctly and handles login', async () => {
 
     renderWithRelay(<LoginPage setIsLoggedIn={setIsLoggedIn} />, environment);
 
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@gmail.com' } });
-    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'test-password' } });
+    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'existinguser@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password' } });
 
     await act(async () => {
         fireEvent.click(screen.getByText('Login'));

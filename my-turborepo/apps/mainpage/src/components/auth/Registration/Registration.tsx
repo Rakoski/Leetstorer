@@ -27,11 +27,11 @@ function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boole
                     setIsLoggedIn(true);
                     setLoading(false);
                 }, (error: unknown) => {
-                    console.log("error in logging in after registration")
+                    window.alert("Error in logging in or in registration")
                 })
             },
             (error: unknown) => {
-                alert(error);
+                window.alert("Error in logging in or in registration");
                 setLoading(false);
             }
         );

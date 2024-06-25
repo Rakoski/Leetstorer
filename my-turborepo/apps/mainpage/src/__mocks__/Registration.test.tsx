@@ -76,7 +76,7 @@ test('handles registration error state', async () => {
     });
 
     await waitFor(() => {
-        expect(window.alert).toHaveBeenCalledWith("Email already in use!");
+        expect(window.alert).toHaveBeenCalledWith("Error in logging in or in registration");
     });
 });
 
@@ -85,7 +85,6 @@ test('handles missing input fields', async () => {
 
     renderWithRelay(<RegistrationPage setIsLoggedIn={setIsLoggedIn} />, environment);
 
-    // Test with missing username
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'newuser@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'newpassword' } });
 
@@ -97,11 +96,9 @@ test('handles missing input fields', async () => {
         expect(setIsLoggedIn).not.toHaveBeenCalled();
     });
 
-    // Reset fields
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: '' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: '' } });
 
-    // Test with missing email
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'newuser' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'newpassword' } });
 
@@ -113,11 +110,9 @@ test('handles missing input fields', async () => {
         expect(setIsLoggedIn).not.toHaveBeenCalled();
     });
 
-    // Reset fields
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: '' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: '' } });
 
-    // Test with missing password
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'newuser' } });
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'newuser@example.com' } });
 
