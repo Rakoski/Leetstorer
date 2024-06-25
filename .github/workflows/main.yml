@@ -13,13 +13,13 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Run tests
         run: |
           export NODE_ENV=test
           export API_URL=http://localhost:4001/graphql
           export MONGODB_URI=mongodb://localhost:27017/testdb
           docker-compose up -d test-mongodb
-          npm run start:api & 
+          pnpm run start:api & 
           sleep 10
-          npm test
+          pnpm test
