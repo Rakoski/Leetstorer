@@ -4,12 +4,11 @@ import { RelayEnvironmentProvider } from 'react-relay';
 import { act } from 'react-dom/test-utils';
 import { test, expect, vi, beforeEach } from 'vitest';
 import LoginPage from '../components/auth/Login/Login';
-import { createMockEnvironment } from './test_utils/mockEnvirionment';
+import { testEnvironment } from "./test_utils/testEnvironment";
 
 // Login doesn't actually need a local mongodb because it is a single mutation and I actually need to know
 // if my user is actually being set up
 beforeEach(() => {
-    environment = createMockEnvironment();
     vi.spyOn(window, 'alert').mockImplementation(() => {});
 });
 
@@ -21,12 +20,10 @@ function renderWithRelay(ui: React.ReactElement, env: any) {
     );
 }
 
-let environment: any;
-
 test('renders LoginPage component correctly and handles login', async () => {
     const setIsLoggedIn = vi.fn();
 
-    renderWithRelay(<LoginPage setIsLoggedIn={setIsLoggedIn} />, environment);
+    renderWithRelay(<LoginPage setIsLoggedIn={setIsLoggedIn} />, testEnvironment);
 
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'existinguser@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password' } });
@@ -43,7 +40,7 @@ test('renders LoginPage component correctly and handles login', async () => {
 test('handles login error state', async () => {
     const setIsLoggedIn = vi.fn();
 
-    renderWithRelay(<LoginPage setIsLoggedIn={setIsLoggedIn} />, environment);
+    renderWithRelay(<LoginPage setIsLoggedIn={setIsLoggedIn} />, testEnvironment);
 
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'wrong-password' } });

@@ -13,8 +13,6 @@ const getApiUrl = () => {
   switch (environment) {
     case 'production':
       return constants.productionApiUrl;
-    case 'testing':
-      return constants.testingApiUrl;
     default:
       return constants.developmentApiUrl;
   }

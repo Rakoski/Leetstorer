@@ -49,12 +49,12 @@ function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boole
                     setIsLoggedIn(true);
                     setLoading(false);
                 }, (error: unknown) => {
-                    window.alert("Error in logging in or in registration");
+                    window.alert("Error in logging in");
                     setLoading(false);
                 })
             },
             (error: unknown) => {
-                window.alert("Error in logging in or in registration");
+                window.alert("Error in registration");
                 setLoading(false);
             }
         );
