@@ -82,14 +82,14 @@ test('validates password length', async () => {
 
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'newuser' } });
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'valid@email.com' } });
-    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'short' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: '1' } });
 
     await act(async () => {
         fireEvent.click(screen.getByText('Register'));
     });
 
     await waitFor(() => {
-        expect(window.alert).toHaveBeenCalledWith('Invalid Password. Password must be at least 5 characters long.');
+        expect(window.alert).toHaveBeenCalledWith('Invalid Password. Password must be at least 6 characters long.');
     });
 });
 

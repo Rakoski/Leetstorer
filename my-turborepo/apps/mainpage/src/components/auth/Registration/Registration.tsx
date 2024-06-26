@@ -27,8 +27,8 @@ function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boole
             window.alert("Invalid email address.");
             return false;
         }
-        if (password.length < 5) {
-            window.alert("Invalid Password. Password must be at least 5 characters long.")
+        if (password.length < 6) {
+            window.alert("Invalid Password. Password must be at least 6 characters long.")
         }
         return true;
     }
@@ -42,19 +42,19 @@ function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boole
             username,
             email,
             password,
-            (userId: string, token: string) => {
+            () => {
                 loginMutation(email, password, (userId: string, token: string) => {
                     Cookies.set("GC_USER_ID", userId);
                     Cookies.set("GC_AUTH_TOKEN", token);
                     setIsLoggedIn(true);
                     setLoading(false);
-                }, (error: unknown) => {
+                }, () => {
                     window.alert("Error in logging in");
                     setLoading(false);
                 })
             },
-            (error: unknown) => {
-                window.alert("Error in registration");
+            () => {
+                window.alert("Error in user registration");
                 setLoading(false);
             }
         );
