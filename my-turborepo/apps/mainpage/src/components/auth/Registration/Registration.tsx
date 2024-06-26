@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
 import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
 import CreateUserMutation from "../../../mutations/CreateUserMutation.ts";
@@ -11,8 +11,30 @@ function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boole
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const handleRegistration = () => {
+    const validateFields = () => {
         if (!email || !password || !username) {
+            window.alert("All fields are required.");
+            return false;
+        }
+
+        // Starts with any alphanumeric character
+        // Contains an @ symbol
+        // checks for any alphanumeric character (both lower and upper case), dot (.), or hyphen (-) after the @ symbol.
+        // ends with a dot (.) followed by two or more alphabetic characters (both lower and upper case).
+        // The dollar sign ($) means end of line.
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            window.alert("Invalid email address.");
+            return false;
+        }
+        if (password.length < 5) {
+            window.alert("Invalid Password. Password must be at least 5 characters long.")
+        }
+        return true;
+    }
+
+    const handleRegistration = () => {
+        if (!validateFields()) {
             return;
         }
         setLoading(true);
@@ -27,7 +49,8 @@ function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boole
                     setIsLoggedIn(true);
                     setLoading(false);
                 }, (error: unknown) => {
-                    window.alert("Error in logging in or in registration")
+                    window.alert("Error in logging in or in registration");
+                    setLoading(false);
                 })
             },
             (error: unknown) => {

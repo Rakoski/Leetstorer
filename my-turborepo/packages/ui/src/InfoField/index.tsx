@@ -4,7 +4,7 @@ interface InfoFieldProps {
     name: string;
     type?: string | undefined;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void | null;
+    onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
 const InfoField: React.FC<InfoFieldProps> = ({ name, value, type, onChange }) => {

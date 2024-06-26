@@ -23,6 +23,7 @@ interface ProblemData {
     link: string;
     data_structure: string;
     date: string;
+    userId: string | undefined;
 }
 
 const ProblemInfo: React.FC = () => {
@@ -64,9 +65,7 @@ const ProblemInfo: React.FC = () => {
                                 <InfoField
                                     value={problem.link}
                                     name={"Link"}
-                                    onChange={null}
-                                    link
-                                    readOnly
+                                    onChange={undefined}
                                 />
                             </FieldContainer>
                             <FieldContainer>
@@ -74,8 +73,7 @@ const ProblemInfo: React.FC = () => {
                                 <InfoField
                                     value={problem.level}
                                     name={"Level"}
-                                    onChange={null}
-                                    readOnly
+                                    onChange={undefined}
                                 />
                             </FieldContainer>
                             <FieldContainer>
@@ -83,8 +81,7 @@ const ProblemInfo: React.FC = () => {
                                 <InfoField
                                     value={problem.data_structure}
                                     name={"Data Structures"}
-                                    onChange={null}
-                                    readOnly
+                                    onChange={undefined}
                                 />
                             </FieldContainer>
                             <FieldContainer>
@@ -99,8 +96,7 @@ const ProblemInfo: React.FC = () => {
                                 <InfoField
                                     value={problem.frequency.toString()}
                                     name={"Frequency"}
-                                    onChange={null}
-                                    readOnly
+                                    onChange={undefined}
                                 />
                             </FieldContainer>
                             <FieldContainer>

@@ -26,7 +26,7 @@ const AddProblem: React.FC = () => {
         link: '',
         data_structure: '',
         date: '',
-        userId: Cookies.get('GC_USER_ID'),
+        userId: Cookies.get('GC_USER_ID') || "",
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -42,6 +42,11 @@ const AddProblem: React.FC = () => {
 
         if (isNaN(frequencyNumber)) {
             console.log("Invalid frequency value. Please enter a valid number.");
+            return;
+        }
+
+        if (!problemData.userId) {
+            alert("User not found!");
             return;
         }
 

@@ -28,11 +28,13 @@ beforeEach(async () => {
         email: 'existinguser@example.com',
         password: 'password',
     });
+    vi.spyOn(window, 'alert').mockImplementation(() => {});
 });
 
 afterEach(async () => {
     const db = client.db('test');
     await db.collection('users').deleteMany({});
+    vi.restoreAllMocks();
 });
 
 function renderWithRelay(ui: React.ReactElement, env: any) {
@@ -70,13 +72,12 @@ test('handles registration error state', async () => {
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'existinguser@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password' } });
 
-    await act(() => {
+    await act(async () => {
         fireEvent.click(screen.getByText('Register'));
-        return new Promise(resolve => setImmediate(resolve));
     });
 
     await waitFor(() => {
-        expect(window.alert).toHaveBeenCalledWith("Error in logging in or in registration");
+        expect(window.alert).toHaveBeenCalledWith('Error in logging in or in registration');
     });
 });
 

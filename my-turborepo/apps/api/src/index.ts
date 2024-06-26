@@ -6,13 +6,13 @@ import graphqlRouter from './graphql';
 dotenv.config();
 
 const isTestEnvironment = process.env.NODE_ENV === 'test';
-const port = process.env.PORT;
+const port = isTestEnvironment ? 4001 : 4000;
 
 const MONGODB_URI = isTestEnvironment ? process.env.TEST_MONGODB_URI : process.env.DEV_MONGODB_URI;
 
 const server = createServer();
 
-mongoose.connect(MONGODB_URI ? MONGODB_URI : '')
+mongoose.connect(MONGODB_URI ? MONGODB_URI : "4000")
     .then(() => {
         console.log('MongoDB connected successfully');
         server.use(graphqlRouter);

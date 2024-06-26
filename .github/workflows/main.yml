@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm install ci
       - name: Run tests
         run: |
           export NODE_ENV=test
@@ -27,5 +27,5 @@ jobs:
           export MONGODB_URI=mongodb://localhost:27017/testdb
           docker-compose up -d test-mongodb
           pnpm run start:api & 
-          sleep 10
+          sleep 100
           pnpm test
