@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
-import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
+import { ArticleComponent } from "../../../../../../packages/ui/src/Article";
 import LoginMutation from "../../../mutations/LoginMutation.ts";
 import Cookies from 'js-cookie';
 

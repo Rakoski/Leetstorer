@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import { ArticleComponent } from ".";
 
 function onClick() {
-    console.log("Counter button clicked on SignInPagesArticle component!")
+    console.log("Counter button clicked on Article component!")
 }
 
 describe("CounterButton", () => {
