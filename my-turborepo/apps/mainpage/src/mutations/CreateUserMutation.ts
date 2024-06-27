@@ -1,5 +1,5 @@
 import { commitMutation, graphql } from 'react-relay';
-import environment from '../RelayEnvironment.ts';
+import {testEnvironment} from '../__mocks__/test_utils/testEnvironment';
 
 const mutation = graphql`
     mutation CreateUserMutation($userInput: UserInput!) {
@@ -31,7 +31,7 @@ export default function createUser(username: string, email: string, password: st
         }
     };
 
-    commitMutation(environment, {
+    commitMutation(testEnvironment, {
         mutation,
         variables,
         onCompleted: (response, errors) => {

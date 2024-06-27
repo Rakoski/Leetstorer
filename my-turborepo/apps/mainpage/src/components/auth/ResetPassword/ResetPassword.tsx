@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { InputField } from "@repo/ui/src/InputField";
-import { ArticleComponent } from "../../../../../../packages/ui/src/Article";
+import { ArticleComponent } from "@repo/ui/src/Article";
 import resetPasswordMutation from "../../../mutations/ResetPasswordMutation.ts";
 
 const PasswordResetPage: React.FC = () => {

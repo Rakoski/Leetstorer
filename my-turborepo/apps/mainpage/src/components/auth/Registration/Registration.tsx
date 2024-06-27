@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { InputField } from "@repo/ui/src/InputField";
-import { ArticleComponent } from "../../../../../../packages/ui/src/Article";
 import CreateUserMutation from "../../../mutations/CreateUserMutation.ts";
 import Cookies from 'js-cookie';
 import loginMutation from "../../../mutations/LoginMutation.ts";
+// @ts-ignore
+import { ArticleComponent } from "@repo/ui/src/Article";
 
 function RegistrationPage({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boolean) => void }) {
     const [username, setUsername] = useState("");
