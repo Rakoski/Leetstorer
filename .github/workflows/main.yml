@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: pnpm install ci
+        run: npm install ci
       - name: Run tests
         run: |
           export NODE_ENV=test
@@ -28,4 +28,5 @@ jobs:
           docker-compose up -d test-mongodb
           pnpm run start:api & 
           sleep 100
+          cd my-turborepo/packages/mainpage
           pnpm test

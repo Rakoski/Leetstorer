@@ -28,7 +28,7 @@ const PasswordResetPage: React.FC = () => {
         resetPasswordMutation(resetToken, newPassword, (success) => {
             if (success) {
                 setIsPasswordResetSuccessful(true);
-                navigate("/"); // Redirect to root
+                navigate("/");
             } else {
                 console.log('Password reset failed');
             }

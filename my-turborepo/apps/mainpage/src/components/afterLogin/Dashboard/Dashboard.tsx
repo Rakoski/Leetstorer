@@ -5,6 +5,7 @@ import GetUserProblemsMutation from '../../../mutations/GetUserProblemsMutation.
 import Cookies from 'js-cookie'
 
 interface ProblemData {
+    _id: string;
     title: string;
     level: string;
     description: string;

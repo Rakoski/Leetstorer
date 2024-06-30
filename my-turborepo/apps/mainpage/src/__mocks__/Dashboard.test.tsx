@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import Dashboard from '../components/afterLogin/Dashboard/Dashboard';
 import { testEnvironment } from "./test_utils/testEnvironment";
 import GetUserProblemsMutation from '../mutations/GetUserProblemsMutation';
+import Cookies from 'js-cookie';
 
 // Mock the required modules
 vi.mock('js-cookie', () => ({
@@ -22,9 +23,6 @@ vi.mock('react-router-dom', async () => {
         useNavigate: () => vi.fn(),
     };
 });
-
-// Import the mocked js-cookie
-import Cookies from 'js-cookie';
 
 function renderWithRelayAndRouter(ui: React.ReactElement, env: any) {
     return render(
@@ -42,7 +40,7 @@ beforeEach(() => {
     (Cookies.get as any).mockReturnValue('mockUserId');
 });
 
-test('renders Dashboard component correctly and fetches problems', async () => {
+test('renders Dashboard, ProblemInfo and EditProblem components correctly and fetches problems', async () => {
     const mockProblems = [
         { title: 'Problem 1', level: 'Easy', description: 'Description 1', frequency: 'High', link: 'link1',
             data_structure: 'Array', date: '2023-01-01', userId: 'user1'
@@ -65,6 +63,9 @@ test('renders Dashboard component correctly and fetches problems', async () => {
         expect(screen.queryByText('Problem 2')).not.toBeNull();
     });
 });
+
+// no need for individual renderization tests for ProblemInfo and EditProblem components since the problems come from
+// the dashboard component
 test('handles error when fetching problems', async () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 

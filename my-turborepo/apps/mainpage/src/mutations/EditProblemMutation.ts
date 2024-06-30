@@ -1,6 +1,8 @@
 import { commitMutation, graphql } from 'react-relay';
 import environment from '../RelayEnvironment.ts';
 import { PayloadError } from 'relay-runtime';
+import constants from "../constants";
+import {testEnvironment} from "../__mocks__/test_utils/testEnvironment";
 
 interface EditProblemResponse {
     editProblem: {
@@ -74,13 +76,14 @@ export default (
         },
     };
 
-    commitMutation(environment, {
+    commitMutation(
+        constants.testing ? testEnvironment : environment,
+        {
         mutation,
         variables,
         onCompleted: (response: any, errors: readonly PayloadError[] | null | undefined) => {
             const editedProblem: EditProblemResponse["editProblem"] = response.editProblem;
             callback(editedProblem);
-            console.log('edited Problem: ', editedProblem);
         },
         onError: (err) => onError(err),
     });

@@ -41,7 +41,7 @@ const AddProblem: React.FC = () => {
         const frequencyNumber = parseInt(problemData.frequency, 10);
 
         if (isNaN(frequencyNumber)) {
-            console.log("Invalid frequency value. Please enter a valid number.");
+            alert("Invalid frequency value. Please enter a valid number.");
             return;
         }
 

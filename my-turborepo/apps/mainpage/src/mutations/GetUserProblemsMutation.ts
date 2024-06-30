@@ -1,5 +1,7 @@
 import { commitMutation, graphql } from 'react-relay';
 import {testEnvironment} from '../__mocks__/test_utils/testEnvironment';
+import constants from "../constants";
+import environment from "../RelayEnvironment";
 
 const mutation = graphql`
     mutation GetUserProblemsMutation($userId: ID!) {
@@ -23,7 +25,7 @@ export default (userId: string, callback: Function, errorCallback: Function) => 
     };
 
     commitMutation(
-        testEnvironment,
+        constants.testing ? testEnvironment : environment,
         {
             mutation,
             variables,

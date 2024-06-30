@@ -7,11 +7,11 @@ import {
 } from "relay-runtime";
 import Cookies from "js-cookie";
 
-const getApiUrl = () => {
+const getTestApiUrl = () => {
     return "http://localhost:4001/graphql";
 };
 
-const HTTP_ENDPOINT = getApiUrl();
+const HTTP_ENDPOINT = getTestApiUrl();
 
 const fetchFn: FetchFunction = async (request, variables) => {
     const token = Cookies.get('GC_AUTH_TOKEN');

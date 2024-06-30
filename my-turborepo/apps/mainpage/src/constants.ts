@@ -1,4 +1,5 @@
 const constants = {
+    testing: false,
     production: false,
     development: true,
     productionApiUrl: 'https://leetstorer.com/graphql',
