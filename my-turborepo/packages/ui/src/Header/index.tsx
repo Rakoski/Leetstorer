@@ -2,7 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css"
 
-function Header({onLogout}) {
+interface HeaderProps {
+    onLogout: () => void;
+}
+
+function Header({onLogout}: HeaderProps): JSX.Element {
 
     return (
         <header>
@@ -17,7 +21,7 @@ function Header({onLogout}) {
                             <Link to="/add">Add New Problem</Link>
                         </li>
                         <li>
-                            <Link onClick={onLogout}>Leave</Link>
+                            <Link onClick={onLogout} to={"/"}>Leave</Link>
                         </li>
                     </ul>
                 </nav>

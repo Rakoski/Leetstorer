@@ -1,5 +1,7 @@
 import { commitMutation, graphql } from 'react-relay';
-import environment from '../RelayEnvironment.ts';
+import constants from "../constants";
+import {testEnvironment} from '../__mocks__/test_utils/testEnvironment';
+import environment from "../RelayEnvironment";
 
 interface LoginResponse {
     login: {
@@ -25,7 +27,7 @@ export default (email: string, password: string, callback: Function, errorCallba
     };
 
     commitMutation(
-        environment,
+         constants.testing ? testEnvironment : environment,
         {
             mutation,
             variables,

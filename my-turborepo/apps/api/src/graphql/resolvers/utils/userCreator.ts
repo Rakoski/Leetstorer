@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
-import {UserInterface} from "./userInterface.ts";
-import {ProblemInterface} from "./problemInterface.ts";
+import { UserInterface } from "./userInterface.ts";
+import { ProblemInterface } from "./problemInterface.ts";
 
 const User = require('../../../models/user.ts')
 
-const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise<unknown> => {
+const userCreator = async (userId: mongoose.Types.ObjectId | string): Promise<unknown> => {
     try {
-        const creator: UserInterface = await User.findById(userId).populate('createdProblems');
+        const creator = await User.findById(userId).populate('createdProblems');
 
         if (!creator) {
-            throw new Error("User not found");
+            return new Error("User not found");
         }
+
+        const populatedProblems = creator.createdProblems as unknown as ProblemInterface[];
 
         return {
             _id: creator._id.toString(),
             email: creator.email,
             username: creator.username,
-            createdProblems: typeof creator.createdProblems !== "string"? creator.createdProblems?.map((problem: ProblemInterface) => ({
+            createdProblems: populatedProblems.map((problem) => ({
                 _id: problem._id.toString(),
                 title: problem.title,
                 level: problem.level,
@@ -25,12 +27,12 @@ const userCreator = async (userId: mongoose.Types.ObjectId[] | unknown): Promise
                 frequency: problem.frequency,
                 link: problem.link,
                 data_structure: problem.data_structure,
-                date: problem.date,
-            })) : null,
+                date: problem.date.toISOString(),
+            })),
         }
     } catch (err) {
         throw err;
     }
 };
 
-module.exports = userCreator
+export default userCreator;
