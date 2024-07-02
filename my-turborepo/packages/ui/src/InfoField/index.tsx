@@ -13,6 +13,7 @@ const InfoField: React.FC<InfoFieldProps> = ({ name, value, type, onChange }) =>
             name={name}
             value={value}
             type={type ? type : 'text'}
+            placeholder={name}
             onChange={onChange}
             readOnly={!onChange}
             style={{
