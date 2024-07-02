@@ -12,7 +12,8 @@ const MONGODB_URI = isTestEnvironment ? process.env.TEST_MONGODB_URI : process.e
 
 const server = createServer();
 
-mongoose.connect(MONGODB_URI ? MONGODB_URI : "4000")
+// @ts-ignore
+mongoose.connect(process.env.PRODUCTION ? process.env.PRODUCTION_MONGODB_URI : MONGODB_URI)
     .then(() => {
         console.log('MongoDB connected successfully');
         server.use(graphqlRouter);
