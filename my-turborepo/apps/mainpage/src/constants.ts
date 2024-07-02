@@ -1,7 +1,7 @@
 const constants = {
     testing: false,
-    production: false,
-    development: true,
+    production: true,
+    development: false,
     productionApiUrl: 'https://leetstorer.com/graphql',
     developmentApiUrl: 'http://localhost:4000/graphql',
 };
