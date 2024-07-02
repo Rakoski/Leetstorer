@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { InputField } from "@repo/ui/src/InputField";
-import { ArticleComponent } from "@repo/ui/src/SignInPagesArticle";
+import { ArticleComponent } from "@repo/ui/src/Article";
 import resetPasswordMutation from "../../../mutations/ResetPasswordMutation.ts";
 
 const PasswordResetPage: React.FC = () => {
@@ -28,7 +28,7 @@ const PasswordResetPage: React.FC = () => {
         resetPasswordMutation(resetToken, newPassword, (success) => {
             if (success) {
                 setIsPasswordResetSuccessful(true);
-                navigate("/"); // Redirect to root
+                navigate("/");
             } else {
                 console.log('Password reset failed');
             }

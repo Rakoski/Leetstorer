@@ -1,57 +1,48 @@
 import bcrypt from "bcryptjs";
-import { log } from "@repo/logger";
-import { ProblemInterface } from "./utils/problemInterface.ts";
-import { UserInterface } from "./utils/userInterface.ts";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import assert from "assert";
+
+import userCreator from './utils/userCreator.ts';
+import User from '../../models/user.ts';
+import Problem from '../../models/problem';
+
+import { ProblemInterface } from './utils/problemInterface.ts';
 import { sendPasswordResetEmail } from '../../utils/aws-config.ts';
-import * as crypto from "crypto";
-import assert from "node:assert";
+import { log } from "@repo/logger";
 
-const Problem = require('../../models/problem');
-const User = require('../../models/user.ts');
-
-const userCreator = require('./utils/userCreator.ts')
-
-module.exports = {
-    users: async (args: object, req: {isAuth: boolean, isAdmin: boolean}) => {
+const UserResolvers: object = {
+    users: async (args: object, req: { isAuth: boolean; isAdmin: boolean }) => {
         if (!req.isAuth && !req.isAdmin) {
-            throw new Error("Unauthorized!")
+            throw new Error("Unauthorized!");
         }
 
         try {
-            let users = null
-            users = await User.find().populate('createdProblems');
+            const users = await User.find().populate('createdProblems');
 
-            return users.map((user: { _doc: { _id: string }, _id: string, username: string, email: string,
-                createdProblems: Array<ProblemInterface>}) => ({
-                ...user,
-                _id: user._id.toString(),
-                email: user.email,
-                username: user.username,
-                createdProblems: user.createdProblems.map((problem) => ({
-                    title: problem.title,
-                    level: problem.level,
-                    description: problem.description,
-                    user_description: problem.user_description,
-                    frequency: problem.frequency,
-                    link: problem.link,
-                    data_structure: problem.data_structure,
-                    date: problem.date,
-                }))
-            }));
-
+            return users.map((user) => {
+                const userObject = user.toObject();
+                return {
+                    ...userObject,
+                    _id: userObject._id.toString(),
+                    resetPasswordExpires: userObject.resetPasswordExpires ? userObject.resetPasswordExpires : "",
+                    createdProblems: userObject.createdProblems.map((problem: any) => ({
+                        ...problem,
+                        _id: problem._id.toString(),
+                    })),
+                };
+            });
         } catch (err) {
             log("Error in querying a user: ", err);
             throw err;
         }
     },
-    createUser: async (args: {userInput: { username: string, email: string; password: string }}) => {
+    createUser: async (args: { userInput: { username: string; email: string; password: string } }) => {
         try {
             const existingUser = await User.findOne({ email: args.userInput.email });
 
-            log("existinguser: ", existingUser);
             if (existingUser) {
-                return new Error("User already exists!");
+                throw new Error("User already exists!");
             }
 
             const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
@@ -66,89 +57,65 @@ module.exports = {
 
             const result = await user.save();
 
-            return { password: null, _id: result._id, email: result.email, username: result.username };
-
+            return { password: null, _id: result._id.toString(), email: result.email, username: result.username };
         } catch (err) {
             log("Error in createUser resolver: ", err);
             throw new Error("Error in creating user");
         }
     },
-    login: async (args: { email: string, password: string }) => {
+    login: async (args: { email: string; password: string }) => {
         try {
-            let user = null
-
-            let email = args.email;
-            let password = args.password;
-          
-            user = await User.findOne({ email });
+            const user = await User.findOne({ email: args.email });
             if (!user) {
-                return new Error("User does not exist!");
+                throw new Error("User does not exist!");
             }
 
-            const passwordsAreEqual = await bcrypt.compare(password, user.password);
+            const passwordsAreEqual = await bcrypt.compare(args.password, user.password);
             if (!passwordsAreEqual) {
-                return new Error("401 Invalid credentials");
+                throw new Error("401 Invalid credentials");
             }
 
             const jwtKey = process.env.JWT_KEY;
             if (!jwtKey) {
-                return new Error("JWT_KEY is not defined in environment variables");
+                throw new Error("JWT_KEY is not defined in environment variables");
             }
 
             const token = jwt.sign({ userId: user.id, email: user.email }, jwtKey, { expiresIn: '48h' });
 
             return { userId: user.id, token, tokenExpiration: 48 };
-        } catch (err: unknown) {
+        } catch (err) {
             console.error("Error in login:", err);
-
             throw err;
         }
     },
-    // because I configured my server without the proper relay modifications, I will need to do some concessions,
-    // mainly, I basically cannot do queries since I don't have the Node type. I will then, use mutations to fetch
-    // my users problems.
-    getUserProblems: async (args: { userId: string }, req: {isAuth: boolean, isAdmin: boolean}) => {
+    getUserProblems: async (args: { userId: string }, req: { isAuth: boolean }) => {
         if (!req.isAuth) {
             throw new Error("Unauthorized!");
         }
 
         try {
-            let user = new User()
-
-            user = await User.findById(args.userId).populate('createdProblems');
+            const user = await User.findById(args.userId).populate('createdProblems');
 
             if (!user) {
-                return new Error("User not found!");
+                throw new Error("User not found!");
             }
 
-            assert(Array.isArray(user.createdProblems), "user.createdProblems is not an array");
+            const populatedProblems = user.createdProblems as unknown as ProblemInterface[];
 
-            return user.createdProblems.map((problem: ProblemInterface) => ({
-
+            return populatedProblems.map((problem) => ({
+                ...problem.toObject(),
                 _id: problem._id.toString(),
-                title: problem.title,
-                level: problem.level,
-                description: problem.description,
-                user_description: problem.user_description,
-                frequency: problem.frequency,
-                link: problem.link,
-                data_structure: problem.data_structure,
-                date: problem.date.toString()
+                date: problem.date ? problem.date.toString() : "",
             }));
         } catch (err) {
             console.log("Error in getUserProblems resolver: ", err);
             throw err;
         }
     },
-    associateUserWithProblem: async (args: { userId: string, problemId: string }) => {
+    associateUserWithProblem: async (args: { userId: string; problemId: string }) => {
         try {
-            const { userId, problemId } = args;
-
-            let user = null
-            let problem = new Problem()
-
-            user = await User.findById(userId);
-            problem = await Problem.findById(problemId);
+            const user = await User.findById(args.userId);
+            const problem = await Problem.findById(args.problemId);
 
             if (!user || !problem) {
                 return new Error("User or problem not found");
@@ -158,16 +125,10 @@ module.exports = {
             await user.save();
 
             return {
+                ...problem,
                 _id: problem._id.toString(),
-                title: problem.title,
-                level: problem.level,
-                description: problem.description,
-                user_description: problem.user_description,
-                frequency: problem.frequency,
-                link: problem.link,
-                data_structure: problem.data_structure,
-                date: problem.date.toString(),
-                creator: await userCreator(userId),
+                date: problem.date ? problem.date.toString() : "",
+                creator: await userCreator(args.userId),
             };
         } catch (err) {
             log("Error in associateUserWithProblem resolver: ", err);
@@ -176,11 +137,7 @@ module.exports = {
     },
     requestPasswordReset: async (args: { email: string }) => {
         try {
-            log("email sent!")
-            let user: UserInterface
-
-            const { email } = args;
-            user = await User.findOne({ email });
+            const user = await User.findOne({ email: args.email });
 
             if (!user) {
                 return new Error('User with this email does not exist');
@@ -188,11 +145,11 @@ module.exports = {
 
             const resetToken = crypto.randomBytes(20).toString('hex');
             user.resetPasswordToken = resetToken;
-            user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+            user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
 
             await user.save();
 
-            await sendPasswordResetEmail(email, resetToken);
+            await sendPasswordResetEmail(args.email, resetToken);
 
             return true;
         } catch (err) {
@@ -200,21 +157,18 @@ module.exports = {
             throw err;
         }
     },
-    resetPassword: async (args: { token: string, newPassword: string }) => {
+    resetPassword: async (args: { token: string; newPassword: string }) => {
         try {
-            let user: UserInterface
-            let token = args.token;
-            user = await User.findOne({
-                resetPasswordToken: token,
-                resetPasswordExpires: { $gt: Date.now() }
+            const user = await User.findOne({
+                resetPasswordToken: args.token,
+                resetPasswordExpires: { $gt: Date.now() },
             });
 
             if (!user) {
                 return new Error('Invalid or expired reset token');
             }
 
-            let newPassword = args.newPassword;
-            user.password = await bcrypt.hash(newPassword, 12);
+            user.password = await bcrypt.hash(args.newPassword, 12);
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
 
@@ -226,4 +180,6 @@ module.exports = {
             throw err;
         }
     },
-}
+};
+
+export default UserResolvers;

@@ -3,6 +3,8 @@ import {
     graphql
 } from 'react-relay'
 import environment from '../RelayEnvironment.ts'
+import constants from "../constants";
+import {testEnvironment} from "../__mocks__/test_utils/testEnvironment";
 
 const mutation = graphql`
     mutation ResetPasswordMutation($token: String!, $newPassword: String!) {
@@ -22,15 +24,15 @@ export default (
     };
 
     commitMutation(
-        environment,
+        constants.testing ? testEnvironment : environment,
         {
             mutation,
             variables,
-            onCompleted: (response: { resetPassword: boolean }) => {
+            onCompleted: (response: { resetPassword?: boolean }) => {
                 const success = response.resetPassword;
-                callback(success);
-                console.log("response: ", response)
-                console.log("Password reset successful: ", success)
+                if (success) {
+                    callback(success);
+                }
             },
             onError: (err) => onError(err),
         },

@@ -61,7 +61,14 @@ Before you begin, ensure you have the following installed on your machine:
     
 ## Configuration
 
-My configuration will be here once everything is completed.
+- Make sure to create a `.env` file in the api directory of the project
+- To test, change the environment variables of the api to use testing elements, including a local mongodb instance
+- then, launch the docker compose with the following command:
+    ```
+    docker-compose up
+    ```
+
+```
 
 ## API Documentation
 

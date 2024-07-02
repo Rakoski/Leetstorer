@@ -11,7 +11,7 @@ const AWS_SES = new SESClient({
     }
 });
 
-const sendPasswordResetEmail = async (email, resetToken) => {
+const sendPasswordResetEmail = async (email: string, resetToken: string) => {
     const params = {
         Destination: {
             ToAddresses: [email]
@@ -24,7 +24,7 @@ const sendPasswordResetEmail = async (email, resetToken) => {
                     for your account.\n\nPlease click the following link, or paste it into your browser to complete the 
                     process:\n\n
                     ${
-                        process.env.PRODUCTION == true ?
+                        process.env.PRODUCTION ?
                             `${process.env.PRODUCTION_URL}/reset-password/`
                             :
                             `http://localhost:${process.env.FRONTEND_PORT}/reset-password/`
@@ -38,7 +38,7 @@ const sendPasswordResetEmail = async (email, resetToken) => {
                     for your account.\n\nPlease click the following link, or paste it into your browser to complete the 
                     process:\n\n
                     ${
-                        process.env.PRODUCTION == true ?
+                        process.env.PRODUCTION ?
                             `${process.env.PRODUCTION_URL}/reset-password/`
                             :
                             `http://localhost:${process.env.FRONTEND_PORT}/reset-password/`

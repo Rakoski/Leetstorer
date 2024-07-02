@@ -5,6 +5,7 @@ import GetUserProblemsMutation from '../../../mutations/GetUserProblemsMutation.
 import Cookies from 'js-cookie'
 
 interface ProblemData {
+    _id: string;
     title: string;
     level: string;
     description: string;
@@ -12,6 +13,7 @@ interface ProblemData {
     link: string;
     data_structure: string;
     date: string;
+    userId: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -21,13 +23,18 @@ const Dashboard: React.FC = () => {
     const navigate = useNavigate();
 
     const getUserProblems = () => {
+        if (!userId) {
+            alert("User not found!")
+            return
+        }
+
         GetUserProblemsMutation(
             userId,
             (response: ProblemData[]) => {
                 setProblems(response);
             },
-            (error) => {
-                console.log('Error: ', error);
+            (error: unknown) => {
+                console.log("Error in fetching users' problems: ", error);
             }
         );
     };

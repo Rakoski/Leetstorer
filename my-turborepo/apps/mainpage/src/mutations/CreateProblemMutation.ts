@@ -3,6 +3,8 @@ import {
     graphql
 } from 'react-relay'
 import environment from '../RelayEnvironment.ts'
+import constants from "../constants";
+import {testEnvironment} from "../__mocks__/test_utils/testEnvironment";
 
 // createProblem(problemInput: ProblemInput!): Problem
 const mutation = graphql`
@@ -56,15 +58,13 @@ export default (
     };
 
     commitMutation(
-        environment,
+        constants.testing ? testEnvironment : environment,
         {
             mutation,
             variables,
-            onCompleted: (response: { createProblem: unknown }) => {
+            onCompleted: (response: { createProblem?: unknown }) => {
                 const createdProblem = response.createProblem;
                 callback(createdProblem);
-                console.log("response: ", response)
-                console.log("createdProblem: ", createdProblem)
             },
             onError: (err) => onError(err),
         },

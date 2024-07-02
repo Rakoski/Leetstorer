@@ -19,6 +19,7 @@
       <excludeFolder url="file://$MODULE_DIR$/my-turborepo/packages/logger/dist" />
       <excludeFolder url="file://$MODULE_DIR$/my-turborepo/packages/ui/.turbo" />
       <excludeFolder url="file://$MODULE_DIR$/my-turborepo/packages/ui/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/my-turborepo/.turbo" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

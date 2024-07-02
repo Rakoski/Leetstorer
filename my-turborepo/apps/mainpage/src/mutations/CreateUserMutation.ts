@@ -1,5 +1,7 @@
 import { commitMutation, graphql } from 'react-relay';
-import environment from '../RelayEnvironment.ts';
+import {testEnvironment} from '../__mocks__/test_utils/testEnvironment';
+import constants from "../constants";
+import environment from "../RelayEnvironment";
 
 const mutation = graphql`
     mutation CreateUserMutation($userInput: UserInput!) {
@@ -31,21 +33,22 @@ export default function createUser(username: string, email: string, password: st
         }
     };
 
-    commitMutation(environment, {
-        mutation,
-        variables,
-        onCompleted: (response, errors) => {
-            if (response) {
-                callback(response);
-            } else if (errors && errors.length > 0) {
-                onError(new Error("Email already in use!"));
-            } else {
-                onError(new Error("An unexpected error occurred."));
+    commitMutation(
+        constants.testing ? testEnvironment : environment,
+        {
+            mutation,
+            variables,
+            onCompleted: (response, errors) => {
+                if (response) {
+                    callback(response);
+                } else if (errors && errors.length > 0) {
+                    onError(new Error("Email already in use!"));
+                } else {
+                    onError(new Error("An unexpected error occurred."));
+                }
+            },
+            onError: (error) => {
+                onError(error);
             }
-        },
-        onError: (error) => {
-            console.error("Mutation error: ", error);
-            onError(error);
-        }
     });
 }

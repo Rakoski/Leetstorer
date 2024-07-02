@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install ci
+      - name: Run tests
+        run: |
+          export NODE_ENV=test
+          export API_URL=http://localhost:4001/graphql
+          export MONGODB_URI=mongodb://localhost:27017/testdb
+          docker-compose up -d test-mongodb
+          pnpm run start:api & 
+          sleep 100
+          cd my-turborepo/packages/mainpage
+          pnpm test
