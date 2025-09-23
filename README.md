@@ -2,8 +2,6 @@
 
 This project is a web app built for developers who want a platform to keep their studies neet and organized. Built using Turborepo, Relay modern, TypeScript, Node.js, React.js, GraphQL, and MongoDB. It allows users to store and organize their coding problems they have solved. This is meant as a training project for those technologies and woovi's training playground.
 
-The website is available at: https://leetstorer.com
-
 ## Table of Contents
 
 - [Getting Started](#getting-started)
